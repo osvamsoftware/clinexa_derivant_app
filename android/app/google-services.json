@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "768029414380",
+    "project_id": "clinexa-backend",
+    "storage_bucket": "clinexa-backend.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768029414380:android:d8060da52f1d9e6ef2a6c9",
+        "android_client_info": {
+          "package_name": "com.app.clinexa_derivant_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQfFzwnlBRYnKi1XbXer3dV7yBbN8W3Ic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
