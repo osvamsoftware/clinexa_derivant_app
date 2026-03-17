@@ -112,7 +112,7 @@ abstract class S {
   /// No description provided for @welcomeDescription.
   ///
   /// In en, this message translates to:
-  /// **'A platform designed for your institution to receive patients who match the characteristics of your medical protocols, allowing a fast, accurate and secure connection with the professionals who refer them.'**
+  /// **'A digital platform designed to connect researchers or teams from medical research centers with referring physicians in a secure and transparent manner, facilitating patient access to clinical research protocols.'**
   String get welcomeDescription;
 
   /// No description provided for @loginHello.
@@ -222,6 +222,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Member ID must be 8 digits'**
   String get invalidMemberId;
+
+  /// No description provided for @invalidDni.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid number with more than 6 digits.'**
+  String get invalidDni;
 
   /// No description provided for @loading.
   ///
@@ -469,6 +475,12 @@ abstract class S {
   /// **'Retry'**
   String get retry;
 
+  /// No description provided for @patientList.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient List'**
+  String get patientList;
+
   /// No description provided for @protocolsList.
   ///
   /// In en, this message translates to:
@@ -598,7 +610,7 @@ abstract class S {
   /// No description provided for @protocolSelectionSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Select the protocols you want to have available in your working list. The protocols shown initially match your specialties, but you can also search by category to find additional protocols.'**
+  /// **'Select the protocol to which you want to add the patient and make sure it meets all the acceptance criteria.'**
   String get protocolSelectionSubtitle;
 
   /// No description provided for @continue_text.
@@ -1254,6 +1266,216 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Passwords do not match'**
   String get passwordsDoNotMatch;
+
+  /// No description provided for @notificationScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationScreenTitle;
+
+  /// No description provided for @noNotificationsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications found'**
+  String get noNotificationsFound;
+
+  /// No description provided for @notificationMarkedAsRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification marked as read'**
+  String get notificationMarkedAsRead;
+
+  /// No description provided for @errorLoadingNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading notifications'**
+  String get errorLoadingNotifications;
+
+  /// No description provided for @cantFindProtocol.
+  ///
+  /// In en, this message translates to:
+  /// **'Can\'t find your protocol? '**
+  String get cantFindProtocol;
+
+  /// No description provided for @contactUsHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact us here'**
+  String get contactUsHere;
+
+  /// No description provided for @contactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Protocol Connection'**
+  String get contactTitle;
+
+  /// No description provided for @contactSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get contactSubtitle;
+
+  /// No description provided for @contactDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'You are about to contact the management department. Please make sure you have the protocols you want to add or modify at hand.'**
+  String get contactDescription;
+
+  /// No description provided for @contactSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Business hours: 08:00 - 18:00'**
+  String get contactSchedule;
+
+  /// No description provided for @contactButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact now'**
+  String get contactButton;
+
+  /// No description provided for @contactMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'I am doctor {name} with license {license} and user ID {id}, I would like to request the registration of a new protocol in the app'**
+  String contactMessage(Object id, Object license, Object name);
+
+  /// No description provided for @editProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfile;
+
+  /// No description provided for @personalInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Information'**
+  String get personalInformation;
+
+  /// No description provided for @firstName.
+  ///
+  /// In en, this message translates to:
+  /// **'First Name'**
+  String get firstName;
+
+  /// No description provided for @lastName.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Name'**
+  String get lastName;
+
+  /// No description provided for @specialties.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialties'**
+  String get specialties;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
+
+  /// No description provided for @profileUpdatedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully'**
+  String get profileUpdatedSuccess;
+
+  /// No description provided for @requiredField.
+  ///
+  /// In en, this message translates to:
+  /// **'Required field'**
+  String get requiredField;
+
+  /// No description provided for @errorUnauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session has expired. Please log in again.'**
+  String get errorUnauthorized;
+
+  /// No description provided for @errorLoginFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed. Please check your credentials.'**
+  String get errorLoginFailed;
+
+  /// No description provided for @errorInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid credentials. Please check your email and password.'**
+  String get errorInvalidCredentials;
+
+  /// No description provided for @errorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection error. Please check your internet connection.'**
+  String get errorNetwork;
+
+  /// No description provided for @errorServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Server error. Please try again later.'**
+  String get errorServer;
+
+  /// No description provided for @errorServiceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The service is currently unavailable.'**
+  String get errorServiceUnavailable;
+
+  /// No description provided for @errorValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'The provided data is not valid.'**
+  String get errorValidation;
+
+  /// No description provided for @errorNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'The requested resource was not found.'**
+  String get errorNotFound;
+
+  /// No description provided for @errorForbidden.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not have permission to perform this action.'**
+  String get errorForbidden;
+
+  /// No description provided for @errorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'An error has occurred. Please try again.'**
+  String get errorGeneric;
+
+  /// No description provided for @signature.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Signature'**
+  String get signature;
+
+  /// No description provided for @errorLoadingImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading signature image'**
+  String get errorLoadingImage;
+
+  /// No description provided for @paymentBonusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'You have not yet received any bonus for this patient, please wait for one of our agents to contact you.'**
+  String get paymentBonusPending;
+
+  /// No description provided for @paymentBonusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'You received a bonus for this patient. Continue making diagnoses and evaluations to accumulate bonuses for your services.'**
+  String get paymentBonusCompleted;
+
+  /// No description provided for @paymentMovementNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No payment movements found for this user, please contact support.'**
+  String get paymentMovementNotFound;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

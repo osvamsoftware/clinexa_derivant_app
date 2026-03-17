@@ -2,36 +2,47 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-Future<bool> isEmulator() async {
-  final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-
-  if (Platform.isAndroid) {
-    final androidInfo = await deviceInfo.androidInfo;
-    return androidInfo.isPhysicalDevice == false;
-  } else if (Platform.isIOS) {
-    final iosInfo = await deviceInfo.iosInfo;
-    return iosInfo.isPhysicalDevice == false;
-  }
-  return false;
-}
-
 Future<Api> createApiInstance() async {
-  // Try to get URL from env first
+  // String baseUrl = "http://18.225.7.38:8000";
+
+  // // Try to get URL from env first
   String baseUrl = dotenv.env['API_URL'] ?? '';
   String socketUrl = '';
 
-  if (baseUrl.isNotEmpty) {
-    // If URL doesn't end with /api, we might need to adjust or assume the env var is the full root
-    // Based on current usage: http://10.0.2.2:8000 is the root, and endpoints are like /login
-    // If the env var is just the host and port, we are good.
-    socketUrl = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
-  } else {
-    // Fallback to emulator detection logic
-    final bool emulator = await isEmulator();
-    baseUrl = emulator ? 'http://10.0.2.2:8000' : 'http://localhost:8000';
-    socketUrl = emulator ? 'http://10.0.2.2:8000/' : 'http://localhost:8000/';
-  }
+  // if (baseUrl.isNotEmpty) {
+  //   // If URL doesn't end with /api, we might need to adjust or assume the env var is the full root
+  //   socketUrl = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
+  // } else {
+  //   // Determine base URL based on platform and device type
+  //   final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
+  //   if (Platform.isAndroid) {
+  //     final androidInfo = await deviceInfo.androidInfo;
+  //     if (!androidInfo.isPhysicalDevice) {
+  //       // Android Emulator
+  //       baseUrl = 'http://10.0.2.2:8000';
+  //     } else {
+  //       // Android Physical Device
+  //       baseUrl = 'http://10.0.2.2:8000';
+  //     }
+  //   } else if (Platform.isIOS) {
+  //     final iosInfo = await deviceInfo.iosInfo;
+  //     if (!iosInfo.isPhysicalDevice) {
+  //       // iOS Simulator
+  //       baseUrl = 'http://localhost:8000';
+  //     } else {
+  //       // iOS Physical Device
+  //       baseUrl = 'http://localhost:8000';
+  //     }
+  //   } else {
+  //     // Fallback for other platforms
+  //     baseUrl = 'http://10.0.2.2:8000';
+  //   }
+  // }
+  // baseUrl = 'https://api.clinexapp.com';
+  // baseUrl = 'http://localhost:8000';
+  baseUrl = 'http://192.168.170.46:8000';
+  socketUrl = '$baseUrl/';
   return Api(
     baseUrl: baseUrl,
     socketUrl: socketUrl,
@@ -130,12 +141,44 @@ class Api {
   //auth
   static const String _passwordRecovery = '/password-recovery';
   String get passwordRecovery => _constructApiUrl(_passwordRecovery);
+
+  //notifications
+  static const String _notifications = '/notifications';
+  String get notifications => _constructApiUrl(_notifications);
+
+  String getUserNotifications(String userId) =>
+      _constructApiUrl('/notifications/$userId');
+  String markNotificationRead(String notificationId) =>
+      _constructApiUrl('/notifications/$notificationId/read');
+
+  //verification
+  static const String _verificationSendCode = '/verification/send-code';
+  String get verificationSendCode => _constructApiUrl(_verificationSendCode);
+
+  static const String _verificationVerifyCode = '/verification/verify-code';
+  String get verificationVerifyCode =>
+      _constructApiUrl(_verificationVerifyCode);
+
+  static const String _verificationGetCode = '/verification/code';
+  String verificationGetCode(String phone) =>
+      _constructApiUrl('$_verificationGetCode/$phone');
+
+  //check email
+  static const String _checkEmail = '/check-email';
+  String get checkEmail => _constructApiUrl(_checkEmail);
+
+  //payment movements
+  static const String _paymentMovements = '/payment-movements';
+  String get paymentMovements => _constructApiUrl(_paymentMovements);
+
+  String getPaymentMovementsByOrder(String orderId) =>
+      _constructApiUrl('/payment-movements/by-order/$orderId');
 }
 
 // final apiBase = Api(
 //   //
 //   // baseUrl: 'http://18.118.15.245:8000/api',
 //   baseUrl: 'http://192.168.0.196:8000/api',
-//   // baseUrl: 'http://10.0.2.2:8000/api',
+//   // baseUrl: 'http://10.0.2.2:80000.2.2:8000/api',
 //   googleMapsBaseUrl: 'https://maps.googleapis.com/maps/api',
 // );

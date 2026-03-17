@@ -1,145 +1,183 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
+
 import 'package:clinexa_derivant_app/data/models/notification_model.dart';
-import 'package:clinexa_derivant_app/domain/repositories/notification_repository.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../../domain/repositories/notification_repository.dart';
+
 class NotificationService {
   final NotificationRepository _repository;
-  final FlutterLocalNotificationsPlugin _localNotifications =
+  final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  StreamSubscription<RemoteMessage>? _messageSubscription;
-  StreamSubscription<RemoteMessage>? _messageOpenedSubscription;
+  StreamSubscription<RemoteMessage>? _msgSubscription;
+  StreamSubscription<RemoteMessage>? _openedAppSubscription;
   StreamSubscription<String>? _tokenRefreshSubscription;
 
-  NotificationService(this._repository);
+  static const AndroidNotificationChannel _androidChannel =
+      AndroidNotificationChannel(
+        'high_importance_channel',
+        'Notificaciones Importantes',
+        description:
+            'Canal usado para notificaciones importantes en primer plano.',
+        importance: Importance.max,
+      );
+
+  NotificationService({required NotificationRepository repository})
+    : _repository = repository;
 
   Future<void> initListeners() async {
-    // 1. Solicitar permisos
-    await _repository.requestPermission();
+    log(
+      'Inicializando servicio de notificaciones...',
+      name: 'NotificationService',
+    );
 
-    // 2. Configurar notificaciones locales para Android (Foreground)
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    const DarwinInitializationSettings initializationSettingsDarwin =
+        DarwinInitializationSettings();
 
     const InitializationSettings initializationSettings =
         InitializationSettings(
           android: initializationSettingsAndroid,
-          iOS: DarwinInitializationSettings(),
+          iOS: initializationSettingsDarwin,
         );
 
-    await _localNotifications.initialize(
+    await _localNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (details) {
         log(
-          '[NotificationService] Click en notificación local: ${details.payload}',
+          'Notificacion local tocada: ${details.payload}',
+          name: 'NotificationService',
         );
       },
     );
 
-    // 3. Configurar listeners de mensajes
-    _setupMessageListeners();
-
-    // 4. Manejar mensaje inicial (App estaba cerrada)
-    _handleInitialMessage();
-  }
-
-  Future<void> registerDevice() async {
-    // 1. Manejar el token inicial (y guardarlo si hay auth)
-    final token = await _repository.getToken();
-    if (token != null) {
-      await _repository.saveToken(token);
+    if (Platform.isAndroid) {
+      await _localNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >()
+          ?.createNotificationChannel(_androidChannel);
     }
 
-    // 2. Escuchar refresco del token
-    _tokenRefreshSubscription?.cancel(); // Cancel search prev subscription
-    _tokenRefreshSubscription = _repository.onTokenRefresh.listen((
-      newToken,
-    ) async {
-      log('[NotificationService] Token refrescado');
-      await _repository.saveToken(newToken);
+    await _repository.requestPermission();
+
+    _setupFCMListeners();
+    _handleInitialMessage();
+
+    _tokenRefreshSubscription = _repository.onTokenRefresh.listen((newToken) {
+      log('Token de FCM refrescado', name: 'NotificationService');
+      _repository.saveToken(newToken);
     });
   }
 
-  void _setupMessageListeners() {
-    // FOREGROUND: Cuando la app está abierta
-    _messageSubscription = FirebaseMessaging.onMessage.listen((
+  void _setupFCMListeners() {
+    _msgSubscription?.cancel();
+    _openedAppSubscription?.cancel();
+
+    _msgSubscription = FirebaseMessaging.onMessage.listen((
       RemoteMessage message,
     ) {
       log(
-        '[NotificationService] Mensaje en primer plano: ${message.notification?.title}',
+        'Mensaje recibido en foreground: ${message.messageId}',
+        name: 'NotificationService',
       );
 
-      final notification = NotificationModel.fromMap({
-        'notification': {
-          'title': message.notification?.title,
-          'body': message.notification?.body,
-        },
-        'data': message.data,
-      });
+      final notification = NotificationModel.fromRemoteMessage(message);
 
-      _showLocalNotification(notification);
+      if (Platform.isAndroid) {
+        _showLocalNotification(notification);
+      }
     });
 
-    // BACKGROUND: Cuando la app está en segundo plano y el usuario toca la notificación
-    _messageOpenedSubscription = FirebaseMessaging.onMessageOpenedApp.listen((
+    _openedAppSubscription = FirebaseMessaging.onMessageOpenedApp.listen((
       RemoteMessage message,
     ) {
       log(
-        '[NotificationService] App abierta desde segundo plano: ${message.notification?.title}',
+        'Notificacion abrio la app desde background: ${message.messageId}',
+        name: 'NotificationService',
       );
-
-      // Aquí se podría navegar a una pantalla específica usando el payload
     });
   }
 
   Future<void> _handleInitialMessage() async {
-    // TERMINATED: Cuando la app estaba cerrada y se abre desde una notificación
     RemoteMessage? initialMessage = await FirebaseMessaging.instance
         .getInitialMessage();
+
     if (initialMessage != null) {
       log(
-        '[NotificationService] App abierta desde estado cerrada: ${initialMessage.notification?.title}',
+        'App abierta desde estado cerrada: ${initialMessage.notification?.title}',
+        name: 'NotificationService',
       );
-      // Manejar navegación inicial si es necesario
     }
   }
 
   Future<void> _showLocalNotification(NotificationModel notification) async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-          'clinexa_channel_id',
-          'Clinexa Notifications',
-          channelDescription: 'Canal principal para notificaciones de Clinexa',
-          importance: Importance.max,
-          priority: Priority.high,
-          showWhen: true,
-        );
+    if (notification.title.isEmpty && notification.body.isEmpty) return;
 
-    const NotificationDetails platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
-    );
-
-    await _localNotifications.show(
+    await _localNotificationsPlugin.show(
       notification.hashCode,
       notification.title,
       notification.body,
-      platformChannelSpecifics,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          _androidChannel.id,
+          _androidChannel.name,
+          channelDescription: _androidChannel.description,
+          importance: Importance.max,
+          priority: Priority.high,
+          icon: '@mipmap/ic_launcher',
+        ),
+      ),
       payload: notification.data.toString(),
     );
   }
 
+  Future<void> registerDevice() async {
+    log(
+      'Registrando dispositivo (User Autenticado)...',
+      name: 'NotificationService',
+    );
+    try {
+      final token = await _repository.getToken();
+      if (token != null) {
+        await _repository.saveToken(token);
+      } else {
+        log(
+          'No se pudo obtener el token para el registro',
+          name: 'NotificationService',
+        );
+      }
+    } catch (e) {
+      log('Error en registerDevice: $e', name: 'NotificationService');
+    }
+  }
+
   Future<void> unsubscribe() async {
-    log('[NotificationService] Desuscribiendo notificaciones...');
-    await _repository.deleteToken();
-    await _messageSubscription?.cancel();
-    await _messageOpenedSubscription?.cancel();
-    await _tokenRefreshSubscription?.cancel();
-    _messageSubscription = null;
-    _messageOpenedSubscription = null;
-    _tokenRefreshSubscription = null;
-    log('[NotificationService] Desuscrito correctamente');
+    log(
+      'Desuscribiendo notificaciones (Logout)...',
+      name: 'NotificationService',
+    );
+    try {
+      await _repository.deleteToken();
+
+      await _msgSubscription?.cancel();
+      _msgSubscription = null;
+
+      await _openedAppSubscription?.cancel();
+      _openedAppSubscription = null;
+
+      await _tokenRefreshSubscription?.cancel();
+      _tokenRefreshSubscription = null;
+
+      log('Desuscripcion completada', name: 'NotificationService');
+    } catch (e) {
+      log('Error en unsubscribe: $e', name: 'NotificationService');
+    }
   }
 }

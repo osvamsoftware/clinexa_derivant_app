@@ -60,6 +60,19 @@ class Validators {
   }
 
   // =======================================================
+  // DNI
+  // =======================================================
+  String? dni(BuildContext context, String value) {
+    final s = S.of(context);
+
+    if (value.isEmpty) return s.fieldRequired;
+    final RegExp dniRegExp = RegExp(r'^[0-9]{7,}$');
+    if (!dniRegExp.hasMatch(value)) return s.invalidDni;
+
+    return null;
+  }
+
+  // =======================================================
   // SIMPLE TEXT
   // =======================================================
   String? text(BuildContext context, String value) {

@@ -4,7 +4,6 @@ import 'package:clinexa_derivant_app/core/api/api_services.dart';
 import 'package:clinexa_derivant_app/core/services/shared_prefs_service.dart';
 import 'package:clinexa_derivant_app/data/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart';
 
 abstract interface class AuthRepository {
   Future<UserModel> login({required String email, required String password});
@@ -24,6 +23,8 @@ abstract interface class AuthRepository {
     required String code,
     required String newPassword,
   });
+
+  Future<bool> checkEmailExists(String email);
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -196,6 +197,29 @@ class AuthRepositoryImpl implements AuthRepository {
       log("✅ PASSWORD RESET CONFIRMED");
     } catch (e, stack) {
       log("❌ CONFIRM PASSWORD RESET ERROR", error: e, stackTrace: stack);
+      rethrow;
+    }
+  }
+
+  // =============================================================
+  // 🔹 CHECK EMAIL
+  // =============================================================
+  @override
+  Future<bool> checkEmailExists(String email) async {
+    try {
+      log("📩 CHECK EMAIL REQUEST → email: $email");
+
+      final response = await apiService.request<Map<String, dynamic>>(
+        path: api.checkEmail,
+        method: HttpMethod.post,
+        body: {"email": email},
+        fromJson: (json) => json,
+      );
+
+      log("✅ CHECK EMAIL RESPONSE → ${response.data}");
+      return response.data?["exists"] ?? false;
+    } catch (e, stack) {
+      log("❌ CHECK EMAIL ERROR", error: e, stackTrace: stack);
       rethrow;
     }
   }

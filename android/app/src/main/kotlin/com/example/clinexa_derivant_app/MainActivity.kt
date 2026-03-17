@@ -1,4 +1,4 @@
-package com.app.clinexa_derivant_app
+package com.clinexapp.derivante
 
 import io.flutter.embedding.android.FlutterActivity
 

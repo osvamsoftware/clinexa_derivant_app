@@ -1,4 +1,8 @@
 import 'dart:developer';
+import 'dart:typed_data';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:clinexa_derivant_app/core/api/api.dart';
 import 'package:clinexa_derivant_app/core/api/api_services.dart';
@@ -29,8 +33,15 @@ abstract interface class PatientRepository {
   });
 
   Future<void> delete(String id);
-}
 
+  Future<String> uploadSignature(Uint8List signatureData);
+
+  Future<void> sendVerificationCode(String phone);
+
+  Future<bool> verifyCode(String phone, String code);
+
+  Future<String?> getExpectedCode(String phone);
+}
 class PatientRepositoryImpl implements PatientRepository {
   final ApiService apiService = ApiService();
   final Api api;
@@ -221,4 +232,132 @@ class PatientRepositoryImpl implements PatientRepository {
       rethrow;
     }
   }
+
+  // =============================================================
+  // 🔹 UPLOAD SIGNATURE (Mocked)
+  // =============================================================
+  // =============================================================
+  // 🔹 UPLOAD SIGNATURE
+  // =============================================================
+  @override
+  Future<String> uploadSignature(Uint8List signatureData) async {
+    try {
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      log("🚀 STARTING SIGNATURE UPLOAD: $timestamp");
+      log("📦 Size: ${signatureData.lengthInBytes} bytes");
+      print(Firebase.app().options.projectId);
+      print(Firebase.app().options.storageBucket);
+
+      final ref = FirebaseStorage.instance.ref().child(
+        'signatures/signature_$timestamp.png',
+      );
+      log("📍 Reference created: ${ref.fullPath}");
+
+      final metadata = SettableMetadata(contentType: 'image/png');
+
+      final uploadTask = ref.putData(signatureData, metadata);
+
+      // Listen to events for debugging
+      uploadTask.snapshotEvents.listen((event) {
+        log(
+          '📸 Upload progress: ${event.bytesTransferred}/${event.totalBytes} (${(event.bytesTransferred / event.totalBytes * 100).toStringAsFixed(2)}%) - State: ${event.state}',
+        );
+      }, onError: (e) => log("❌ Upload stream error: $e"));
+
+      log("⏳ Awaiting upload task...");
+      // Using timeout to prevent infinite hang
+      final snapshot = await uploadTask.timeout(
+        const Duration(seconds: 30),
+        onTimeout: () {
+          log("❌ Upload timed out!");
+          uploadTask.cancel();
+          throw Exception("Upload timed out");
+        },
+      );
+
+      log("🎉 Snapshot received. State: ${snapshot.state}");
+
+      if (snapshot.state != TaskState.success) {
+        throw Exception("Upload failed with state: ${snapshot.state}");
+      }
+
+      log("⏳ Getting download URL...");
+      final downloadUrl = await snapshot.ref.getDownloadURL();
+
+      log("✅ SIGNATURE UPLOAD SUCCESS → $downloadUrl");
+      return downloadUrl;
+    } catch (e, stack) {
+      log("❌ SIGNATURE UPLOAD ERROR", error: e, stackTrace: stack);
+      throw Exception('Error uploading signature: $e');
+    }
+  }
+
+  // =============================================================
+  // 🔹 SEND VERIFICATION CODE
+  // =============================================================
+  @override
+  Future<void> sendVerificationCode(String phone) async {
+    try {
+      log("📩 SEND VERIFICATION CODE REQUEST → $phone");
+
+      await apiService.request<dynamic>(
+        path: api.verificationSendCode,
+        method: HttpMethod.post,
+        body: {"phone": phone},
+        fromJson: (json) => json,
+      );
+
+      log("✅ CODE SENT SUCCESS");
+    } catch (e, stack) {
+      log("❌ SEND CODE ERROR", error: e, stackTrace: stack);
+      rethrow;
+    }
+  }
+
+  // =============================================================
+  // 🔹 VERIFY CODE
+  // =============================================================
+  @override
+  Future<bool> verifyCode(String phone, String code) async {
+    try {
+      log("📩 VERIFY CODE REQUEST → $phone, $code");
+
+      await apiService.request<dynamic>(
+        path: api.verificationVerifyCode,
+        method: HttpMethod.post,
+        body: {"phone": phone, "code": code},
+        fromJson: (json) => json,
+      );
+
+      log("✅ VERIFICATION SUCCESS");
+      return true;
+    } catch (e) {
+      log("❌ VERIFICATION ERROR: $e");
+      return false;
+    }
+  }
+
+  // =============================================================
+  // 🔹 GET EXPECTED CODE (FOR TESTING)
+  // =============================================================
+  @override
+  Future<String?> getExpectedCode(String phone) async {
+    try {
+      log("📩 GET EXPECTED CODE REQUEST → $phone");
+
+      final response = await apiService.request<dynamic>(
+        path: api.verificationGetCode(phone),
+        method: HttpMethod.get,
+        fromJson: (json) => json,
+      );
+
+      log("✅ GET EXPECTED CODE RESPONSE → ${response.data}");
+      // Adjust according to the backend response format: {"success": True, "code": "..."}
+      return response.data?["code"]?.toString();
+    } catch (e) {
+      log("❌ GET EXPECTED CODE ERROR: $e");
+      return null;
+    }
+  }
 }
+

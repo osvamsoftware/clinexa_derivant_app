@@ -1,3 +1,4 @@
+import 'package:clinexa_derivant_app/core/theme.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -42,11 +43,18 @@ class PatientResultCard extends StatelessWidget {
 
     return Card(
       elevation: 0,
-      margin: const EdgeInsets.only(bottom: 12),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      margin: const EdgeInsets.only(
+        bottom: 12,
+        left: 4,
+        right: 4,
+      ), // Added minimal margin
+      color: AppColors.secondary95, // Secondary tenue
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ), // Minimally rounded
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Row(
@@ -85,36 +93,53 @@ class PatientResultCard extends StatelessWidget {
                       ),
                     ],
                     const SizedBox(height: 4),
-                    Text(address, style: theme.textTheme.bodyMedium),
-                    const SizedBox(height: 4),
-                    Text("${s.homePathology}: $pathology"),
-                    const SizedBox(height: 4),
-                    Text(notes),
-                    if (hasActiveOrder && orderStatus != null) ...[
-                      const SizedBox(height: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _getOrderStatusColor(
-                            orderStatus!,
-                          ).withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(4),
-                          border: Border.all(
-                            color: _getOrderStatusColor(orderStatus!),
-                          ),
-                        ),
-                        child: Text(
-                          _getOrderStatusText(orderStatus!, s),
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: _getOrderStatusColor(orderStatus!),
+                    Text(
+                      address,
+                      style: theme.textTheme.bodyMedium,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+
+                    // Removed Pathology and Notes
+                    const SizedBox(height: 8),
+                    // Status text and Order Status
+                    Row(
+                      children: [
+                        Text(
+                          status.toUpperCase(),
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: AppColors.neutral50,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                      ),
-                    ],
+
+                        if (hasActiveOrder && orderStatus != null) ...[
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: _getOrderStatusColor(
+                                orderStatus!,
+                              ).withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                color: _getOrderStatusColor(orderStatus!),
+                              ),
+                            ),
+                            child: Text(
+                              _getOrderStatusText(orderStatus!, s),
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: _getOrderStatusColor(orderStatus!),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
                   ],
                 ),
               ),

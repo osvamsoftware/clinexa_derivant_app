@@ -62,4 +62,8 @@ class AddressCubit extends Cubit<AddressState> {
       );
     }
   }
+
+  void clearSelection() {
+    emit(state.copyWith(clearSelectedAddress: true, suggestions: []));
+  }
 }

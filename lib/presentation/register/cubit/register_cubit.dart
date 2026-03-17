@@ -27,15 +27,53 @@ class RegisterCubit extends Cubit<RegisterState> {
   final specialtyController = TextEditingController();
 
   // 📌 Controllers — Step 3
-  final biographyController = TextEditingController();
   final addressController = TextEditingController();
 
   RegisterCubit(this.authRepository) : super(RegisterState());
 
   // =============================================================
-  // 🔹 STEP NAVIGATION
+  // 🔹 STEP 1 VALIDATION (Email Check)
   // =============================================================
-  void goToStep(int step) => emit(state.copyWith(currentStep: step));
+  Future<bool> validateStep1() async {
+    // 1. Validar formato (aunque el form ya lo hace, doble check)
+    if (emailController.text.isEmpty || !emailController.text.contains('@')) {
+      emit(
+        state.copyWith(
+          status: RegisterStatus.error,
+          errorMessage: "Ingrese un correo válido",
+        ),
+      );
+      return false;
+    }
+
+    emit(state.copyWith(status: RegisterStatus.loading));
+
+    try {
+      final exists = await authRepository.checkEmailExists(
+        emailController.text.trim(),
+      );
+      if (exists) {
+        emit(
+          state.copyWith(
+            status: RegisterStatus.error,
+            errorMessage: "El correo electrónico ya está registrado.",
+          ),
+        );
+        return false;
+      }
+      // Si no existe, reseteamos status y retornamos true para que la UI navegue
+      emit(state.copyWith(status: RegisterStatus.initial));
+      return true;
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: RegisterStatus.error,
+          errorMessage: "Error al verificar el correo: $e",
+        ),
+      );
+      return false;
+    }
+  }
 
   // =============================================================
   // 🔹 SPECIALTIES MANAGEMENT
@@ -62,11 +100,30 @@ class RegisterCubit extends Cubit<RegisterState> {
     emit(state.copyWith(selectedAddress: detail));
   }
 
+  void clearAddress() {
+    emit(state.copyWith(clearSelectedAddress: true));
+    addressController.clear();
+  }
+
   // =============================================================
   // 🔹 SET LICENSE TYPE
   // =============================================================
   void setLicenseType(String? type) {
     emit(state.copyWith(licenseType: type));
+  }
+
+  // =============================================================
+  // 🔹 SET PROVINCIAL LICENSE
+  // =============================================================
+  void setProvincialLicenseName(String? name) {
+    emit(state.copyWith(provincialLicenseName: name));
+  }
+
+  // =============================================================
+  // 🔹 TOGGLE TERMS
+  // =============================================================
+  void toggleTerms(bool? value) {
+    emit(state.copyWith(termsAccepted: value ?? false));
   }
 
   // =============================================================
@@ -89,6 +146,11 @@ class RegisterCubit extends Cubit<RegisterState> {
     try {
       final detail = state.selectedAddress!;
 
+      // Determinar si enviamos la provincia o null
+      final provincialLicense = (state.licenseType == 'provincial')
+          ? state.provincialLicenseName
+          : null;
+
       // =============================================================
       // 🔥 Crear el modelo de usuario completo
       // =============================================================
@@ -98,9 +160,10 @@ class RegisterCubit extends Cubit<RegisterState> {
         email: emailController.text.trim(),
         role: "derivant",
         medicalLicense: licenseController.text.trim(),
-        licenceType: state.licenseType,
+        licenseType: state.licenseType,
+        provincialLicenseName: provincialLicense,
         specialties: List.from(state.specialties.map((e) => e.id)),
-        biography: biographyController.text.trim(),
+        biography: "",
         addressModel: detail,
       );
 

@@ -9,6 +9,8 @@ class DebouncedSearchField extends StatefulWidget {
   final String? label;
   final IconData? icon;
   final TextEditingController? controller;
+  final Widget? suffixIcon;
+  final String? Function(String?)? validator;
 
   const DebouncedSearchField({
     super.key,
@@ -18,6 +20,8 @@ class DebouncedSearchField extends StatefulWidget {
     this.label,
     this.icon,
     this.controller,
+    this.suffixIcon,
+    this.validator,
   });
 
   @override
@@ -66,9 +70,10 @@ class _DebouncedSearchFieldState extends State<DebouncedSearchField> {
         // ------------------------------
         // 🔹 SEARCH INPUT
         // ------------------------------
-        TextField(
+        TextFormField(
           controller: widget.controller,
           onChanged: _onChanged,
+          validator: widget.validator,
           style: TextStyle(
             color: isDark ? AppColors.neutral95 : AppColors.neutral20,
             fontSize: 15,
@@ -96,6 +101,9 @@ class _DebouncedSearchFieldState extends State<DebouncedSearchField> {
               size: 22,
             ),
 
+            // 🔹 Icono al final (opcional, ej: limpiar)
+            suffixIcon: widget.suffixIcon,
+
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(18),
               borderSide: BorderSide.none,
@@ -107,6 +115,15 @@ class _DebouncedSearchFieldState extends State<DebouncedSearchField> {
                 color: AppColors.primary40,
                 width: 1.4,
               ),
+            ),
+
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: const BorderSide(color: Colors.red, width: 1.4),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: const BorderSide(color: Colors.red, width: 1.4),
             ),
           ),
         ),

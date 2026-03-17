@@ -7,8 +7,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddressSearchBox extends StatelessWidget {
   final TextEditingController controller;
+  final VoidCallback? onClear;
+  final String? Function(String?)? validator;
 
-  const AddressSearchBox({super.key, required this.controller});
+  const AddressSearchBox({
+    super.key,
+    required this.controller,
+    this.onClear,
+    this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +24,35 @@ class AddressSearchBox extends StatelessWidget {
 
     return Column(
       children: [
-        DebouncedSearchField(
-          controller: controller,
-          hintText: s.searchAddress,
-          onSearch: context.read<AddressCubit>().search,
-          icon: Icons.location_on_outlined,
+        ValueListenableBuilder<TextEditingValue>(
+          valueListenable: controller,
+          builder: (context, value, _) {
+            final showClear = value.text.isNotEmpty;
+            return DebouncedSearchField(
+              controller: controller,
+              hintText: s.searchAddress,
+              validator: validator,
+              onSearch: context.read<AddressCubit>().search,
+              icon: Icons.location_on_outlined,
+              suffixIcon: showClear
+                  ? IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        size: 20,
+                        color: isDark
+                            ? AppColors.neutral60
+                            : AppColors.neutral40,
+                      ),
+                      onPressed: () {
+                        controller.clear();
+                        context.read<AddressCubit>().search("");
+                        context.read<AddressCubit>().clearSelection();
+                        onClear?.call();
+                      },
+                    )
+                  : null,
+            );
+          },
         ),
 
         const SizedBox(height: 4),

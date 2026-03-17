@@ -11,7 +11,7 @@ class ApiService {
   static final ApiService _instance = ApiService._internal();
   factory ApiService() => _instance;
 
-  String baseUrl = "http://10.0.2.2:8000";
+  String baseUrl = "https://api.clinexapp.com";
 
   void setBaseUrl(String url) {
     baseUrl = url;
@@ -156,6 +156,83 @@ class ApiService {
   }
 
   // ============================================================
+  // 🔹 REQUEST LIST
+  // ============================================================
+  Future<ApiResponseModel<List<T>>> requestList<T>({
+    required String path,
+    required T Function(Map<String, dynamic>) fromJson,
+    HttpMethod method = HttpMethod.get,
+    Map<String, dynamic>? query,
+    dynamic body,
+    bool withAuth = true,
+  }) async {
+    try {
+      final uri = Uri.parse(path).replace(queryParameters: query);
+
+      if (_accessToken == null || _refreshToken == null) {
+        await _loadTokensFromPrefs();
+      }
+
+      final headers = {
+        "Content-Type": "application/json",
+        if (withAuth && _accessToken != null) "Authorization": _accessToken!,
+      };
+
+      developer.log("🔵 REQUEST LIST [${method.name.toUpperCase()}] -> $uri");
+
+      http.Response response;
+
+      switch (method) {
+        case HttpMethod.get:
+          response = await http.get(uri, headers: headers);
+          break;
+        case HttpMethod.post:
+          response = await http.post(
+            uri,
+            headers: headers,
+            body: jsonEncode(body),
+          );
+          break;
+        case HttpMethod.put:
+          response = await http.put(
+            uri,
+            headers: headers,
+            body: jsonEncode(body),
+          );
+          break;
+        case HttpMethod.delete:
+          response = await http.delete(
+            uri,
+            headers: headers,
+            body: jsonEncode(body),
+          );
+          break;
+      }
+
+      developer.log("🟢 RESPONSE LIST [${response.statusCode}] <- $uri");
+
+      if (response.statusCode == 401 && withAuth && _refreshToken != null) {
+        final refreshed = await _tryRefreshToken();
+        if (refreshed) {
+          return await requestList(
+            path: path,
+            fromJson: fromJson,
+            method: method,
+            query: query,
+            body: body,
+            withAuth: withAuth,
+          );
+        }
+      }
+
+      return _handleListResponse<T>(response, fromJson);
+    } catch (e) {
+      developer.log("🔴 EXCEPTION in requestList: $e", error: e);
+      throw Exception("Error realizando la petición HTTP (List): $e");
+    }
+  }
+
+  // ============================================================
   // 🔹 REFRESH TOKEN
   // ============================================================
   Future<bool> _tryRefreshToken() async {
@@ -224,6 +301,68 @@ class ApiService {
 
       case 404:
         throw ApiException("Recurso no encontrado.", 404);
+
+      case 500:
+        throw ApiException("Error interno del servidor.", 500);
+
+      default:
+        throw ApiException("Error desconocido", status);
+    }
+  }
+
+  // ============================================================
+  // 🔹 HANDLE LIST RESPONSE
+  // ============================================================
+  ApiResponseModel<List<T>> _handleListResponse<T>(
+    http.Response response,
+    T Function(Map<String, dynamic>) fromJson,
+  ) {
+    final int status = response.statusCode;
+
+    // For lists, the backend might return an array directly instead of {items: []}
+    dynamic jsonBody;
+    try {
+      jsonBody = jsonDecode(response.body.isNotEmpty ? response.body : "[]");
+    } catch (e) {
+      jsonBody = [];
+    }
+
+    String? message;
+    if (jsonBody is Map<String, dynamic>) {
+      message = jsonBody["message"] ?? jsonBody["detail"];
+    }
+
+    switch (status) {
+      case 200:
+      case 201:
+        if (jsonBody is List) {
+          final List<T> dataList = jsonBody
+              .map((item) => fromJson(item as Map<String, dynamic>))
+              .toList();
+          return ApiResponseModel.single(dataList, null, status);
+        } else if (jsonBody is Map<String, dynamic>) {
+          final List<T> dataList = [];
+          if (jsonBody["items"] is List) {
+            final itemsList = jsonBody["items"] as List;
+            dataList.addAll(
+              itemsList.map((item) => fromJson(item as Map<String, dynamic>)),
+            );
+          }
+          return ApiResponseModel.single(dataList, message, status);
+        }
+        return ApiResponseModel.single([], message, status);
+
+      case 400:
+        throw ApiException(message ?? "Solicitud inválida", 400);
+
+      case 401:
+        throw ApiException("Token inválido o expirado.", 401);
+
+      case 403:
+        throw ApiException("Sin permisos para esta acción.", 403);
+
+      case 404:
+        throw ApiException("Recursos no encontrados.", 404);
 
       case 500:
         throw ApiException("Error interno del servidor.", 500);

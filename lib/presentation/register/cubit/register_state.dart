@@ -6,41 +6,47 @@ class RegisterState extends Equatable {
   final RegisterStatus status;
   final String? errorMessage;
 
-  // Step tracking (1 → 2 → 3)
-  final int currentStep;
-
   final List<SpecialtyModel> specialties;
   final AddressModel? selectedAddress;
   final dynamic user;
   final String? licenseType;
+  final String? provincialLicenseName;
+  final bool termsAccepted;
 
-  RegisterState({
+  const RegisterState({
     this.status = RegisterStatus.initial,
     this.errorMessage,
-    this.currentStep = 1,
     this.specialties = const [],
     this.selectedAddress,
     this.user,
     this.licenseType,
+    this.provincialLicenseName,
+    this.termsAccepted = false,
   });
 
   RegisterState copyWith({
     RegisterStatus? status,
     String? errorMessage,
-    int? currentStep,
     List<SpecialtyModel>? specialties,
     AddressModel? selectedAddress,
+    bool clearSelectedAddress = false,
     dynamic user,
     String? licenseType,
+    String? provincialLicenseName,
+    bool? termsAccepted,
   }) {
     return RegisterState(
       status: status ?? this.status,
       errorMessage: errorMessage,
-      currentStep: currentStep ?? this.currentStep,
       specialties: specialties ?? this.specialties,
-      selectedAddress: selectedAddress ?? this.selectedAddress,
+      selectedAddress: clearSelectedAddress
+          ? null
+          : (selectedAddress ?? this.selectedAddress),
       user: user ?? this.user,
       licenseType: licenseType ?? this.licenseType,
+      provincialLicenseName:
+          provincialLicenseName ?? this.provincialLicenseName,
+      termsAccepted: termsAccepted ?? this.termsAccepted,
     );
   }
 
@@ -48,10 +54,11 @@ class RegisterState extends Equatable {
   List<Object?> get props => [
     status,
     errorMessage,
-    currentStep,
     specialties,
     selectedAddress,
     user,
     licenseType,
+    provincialLicenseName,
+    termsAccepted,
   ];
 }

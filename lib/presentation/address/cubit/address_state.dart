@@ -18,14 +18,16 @@ class AddressState {
   AddressState copyWith({
     Status? status,
     List<AddressSuggestion>? suggestions,
-
     AddressModel? selectedAddress,
+    bool clearSelectedAddress = false,
     String? errorMessage,
   }) {
     return AddressState(
       status: status ?? this.status,
       suggestions: suggestions ?? this.suggestions,
-      selectedAddress: selectedAddress ?? this.selectedAddress,
+      selectedAddress: clearSelectedAddress
+          ? null
+          : (selectedAddress ?? this.selectedAddress),
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }

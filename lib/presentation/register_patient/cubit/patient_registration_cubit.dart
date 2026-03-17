@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:bloc/bloc.dart';
 import 'package:clinexa_derivant_app/data/models/address_model.dart';
 import 'package:clinexa_derivant_app/data/models/patient_model.dart';
@@ -31,11 +33,9 @@ class PatientRegistrationCubit extends Cubit<PatientRegistrationState> {
   final TextEditingController notesController = TextEditingController();
   final TextEditingController birthDateController = TextEditingController();
 
-  // State values (Non-text fields)
+  // State values
   DateTime? birthDate;
   String? gender;
-
-  // TODO: Add Lists for specialties/pathologies if UI supports it
 
   void setBirthDate(DateTime date) {
     birthDate = date;
@@ -46,7 +46,6 @@ class PatientRegistrationCubit extends Cubit<PatientRegistrationState> {
     gender = value;
   }
 
-  // Method to set address from Google Maps selection
   void setAddress(AddressModel addressModel) {
     emit(state.copyWith(selectedAddress: addressModel));
 
@@ -57,10 +56,47 @@ class PatientRegistrationCubit extends Cubit<PatientRegistrationState> {
     postalCodeController.text = addressModel.postalCode ?? '';
   }
 
-  Future<void> register({String? createdBy}) async {
-    if (!formKey.currentState!.validate()) return;
+  void clearAddress() {
+    emit(state.copyWith(clearSelectedAddress: true));
+    addressController.clear();
+    cityController.clear();
+    stateController.clear();
+    countryController.clear();
+    postalCodeController.clear();
+  }
 
-    // Logic to handle address selection
+  bool validatePersonalData() {
+    return formKey.currentState?.validate() ?? false;
+  }
+
+  // Método para completar el formulario y navegar a firma
+  void completeForm() {
+    if (!validatePersonalData()) {
+      return;
+    }
+    emit(state.copyWith(status: PatientRegistrationStatus.formCompleted));
+  }
+
+  // Métodos de firma
+  // Métodos de firma
+  void setSignatureUrl(String url, Uint8List signatureBytes) {
+    emit(
+      state.copyWith(
+        signatureBytes: signatureBytes,
+        signatureUrl: url,
+        status: PatientRegistrationStatus.signatureCompleted,
+      ),
+    );
+  }
+
+  void clearSignature() {
+    emit(state.copyWith(signatureBytes: Uint8List(0), signatureUrl: ''));
+  }
+
+  // Método público para guardar el paciente (llamado desde PatientVerificationScreen)
+  Future<void> savePatient({String? createdBy}) async {
+    emit(state.copyWith(status: PatientRegistrationStatus.loading));
+
     final selectedAddress = state.selectedAddress;
 
     final addressToSend =
@@ -78,13 +114,6 @@ class PatientRegistrationCubit extends Cubit<PatientRegistrationState> {
               )
             : null);
 
-    emit(
-      state.copyWith(
-        status: PatientRegistrationStatus.loading,
-        selectedAddress: state.selectedAddress, // Preserve address
-      ),
-    );
-
     try {
       final patient = PatientModel(
         firstName: firstNameController.text.trim(),
@@ -97,9 +126,10 @@ class PatientRegistrationCubit extends Cubit<PatientRegistrationState> {
         email: emailController.text.trim(),
         address: addressToSend,
         notes: notesController.text.trim(),
-        specialties: [], // Todo implement UI for this
-        pathologies: [], // Todo implement UI for this
+        specialties: [],
+        pathologies: [],
         protocolId: protocolId,
+        signatureUrl: state.signatureUrl,
         createdBy: createdBy,
       );
 

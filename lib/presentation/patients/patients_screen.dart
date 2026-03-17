@@ -2,6 +2,7 @@ import 'package:clinexa_derivant_app/core/theme.dart';
 import 'package:clinexa_derivant_app/domain/patient_repository.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
+import 'package:clinexa_derivant_app/presentation/protocol/protocol_selection_screen.dart';
 import 'package:clinexa_derivant_app/presentation/patients/cubit/patients_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/patients/cubit/patients_state.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_dialogs.dart';
@@ -48,6 +49,19 @@ class PatientsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(s.myPatients)),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 80.0),
+        child: FloatingActionButton(
+          elevation: 0,
+          onPressed: () async {
+            await context.pushNamed(ProtocolSelectionScreen.path);
+            if (context.mounted) {
+              context.read<PatientsCubit>().loadPatients();
+            }
+          },
+          child: const Icon(Icons.add),
+        ),
+      ),
       body: BlocConsumer<PatientsCubit, PatientsState>(
         listener: (context, state) {
           if (state.status == PatientsStatus.failure) {
@@ -92,7 +106,7 @@ class PatientsView extends StatelessWidget {
                           vertical: 8,
                         ),
                       ),
-                      value: state.selectedSpecialtyId,
+                      initialValue: state.selectedSpecialtyId,
                       items: [
                         DropdownMenuItem<String>(
                           value: null,
@@ -122,9 +136,12 @@ class PatientsView extends StatelessWidget {
                         ),
                       )
                     : ListView.separated(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
+                        padding: const EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                          top: 8,
+                          bottom:
+                              100, // Espacio para no ser tapado por el bottombar/FAB
                         ),
                         itemCount: state.patients.length,
                         separatorBuilder: (_, __) => const SizedBox(height: 12),
@@ -150,7 +167,7 @@ class PatientsView extends StatelessWidget {
                             orderStatus: patient.order?.status.name,
                             onTap: () async {
                               final result = await context.push(
-                                '/patient-info',
+                                '/patient-details',
                                 extra: patient,
                               );
 

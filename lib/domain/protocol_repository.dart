@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:clinexa_derivant_app/core/api/api.dart';
 import 'package:clinexa_derivant_app/core/api/api_services.dart';
 import 'package:clinexa_derivant_app/data/models/api_response_model.dart';

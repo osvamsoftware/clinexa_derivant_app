@@ -14,7 +14,7 @@ class UserModel {
 
   // Medical info
   final String? medicalLicense;
-  final String? licenceType;
+  final String? licenseType; // Fixed spelling
   final List<String> specialties;
   final String? clinicId;
   final String? biography;
@@ -30,6 +30,8 @@ class UserModel {
   // Timestamps
   final DateTime? createdAt;
   final DateTime? updatedAt;
+
+  final String? provincialLicenseName;
 
   UserModel({
     this.id,
@@ -49,7 +51,8 @@ class UserModel {
     this.createdAt,
     this.updatedAt,
     this.protocols = const [],
-    this.licenceType,
+    this.licenseType, // Fixed spelling
+    this.provincialLicenseName,
   });
 
   // ------------------------------------------------------------
@@ -87,7 +90,8 @@ class UserModel {
           ? DateTime.tryParse(json['updated_at'])
           : null,
       protocols: List<String>.from(json['protocols'] ?? []),
-      licenceType: json['licence_type'],
+      licenseType: json['license_type'], // Fixed key
+      provincialLicenseName: json['provincial_license_name'],
     );
   }
 
@@ -120,7 +124,8 @@ class UserModel {
       if (createdAt != null) "created_at": createdAt!.toIso8601String(),
       if (updatedAt != null) "updated_at": updatedAt!.toIso8601String(),
       "protocols": protocols,
-      "licence_type": licenceType,
+      "license_type": licenseType, // Fixed key
+      "provincial_license_name": provincialLicenseName,
     };
   }
 
@@ -143,7 +148,8 @@ class UserModel {
     List<Map<String, dynamic>>? devices,
     DateTime? createdAt,
     DateTime? updatedAt,
-    String? licenceType,
+    String? licenseType, // Fixed spelling
+    String? provincialLicenseName,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -163,7 +169,9 @@ class UserModel {
       devices: devices ?? this.devices,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
-      licenceType: licenceType ?? this.licenceType,
+      licenseType: licenseType ?? this.licenseType,
+      provincialLicenseName:
+          provincialLicenseName ?? this.provincialLicenseName,
     );
   }
 }

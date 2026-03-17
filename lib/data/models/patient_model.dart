@@ -26,6 +26,7 @@ class PatientModel extends Equatable {
   final String? protocolId; // New field
   final ProtocolModel? protocol; // Protocolo completo
   final String? notes;
+  final String? signatureUrl; // New field
 
   // Relación con médicos
   final String? createdBy; // ID
@@ -56,6 +57,7 @@ class PatientModel extends Equatable {
     this.protocolId,
     this.protocol,
     this.notes,
+    this.signatureUrl,
     this.createdBy,
     this.assignedTo,
     this.status = 'active',
@@ -91,6 +93,7 @@ class PatientModel extends Equatable {
           ? ProtocolModel.fromMap(json['protocol'])
           : null,
       notes: json['notes'],
+      signatureUrl: json['signature_url'],
       createdBy: json['created_by'],
       assignedTo: json['assigned_to'],
       status: json['status'] ?? 'active',
@@ -122,6 +125,7 @@ class PatientModel extends Equatable {
       if (protocolId != null) "protocol_id": protocolId,
       if (protocol != null) "protocol": protocol!.toMap(),
       if (notes != null) "notes": notes,
+      if (signatureUrl != null) "signature_url": signatureUrl,
       if (createdBy != null) "created_by": createdBy,
       if (assignedTo != null) "assigned_to": assignedTo,
       "status": status,
@@ -148,6 +152,7 @@ class PatientModel extends Equatable {
     String? protocolId,
     ProtocolModel? protocol,
     String? notes,
+    String? signatureUrl,
     String? createdBy,
     String? assignedTo,
     String? status,
@@ -172,6 +177,7 @@ class PatientModel extends Equatable {
       protocolId: protocolId ?? this.protocolId,
       protocol: protocol ?? this.protocol,
       notes: notes ?? this.notes,
+      signatureUrl: signatureUrl ?? this.signatureUrl,
       createdBy: createdBy ?? this.createdBy,
       assignedTo: assignedTo ?? this.assignedTo,
       status: status ?? this.status,
@@ -199,6 +205,7 @@ class PatientModel extends Equatable {
     protocolId,
     protocol,
     notes,
+    signatureUrl,
     createdBy,
     assignedTo,
     status,

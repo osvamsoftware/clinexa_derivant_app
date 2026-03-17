@@ -2,6 +2,7 @@ import 'package:clinexa_derivant_app/core/constants/paths.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomDialogs {
@@ -26,7 +27,14 @@ class CustomDialogs {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 50, child: Image.asset(paths.logoPng)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(paths.iconLogoSvg, height: 40),
+                  const SizedBox(width: 8),
+                  SvgPicture.asset(paths.nameLogoSvg, height: 30),
+                ],
+              ),
               const SizedBox.square(
                 dimension: 25,
                 child: CircularProgressIndicator.adaptive(),
@@ -82,7 +90,14 @@ class CustomDialogs {
                   ),
                 ),
                 const SizedBox(height: 25),
-                SizedBox(height: 50, child: Image.asset(paths.logoPng)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(paths.iconLogoSvg, height: 40),
+                    const SizedBox(width: 8),
+                    SvgPicture.asset(paths.nameLogoSvg, height: 30),
+                  ],
+                ),
                 Text(
                   error,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -129,7 +144,14 @@ class CustomDialogs {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 50, child: Image.asset(paths.logoPng)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(paths.iconLogoSvg, height: 40),
+                  const SizedBox(width: 8),
+                  SvgPicture.asset(paths.nameLogoSvg, height: 30),
+                ],
+              ),
               const SizedBox(height: 10),
               if (successMessage != null)
                 Padding(
@@ -185,7 +207,14 @@ class CustomDialogs {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 50, child: Image.asset(paths.logoPng)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(paths.iconLogoSvg, height: 40),
+                  const SizedBox(width: 8),
+                  SvgPicture.asset(paths.nameLogoSvg, height: 30),
+                ],
+              ),
               Text(
                 title ?? s.noTitle, // 🔵 traducido
                 textAlign: TextAlign.center,
@@ -258,7 +287,14 @@ class CustomDialogs {
                 style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 10),
-              SizedBox(height: 50, child: Image.asset(paths.logoPng)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(paths.iconLogoSvg, height: 40),
+                  const SizedBox(width: 8),
+                  SvgPicture.asset(paths.nameLogoSvg, height: 30),
+                ],
+              ),
               if (bodyMessage != null)
                 Padding(
                   padding: const EdgeInsets.all(8.0),

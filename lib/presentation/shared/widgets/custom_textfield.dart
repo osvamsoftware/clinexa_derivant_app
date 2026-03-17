@@ -29,7 +29,12 @@ class CustomTextField extends StatefulWidget {
     this.maxLines = 1,
     this.readOnly = false,
     this.onTap,
+    this.textAlign = TextAlign.start,
+    this.maxLength,
   });
+
+  final TextAlign textAlign;
+  final int? maxLength;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -65,6 +70,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
           validator: widget.validator,
           focusNode: widget.focusNode,
           keyboardType: widget.keyboardType,
+          textAlign: widget.textAlign,
+          maxLength: widget.maxLength,
           obscureText: widget.isPassword ? _obscure : false,
           style: const TextStyle(color: AppColors.neutral20, fontSize: 15),
           decoration: InputDecoration(
@@ -79,6 +86,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
               horizontal: 20,
               vertical: 14,
             ),
+
+            // Estilo del mensaje de error
+            errorStyle: const TextStyle(
+              color: AppColors.danger40,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
+            errorMaxLines: 2,
 
             // 🔹 Icono opcional
             prefixIcon: widget.icon != null

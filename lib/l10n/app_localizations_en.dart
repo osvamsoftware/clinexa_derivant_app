@@ -16,7 +16,7 @@ class SEn extends S {
 
   @override
   String get welcomeDescription =>
-      'A platform designed for your institution to receive patients who match the characteristics of your medical protocols, allowing a fast, accurate and secure connection with the professionals who refer them.';
+      'A digital platform designed to connect researchers or teams from medical research centers with referring physicians in a secure and transparent manner, facilitating patient access to clinical research protocols.';
 
   @override
   String get loginHello => 'Hello!';
@@ -71,6 +71,10 @@ class SEn extends S {
 
   @override
   String get invalidMemberId => 'Member ID must be 8 digits';
+
+  @override
+  String get invalidDni =>
+      'Please enter a valid number with more than 6 digits.';
 
   @override
   String get loading => 'Loading...';
@@ -201,6 +205,9 @@ class SEn extends S {
   String get retry => 'Retry';
 
   @override
+  String get patientList => 'Patient List';
+
+  @override
   String get protocolsList => 'Protocols List';
 
   @override
@@ -265,7 +272,7 @@ class SEn extends S {
 
   @override
   String get protocolSelectionSubtitle =>
-      'Select the protocols you want to have available in your working list. The protocols shown initially match your specialties, but you can also search by category to find additional protocols.';
+      'Select the protocol to which you want to add the patient and make sure it meets all the acceptance criteria.';
 
   @override
   String get continue_text => 'Continue';
@@ -608,4 +615,119 @@ class SEn extends S {
 
   @override
   String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get notificationScreenTitle => 'Notifications';
+
+  @override
+  String get noNotificationsFound => 'No notifications found';
+
+  @override
+  String get notificationMarkedAsRead => 'Notification marked as read';
+
+  @override
+  String get errorLoadingNotifications => 'Error loading notifications';
+
+  @override
+  String get cantFindProtocol => 'Can\'t find your protocol? ';
+
+  @override
+  String get contactUsHere => 'Contact us here';
+
+  @override
+  String get contactTitle => 'Protocol Connection';
+
+  @override
+  String get contactSubtitle => 'Contact';
+
+  @override
+  String get contactDescription =>
+      'You are about to contact the management department. Please make sure you have the protocols you want to add or modify at hand.';
+
+  @override
+  String get contactSchedule => 'Business hours: 08:00 - 18:00';
+
+  @override
+  String get contactButton => 'Contact now';
+
+  @override
+  String contactMessage(Object id, Object license, Object name) {
+    return 'I am doctor $name with license $license and user ID $id, I would like to request the registration of a new protocol in the app';
+  }
+
+  @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get personalInformation => 'Personal Information';
+
+  @override
+  String get firstName => 'First Name';
+
+  @override
+  String get lastName => 'Last Name';
+
+  @override
+  String get specialties => 'Specialties';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get profileUpdatedSuccess => 'Profile updated successfully';
+
+  @override
+  String get requiredField => 'Required field';
+
+  @override
+  String get errorUnauthorized =>
+      'Your session has expired. Please log in again.';
+
+  @override
+  String get errorLoginFailed => 'Login failed. Please check your credentials.';
+
+  @override
+  String get errorInvalidCredentials =>
+      'Invalid credentials. Please check your email and password.';
+
+  @override
+  String get errorNetwork =>
+      'Connection error. Please check your internet connection.';
+
+  @override
+  String get errorServer => 'Server error. Please try again later.';
+
+  @override
+  String get errorServiceUnavailable => 'The service is currently unavailable.';
+
+  @override
+  String get errorValidation => 'The provided data is not valid.';
+
+  @override
+  String get errorNotFound => 'The requested resource was not found.';
+
+  @override
+  String get errorForbidden =>
+      'You do not have permission to perform this action.';
+
+  @override
+  String get errorGeneric => 'An error has occurred. Please try again.';
+
+  @override
+  String get signature => 'Patient Signature';
+
+  @override
+  String get errorLoadingImage => 'Error loading signature image';
+
+  @override
+  String get paymentBonusPending =>
+      'You have not yet received any bonus for this patient, please wait for one of our agents to contact you.';
+
+  @override
+  String get paymentBonusCompleted =>
+      'You received a bonus for this patient. Continue making diagnoses and evaluations to accumulate bonuses for your services.';
+
+  @override
+  String get paymentMovementNotFound =>
+      'No payment movements found for this user, please contact support.';
 }

@@ -11,8 +11,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:clinexa_derivant_app/firebase_options.dart';
 import 'package:clinexa_derivant_app/core/services/notification_service.dart';
-import 'package:clinexa_derivant_app/domain/repositories/notification_repository.dart';
+import 'package:clinexa_derivant_app/data/repositories/notification_repository_impl.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -25,8 +26,15 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Firebase initialization
-  await Firebase.initializeApp();
+  try {
+    if (Firebase.apps.isEmpty) {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    }
+  } catch (e) {
+    debugPrint("Firebase initialization error: $e");
+  }
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await SharedPrefsService.instance.init();
@@ -36,9 +44,9 @@ void main() async {
   // Initialize ApiService with the correct base URL
   ApiService().setBaseUrl(api.baseUrl);
 
-  // Initialize Notification Service
+  // Notification Service Setup
   final notificationRepo = NotificationRepositoryImpl(api: api);
-  final notificationService = NotificationService(notificationRepo);
+  final notificationService = NotificationService(repository: notificationRepo);
   await notificationService.initListeners();
 
   runApp(ClinexaApp(api: api, notificationService: notificationService));
@@ -91,9 +99,3 @@ class ClinexaApp extends StatelessWidget {
     );
   }
 }
-
-//! === PONER TIPO DE MATRICULA Y ABAJO EL CAMPO DE REGISTRO DE MATRICULA
-//! === AGREGAMOS FILTRO DE CIUDAD A LA HORA DE RECIBIR LOS PROTOCOLOS.
-//! === doble telefono al registrar paciente
-// === verificar que ptocolo vaya por pasos
-//? === COLOCAR UN CUESTIONARIO Y NOTAS/ SACAR DOCUMENTO

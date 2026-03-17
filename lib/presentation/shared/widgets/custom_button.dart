@@ -14,6 +14,7 @@ class CustomButton extends StatelessWidget {
   final double radius;
   final double fontSize;
   final FontWeight fontWeight;
+  final bool isLoading;
 
   const CustomButton({
     super.key,
@@ -28,6 +29,7 @@ class CustomButton extends StatelessWidget {
     this.fontSize = 16,
     this.fontWeight = FontWeight.w600,
     this.width = double.infinity,
+    this.isLoading = false,
   });
 
   @override
@@ -44,42 +46,51 @@ class CustomButton extends StatelessWidget {
       height: height,
       width: width,
       child: ElevatedButton(
-        onPressed: onPressed, // 🔹 Flutter interpreta null como "disabled"
+        onPressed: isLoading ? null : onPressed, // 🔹 Disable on loading
         style: ElevatedButton.styleFrom(
           backgroundColor: finalBackground,
-          disabledBackgroundColor: finalBackground.withOpacity(
-            0.4,
+          disabledBackgroundColor: finalBackground.withValues(
+            alpha: 0.4,
           ), // 🔹 Disabled
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius),
           ),
           elevation: 0,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (icon != null) ...[
-              Icon(
-                icon,
-                color: defaultTextColor.withOpacity(
-                  onPressed == null ? 0.5 : 1,
+        child: isLoading
+            ? SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(defaultTextColor),
                 ),
-                size: 20,
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (icon != null) ...[
+                    Icon(
+                      icon,
+                      color: defaultTextColor.withValues(
+                        alpha: onPressed == null ? 0.5 : 1,
+                      ),
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                  Text(
+                    text,
+                    style: TextStyle(
+                      color: defaultTextColor.withValues(
+                        alpha: onPressed == null ? 0.5 : 1,
+                      ),
+                      fontSize: fontSize,
+                      fontWeight: fontWeight,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
-            ],
-            Text(
-              text,
-              style: TextStyle(
-                color: defaultTextColor.withOpacity(
-                  onPressed == null ? 0.5 : 1,
-                ),
-                fontSize: fontSize,
-                fontWeight: fontWeight,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

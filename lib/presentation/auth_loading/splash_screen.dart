@@ -32,11 +32,12 @@ class _SplashViewState extends State<SplashView> {
     final s = S.of(context);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       body: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) async {
           if (!state.initialized) return;
           await Future.delayed(Duration(milliseconds: 500));
+          if (state.status == AuthStatus.loading) return;
           if (state.user != null) {
             context.go(
               SessionCheckScreen.path,

@@ -2,7 +2,7 @@ import 'package:clinexa_derivant_app/core/services/validators.dart';
 import 'package:clinexa_derivant_app/core/theme.dart';
 import 'package:clinexa_derivant_app/domain/patient_repository.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
-import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
+
 import 'package:clinexa_derivant_app/presentation/register_patient/cubit/patient_registration_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_dialogs.dart';
@@ -38,37 +38,42 @@ class PatientRegistrationScreen extends StatelessWidget {
       ],
       child: MultiBlocListener(
         listeners: [
-          BlocListener<PatientRegistrationCubit, PatientRegistrationState>(
-            listener: (context, state) {
-              if (state.status == PatientRegistrationStatus.loading) {
-                CustomDialogs.loadingDialog(context);
-              }
-              if (state.status == PatientRegistrationStatus.success) {
-                context.pop(); // Close loading
-                CustomDialogs.successDialog(
-                  context: context,
-                  successMessage: S.of(context).register_successMessage,
-                  onPressed: () {
-                    context.pop(); // Close dialog
-                    context.goNamed(PatientsScreen.path); // Go to My Patients
-                  },
-                );
-              }
-              if (state.status == PatientRegistrationStatus.error) {
-                context.pop(); // Close loading
-                CustomDialogs.errorDialog(
-                  context,
-                  state.errorMessage ?? S.of(context).errorOccurred,
-                );
-              }
-            },
-          ),
           BlocListener<AddressCubit, AddressState>(
             listener: (context, state) {
               if (state.status == Status.success &&
                   state.selectedAddress != null) {
                 context.read<PatientRegistrationCubit>().setAddress(
                   state.selectedAddress!,
+                );
+              }
+            },
+          ),
+          BlocListener<PatientRegistrationCubit, PatientRegistrationState>(
+            listenWhen: (previous, current) =>
+                previous.status != current.status,
+            listener: (context, state) {
+              if (state.status == PatientRegistrationStatus.loading) {
+                CustomDialogs.loadingDialog(context);
+              } else if (state.status ==
+                  PatientRegistrationStatus.formCompleted) {
+                // Formulario completado, navegar a pantalla de firma
+                final cubit = context.read<PatientRegistrationCubit>();
+                context.push('/patient-signature', extra: cubit);
+              } else if (state.status == PatientRegistrationStatus.success) {
+                context.pop(); // Close loading
+                CustomDialogs.successDialog(
+                  context: context,
+                  successMessage: S.of(context).register_successMessage,
+                  onPressed: () {
+                    context.pop(); // Close success dialog
+                    context.goNamed(PatientsScreen.path);
+                  },
+                );
+              } else if (state.status == PatientRegistrationStatus.error) {
+                context.pop(); // Close loading
+                CustomDialogs.errorDialog(
+                  context,
+                  state.errorMessage ?? S.of(context).errorOccurred,
                 );
               }
             },
@@ -129,7 +134,7 @@ class PatientRegistrationView extends StatelessWidget {
                       label: s.dni,
                       controller: cubit.dniController,
                       keyboardType: TextInputType.number,
-                      validator: (val) => validators.text(context, val ?? ""),
+                      validator: (val) => validators.dni(context, val ?? ""),
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -221,7 +226,10 @@ class PatientRegistrationView extends StatelessWidget {
               const SizedBox(height: 16),
 
               // Address Search - Replaced CustomTextField
-              AddressSearchBox(controller: cubit.addressController),
+              AddressSearchBox(
+                controller: cubit.addressController,
+                onClear: cubit.clearAddress,
+              ),
               const SizedBox(height: 16),
 
               Row(
@@ -285,11 +293,15 @@ class PatientRegistrationView extends StatelessWidget {
               const SizedBox(height: 48),
 
               // Submit Button
-              CustomButton(
-                text: s.save,
-                onPressed: () {
-                  cubit.register(
-                    createdBy: context.read<AuthCubit>().state.user?.id,
+              BlocBuilder<PatientRegistrationCubit, PatientRegistrationState>(
+                builder: (context, state) {
+                  return CustomButton(
+                    text: "Registrar Paciente",
+                    isLoading:
+                        state.status == PatientRegistrationStatus.loading,
+                    onPressed: () {
+                      cubit.completeForm();
+                    },
                   );
                 },
               ),

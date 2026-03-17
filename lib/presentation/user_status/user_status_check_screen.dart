@@ -1,6 +1,6 @@
 import 'package:clinexa_derivant_app/domain/user_status_repository.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
-import 'package:clinexa_derivant_app/presentation/home_screen.dart';
+import 'package:clinexa_derivant_app/presentation/notifications/screens/home_screen.dart';
 import 'package:clinexa_derivant_app/presentation/login/login_screen.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_dialogs.dart';
 import 'package:clinexa_derivant_app/presentation/user_status/cubit/user_status_cubit.dart';

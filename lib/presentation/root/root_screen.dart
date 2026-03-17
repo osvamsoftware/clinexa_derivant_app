@@ -1,5 +1,6 @@
+import 'package:clinexa_derivant_app/core/theme.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
-import 'package:clinexa_derivant_app/presentation/home_screen.dart';
+import 'package:clinexa_derivant_app/presentation/notifications/screens/home_screen.dart';
 import 'package:clinexa_derivant_app/presentation/patients/patients_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -26,9 +27,7 @@ class RootPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(
-                context,
-              ).colorScheme.surfaceContainerHighest.withOpacity(0.95),
+              color: AppColors.primary10,
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
@@ -46,10 +45,8 @@ class RootPage extends StatelessWidget {
 
               type: BottomNavigationBarType.fixed,
 
-              selectedItemColor: Theme.of(context).colorScheme.primary,
-              unselectedItemColor: Theme.of(
-                context,
-              ).colorScheme.onSurfaceVariant,
+              selectedItemColor: Colors.white,
+              unselectedItemColor: Colors.grey,
 
               items: [
                 BottomNavigationBarItem(
@@ -60,14 +57,14 @@ class RootPage extends StatelessWidget {
                   icon: const Icon(Icons.people_alt_outlined),
                   label: s.navPatients,
                 ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.description_outlined),
-                  label: s.navProtocols,
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.chat_bubble_outline),
-                  label: s.navMessages,
-                ),
+                // BottomNavigationBarItem(
+                //   icon: const Icon(Icons.description_outlined),
+                //   label: s.navProtocols,
+                // ),
+                // BottomNavigationBarItem(
+                //   icon: const Icon(Icons.chat_bubble_outline),
+                //   label: s.navMessages,
+                // ),
               ],
             ),
           ),

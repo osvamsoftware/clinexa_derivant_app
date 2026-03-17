@@ -1,6 +1,10 @@
+import 'package:clinexa_derivant_app/core/constants/paths.dart';
+import 'package:clinexa_derivant_app/core/theme.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
-import 'package:clinexa_derivant_app/presentation/login/login_screen.dart';
+
+import 'package:clinexa_derivant_app/presentation/notifications/screens/notifications_screen.dart';
+import 'package:clinexa_derivant_app/presentation/profile/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -15,52 +19,81 @@ class HomeHeader extends StatelessWidget {
     final theme = Theme.of(context);
     final s = S.of(context);
 
-    return Row(
-      children: [
-        // Avatar
-        const CircleAvatar(
-          radius: 28,
-          backgroundImage: NetworkImage(
-            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
-          ),
-        ),
-
-        const SizedBox(width: 14),
-
-        // Textos
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
+      width: double.infinity,
+      color: AppColors.primary10, // Background color
+      child: SafeArea(
+        // Ensure content safe area
+        bottom: false,
+        child: Row(
           children: [
-            Text(
-              s.homeWelcomeBack,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: Colors.blue.shade600,
-                fontWeight: FontWeight.w500,
+            // Avatar
+            CircleAvatar(
+              radius: 28,
+              backgroundColor: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: CircleAvatar(
+                  radius: 26,
+                  backgroundColor: Colors.transparent,
+                  backgroundImage: AssetImage(paths.iconLogoPng),
+                ),
               ),
             ),
-            Text(
-              name,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
+
+            const SizedBox(width: 14),
+
+            // Textos
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    s.homeWelcomeBack,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: Colors.white70, // Lighter white/transparent
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    name,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white, // White text
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ],
               ),
+            ),
+
+            const SizedBox(width: 10),
+
+            // Icons
+            _circleIcon(
+              Icons.person_outline,
+              onTap: () {
+                final user = context.read<AuthCubit>().state.user;
+                if (user != null) {
+                  context.push(EditProfileScreen.path, extra: user);
+                }
+              },
+            ),
+
+            const SizedBox(width: 10),
+            _circleIcon(
+              Icons.notifications_none,
+              onTap: () {
+                context.push(NotificationsScreen.path);
+              },
             ),
           ],
         ),
-
-        const Spacer(),
-
-        // Icons
-        _circleIcon(Icons.notifications_none),
-
-        const SizedBox(width: 10),
-        _circleIcon(
-          Icons.logout,
-          onTap: () {
-            context.read<AuthCubit>().logout();
-            context.pushReplacement(LoginScreen.path);
-          },
-        ),
-      ],
+      ),
     );
   }
 
@@ -72,10 +105,12 @@ class HomeHeader extends StatelessWidget {
         height: 42,
         width: 42,
         decoration: BoxDecoration(
-          color: Colors.blue.shade100.withOpacity(0.5),
+          color: AppColors.primary30.withOpacity(
+            0.3,
+          ), // Darker tone for button bg
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, color: Colors.black87),
+        child: Icon(icon, color: Colors.white), // White icon
       ),
     );
   }

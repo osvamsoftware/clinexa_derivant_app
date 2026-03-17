@@ -5,6 +5,7 @@ import 'package:clinexa_derivant_app/presentation/login/login_screen.dart';
 import 'package:clinexa_derivant_app/presentation/register/register_personal_screen.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -32,38 +33,24 @@ class WelcomeView extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Spacer(),
-
                 // 🔹 Logo
-                Image.asset(paths.logoPng, height: 150),
-
-                // 🔹 Subtítulo
-                Text(
-                  s.welcomeSubtitle,
-                  style: const TextStyle(
-                    color: AppColors.primary40,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                  ),
-                ),
-
-                const SizedBox(height: 50),
+                SvgPicture.asset(paths.completeLogoSvg),
 
                 // 🔹 Descripción
                 Text(
                   s.welcomeDescription,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    color: AppColors.neutral60,
-                    fontSize: 13,
+                    color: AppColors.neutral20,
+                    fontSize: 15.5,
                     height: 1.4,
                   ),
                 ),
 
                 const SizedBox(height: 32),
-
+                Spacer(),
                 // 🔹 Botón Log In
                 CustomButton(
                   height: 50,

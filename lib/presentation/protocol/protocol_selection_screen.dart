@@ -4,7 +4,9 @@ import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/protocol/cubit/protocol_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/protocol/cubit/protocol_state.dart';
 import 'package:clinexa_derivant_app/presentation/protocol/protocol_criteria_screen.dart';
+import 'package:clinexa_derivant_app/presentation/contact/contact_protocol_screen.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_dialogs.dart';
+import 'package:flutter/gestures.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/pathology_search_box.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/specialty_search_box.dart';
 import 'package:clinexa_derivant_app/presentation/specialty/cubit/specialty_cubit.dart';
@@ -141,6 +143,33 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
 
                 const SizedBox(height: 16),
 
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Center(
+                    child: Text.rich(
+                      TextSpan(
+                        text: s.cantFindProtocol,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppColors.neutral40,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: s.contactUsHere,
+                            style: const TextStyle(
+                              color: AppColors.primary40,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () =>
+                                  context.push(ContactProtocolScreen.path),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
                 // List
                 Expanded(
                   child: Builder(
@@ -206,7 +235,7 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                                               color: AppColors.neutral10,
                                             ),
                                       ),
-                                      if (protocol.description != null) ...[
+                                      ...[
                                         const SizedBox(height: 4),
                                         Text(
                                           protocol.description!,

@@ -16,7 +16,7 @@ class SEs extends S {
 
   @override
   String get welcomeDescription =>
-      'Una plataforma diseñada para que tu institución reciba pacientes que coincidan con las características de tus protocolos médicos, permitiendo una conexión rápida, precisa y segura con los profesionales que los refieren.';
+      'Una plataforma digital diseñada para conectar de manera segura y transparente a Investigadores o Equipos de Centros de investigación médica con Médicos referentes, para facilitar el acceso de pacientes a protocolos de investigación clínica.';
 
   @override
   String get loginHello => '¡Hola!';
@@ -74,6 +74,10 @@ class SEs extends S {
 
   @override
   String get invalidMemberId => 'El ID de miembro debe tener 8 caracteres.';
+
+  @override
+  String get invalidDni =>
+      'Por favor, introduce un número válido mayor a 6 dígitos.';
 
   @override
   String get loading => 'Cargando...';
@@ -204,6 +208,9 @@ class SEs extends S {
   String get retry => 'Reintentar';
 
   @override
+  String get patientList => 'Lista de pacientes';
+
+  @override
   String get protocolsList => 'Lista de Protocolos';
 
   @override
@@ -268,7 +275,7 @@ class SEs extends S {
 
   @override
   String get protocolSelectionSubtitle =>
-      'Selecciona los protocolos que deseas tener disponibles en tu lista de trabajo. Los protocolos que se muestran inicialmente coinciden con tus especialidades, pero también puedes buscar por categoría para encontrar protocolos adicionales.';
+      'Selecciona el protocolo al que deseas agregar al paciente y asegurate de que cumple con todos los criterios de aceptación.';
 
   @override
   String get continue_text => 'Continuar';
@@ -278,7 +285,7 @@ class SEs extends S {
       'Te guiaremos a través de una rápida verificación para asegurar que el paciente cumpla con todos los criterios necesarios para este protocolo.';
 
   @override
-  String get homeWelcomeBack => 'Hola, Bienvenido de Nuevo';
+  String get homeWelcomeBack => 'Bienvenido de Nuevo';
 
   @override
   String get homeSearchHint => 'Buscar pacientes...';
@@ -614,4 +621,121 @@ class SEs extends S {
 
   @override
   String get passwordsDoNotMatch => 'Las contraseñas no coinciden';
+
+  @override
+  String get notificationScreenTitle => 'Notificaciones';
+
+  @override
+  String get noNotificationsFound => 'No se encontraron notificaciones';
+
+  @override
+  String get notificationMarkedAsRead => 'Notificación marcada como leída';
+
+  @override
+  String get errorLoadingNotifications => 'Error al cargar notificaciones';
+
+  @override
+  String get cantFindProtocol => '¿No encuentras tu protocolo? ';
+
+  @override
+  String get contactUsHere => 'Contáctanos aquí';
+
+  @override
+  String get contactTitle => 'Conexión con Protocolos';
+
+  @override
+  String get contactSubtitle => 'Contacto';
+
+  @override
+  String get contactDescription =>
+      'Está a punto de contactar con el departamento de gestión. Por favor, asegúrese de tener a mano los protocolos que desea añadir o modificar.';
+
+  @override
+  String get contactSchedule => 'Horario de atención: 08:00 - 18:00';
+
+  @override
+  String get contactButton => 'Contactar ahora';
+
+  @override
+  String contactMessage(Object id, Object license, Object name) {
+    return 'Soy el médico $name de matrícula $license y ID de usuario $id, me gustaria solicitar el alta de un nuevo protocolo en la app';
+  }
+
+  @override
+  String get editProfile => 'Editar Perfil';
+
+  @override
+  String get personalInformation => 'Información Personal';
+
+  @override
+  String get firstName => 'Nombre';
+
+  @override
+  String get lastName => 'Apellido';
+
+  @override
+  String get specialties => 'Especialidades';
+
+  @override
+  String get saveChanges => 'Guardar Cambios';
+
+  @override
+  String get profileUpdatedSuccess => 'Perfil actualizado correctamente';
+
+  @override
+  String get requiredField => 'Campo requerido';
+
+  @override
+  String get errorUnauthorized =>
+      'Su sesión ha expirado. Por favor, inicie sesión nuevamente.';
+
+  @override
+  String get errorLoginFailed =>
+      'No se pudo iniciar sesión. Verifique sus credenciales.';
+
+  @override
+  String get errorInvalidCredentials =>
+      'Credenciales inválidas. Verifique su email y contraseña.';
+
+  @override
+  String get errorNetwork =>
+      'Error de conexión. Verifique su conexión a internet.';
+
+  @override
+  String get errorServer => 'Error del servidor. Por favor, intente más tarde.';
+
+  @override
+  String get errorServiceUnavailable =>
+      'El servicio no está disponible en este momento.';
+
+  @override
+  String get errorValidation => 'Los datos proporcionados no son válidos.';
+
+  @override
+  String get errorNotFound => 'El recurso solicitado no fue encontrado.';
+
+  @override
+  String get errorForbidden => 'No tiene permisos para realizar esta acción.';
+
+  @override
+  String get errorGeneric =>
+      'Ha ocurrido un error. Por favor, intente nuevamente.';
+
+  @override
+  String get signature => 'Firma del Paciente';
+
+  @override
+  String get errorLoadingImage => 'Error al cargar la imagen de la firma';
+
+  @override
+  String get paymentBonusPending =>
+      'Aún no has recibido ninguna bonificación por este paciente, espera a que uno de nuestros agentes se ponga en contacto contigo.';
+
+  @override
+  String get paymentBonusCompleted =>
+      'Recibiste bonificación por este paciente. Continúa haciendo diagnósticos y evaluaciones para seguir acumulando bonificaciones por tus servicios.';
+
+  @override
+  String get paymentMovementNotFound =>
+      'No hay movimientos registrados con este usuario, contacte con soporte.';
 }

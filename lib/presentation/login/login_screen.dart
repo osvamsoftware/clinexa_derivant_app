@@ -1,4 +1,5 @@
 import 'package:clinexa_derivant_app/core/constants/paths.dart';
+import 'package:clinexa_derivant_app/core/services/error_handler.dart';
 import 'package:clinexa_derivant_app/core/services/validators.dart';
 import 'package:clinexa_derivant_app/core/theme.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
@@ -12,6 +13,7 @@ import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_dialogs.
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -33,13 +35,17 @@ class LoginScreen extends StatelessWidget {
           }
 
           // ==========================
-          // 🔹 Error → cerrar dialog y mostrar mensaje
+          // Error → cerrar dialog y mostrar mensaje
           // ==========================
           if (state.status == Status.error) {
             context.pop();
+            final friendlyMessage = ErrorHandler.getErrorMessage(
+              context,
+              state.errorMessage ?? '',
+            );
             CustomDialogs.errorDialog(
               context,
-              state.errorMessage ?? '--',
+              friendlyMessage,
               onTap: () {
                 context.pop();
               },
@@ -82,7 +88,9 @@ class LoginView extends StatelessWidget {
                 const SizedBox(height: 24),
 
                 //logo
-                Center(child: Image.asset(paths.logoPng, height: 120)),
+                Center(
+                  child: SvgPicture.asset(paths.completeLogoSvg, height: 150),
+                ),
 
                 const SizedBox(height: 24),
 
@@ -151,11 +159,9 @@ class LoginView extends StatelessWidget {
                       text: s.login,
                       height: 52,
                       onPressed: () {
-                        final email = cubit.emailController.text.trim();
-                        final pass = cubit.passwordController.text.trim();
-                        if (email.isEmpty || pass.isEmpty) {
-                          return;
-                        } else {
+                        if (cubit.formKey.currentState?.validate() ?? false) {
+                          final email = cubit.emailController.text.trim();
+                          final pass = cubit.passwordController.text.trim();
                           context.read<AuthLoginCubit>().login(email, pass);
                         }
                       },
