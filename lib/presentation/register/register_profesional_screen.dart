@@ -54,7 +54,7 @@ class RegisterProfessionalView extends StatelessWidget {
             children: [
               // Dropdown para tipo de licencia
               Text(
-                s.licenseType,
+                '${s.licenseType} *',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -99,7 +99,7 @@ class RegisterProfessionalView extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            s.provinceState, // Usamos la clave existente "Provincia/Estado" o se podría crear una nueva
+                            '${s.provinceState} *', // Usamos la clave existente "Provincia/Estado" o se podría crear una nueva
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -143,14 +143,14 @@ class RegisterProfessionalView extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               CustomTextField(
-                label: s.medicalLicense,
+                label: '${s.medicalLicense} *',
                 controller: cubit.licenseController,
                 validator: (t) =>
                     (t == null || t.isEmpty) ? s.fieldRequired : null,
               ),
               const SizedBox(height: 16),
               DebouncedSearchField(
-                label: s.searchSpecialty,
+                label: '${s.searchSpecialty} *',
                 onSearch: (value) => specialtyCubit.searchSpecialties(value),
                 hintText: s.specialty,
                 controller: cubit.specialtyController,
@@ -207,7 +207,7 @@ class RegisterProfessionalView extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Dirección",
+                  "Dirección *",
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

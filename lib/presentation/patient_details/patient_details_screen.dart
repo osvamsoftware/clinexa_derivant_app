@@ -1,25 +1,14 @@
 import 'package:clinexa_derivant_app/core/theme.dart';
 import 'package:clinexa_derivant_app/data/models/patient_model.dart';
-import 'package:clinexa_derivant_app/domain/order_repository.dart';
 import 'package:clinexa_derivant_app/domain/patient_repository.dart';
-import 'package:clinexa_derivant_app/domain/payment_movement_repository.dart';
-import 'package:clinexa_derivant_app/domain/payment_repository.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
-import 'package:clinexa_derivant_app/presentation/order/cubit/order_cubit.dart';
-import 'package:clinexa_derivant_app/presentation/order/cubit/order_state.dart';
 import 'package:clinexa_derivant_app/presentation/patient_info/cubit/patient_info_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/patient_info/cubit/patient_info_state.dart';
-import 'package:clinexa_derivant_app/presentation/payment/cubit/payment_cubit.dart';
-import 'package:clinexa_derivant_app/presentation/payment/cubit/payment_state.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:clinexa_derivant_app/presentation/payment_movement/cubit/payment_movement_cubit.dart';
-import 'package:clinexa_derivant_app/presentation/payment_movement/cubit/payment_movement_state.dart';
-import 'package:clinexa_derivant_app/data/repositories/payment_movement_repository_impl.dart';
-import 'package:clinexa_derivant_app/core/api/api_services.dart';
-import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
 
 class PatientDetailsScreen extends StatelessWidget {
   static const path = "/patient-details";
@@ -29,30 +18,11 @@ class PatientDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) =>
-              OrderCubit(orderRepository: context.read<OrderRepository>())
-                ..loadOrderForPatient(patient.id ?? ""),
-        ),
-        BlocProvider(
-          create: (context) => PaymentCubit(
-            paymentRepository: context.read<PaymentRepository>(),
-          ),
-        ),
-        BlocProvider(
-          create: (context) => PaymentMovementCubit(
-            repository: context.read<PaymentMovementRepository>(),
-          ),
-        ),
-        BlocProvider(
-          create: (context) => PatientInfoCubit(
-            patientRepository: context.read<PatientRepository>(),
-            initialPatient: patient,
-          ),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => PatientInfoCubit(
+        patientRepository: context.read<PatientRepository>(),
+        initialPatient: patient,
+      ),
       child: PatientDetailsView(initialPatient: patient),
     );
   }
@@ -83,37 +53,6 @@ class PatientDetailsView extends StatelessWidget {
       appBar: AppBar(title: Text(s.patientDetails)),
       body: MultiBlocListener(
         listeners: [
-          BlocListener<PaymentCubit, PaymentState>(
-            listener: (context, state) {
-              if (state.status == PaymentStatus.success) {
-                if (state.successMessage != null) {
-                  CustomDialogs.successDialog(
-                    context: context,
-                    onPressed: () {},
-                    successMessage: s.orderCreatedSuccessfully,
-                  );
-                }
-                context.read<OrderCubit>().loadOrderForPatient(
-                  initialPatient.id ?? "",
-                );
-              } else if (state.status == PaymentStatus.failure) {
-                CustomDialogs.errorDialog(
-                  context,
-                  state.errorMessage ?? s.errorOccurred,
-                );
-              }
-            },
-          ),
-          BlocListener<OrderCubit, OrderState>(
-            listener: (context, state) {
-              if (state.order != null &&
-                  state.order!.status.name == 'accepted') {
-                context.read<PaymentMovementCubit>().loadPaymentMovement(
-                  state.order!.id ?? "",
-                );
-              }
-            },
-          ),
           BlocListener<PatientInfoCubit, PatientInfoState>(
             listener: (context, state) {
               if (state.status == PatientInfoStatus.failure) {
@@ -126,7 +65,9 @@ class PatientDetailsView extends StatelessWidget {
                 CustomDialogs.successDialog(
                   context: context,
                   successMessage: state.successMessage!,
-                  onPressed: () {},
+                  onPressed: () {
+                    context.pop();
+                  },
                 );
               }
             },
@@ -144,13 +85,7 @@ class PatientDetailsView extends StatelessWidget {
                 _isLastNamePartial(patient.lastName) ||
                 _isFieldHidden(patient.address?.formattedAddress);
 
-            return BlocBuilder<OrderCubit, OrderState>(
-              builder: (context, orderState) {
-                final hasOrder = orderState.order != null;
-                final order = orderState.order;
-                final orderStatus = order?.status.name;
-
-                return SingleChildScrollView(
+            return SingleChildScrollView(
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -305,7 +240,7 @@ class PatientDetailsView extends StatelessWidget {
                       if (patient.signatureUrl != null &&
                           patient.signatureUrl!.isNotEmpty) ...[
                         Text(
-                          s.signature ?? 'Firma',
+                          s.signature,
                           style: theme.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -353,8 +288,7 @@ class PatientDetailsView extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 8),
                                       Text(
-                                        s.errorLoadingImage ??
-                                            'Error al cargar imagen',
+                                        s.errorLoadingImage,
                                         style: TextStyle(
                                           color: AppColors.neutral50,
                                         ),
@@ -370,290 +304,34 @@ class PatientDetailsView extends StatelessWidget {
 
                       const SizedBox(height: 32),
 
-                      // Detailed info about the order if exists
-                      if (order != null) ...[
-                        Text(
-                          "Detalles de la Orden",
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                      Card(
+                        color: Colors.red[400], // Red card (less intense)
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        const SizedBox(height: 12),
-                        Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (order.id != null)
-                                  _buildInfoRow(
-                                    'ID de Orden',
-                                    '${order.id!.substring(0, 8)}...',
-                                    false,
-                                    theme,
-                                    s,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.warning_amber_rounded,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  "No tiene orden activa",
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                _buildInfoRow(
-                                  'Etapa de Pago',
-                                  order.paymentStage,
-                                  false,
-                                  theme,
-                                  s,
-                                ),
-                                _buildInfoRow(
-                                  'Monto',
-                                  '\$${order.amount.toStringAsFixed(2)}',
-                                  false,
-                                  theme,
-                                  s,
-                                ),
-                                if (order.createdAt != null)
-                                  _buildInfoRow(
-                                    'Fecha de Creación',
-                                    DateFormat(
-                                      'dd/MM/yyyy',
-                                    ).format(order.createdAt!),
-                                    false,
-                                    theme,
-                                    s,
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 24),
-                      ],
-
-                      if (orderState.status == OrderCubitStatus.success &&
-                          order == null) ...[
-                        Card(
-                          color: AppColors.neutral10,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.info_outline,
-                                  color: AppColors.neutral50,
-                                ),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: Text(
-                                    "No tiene una orden activa",
-                                    style: theme.textTheme.bodyMedium,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 24),
-                      ],
-
-                      if (hasHiddenData && order == null)
-                        CustomButton(
-                          text: s.payForFullData,
-                          onPressed: () {
-                            context.read<PaymentCubit>().initiatePayment(
-                              patient.id ?? "",
-                              "initial",
-                            );
-                          },
-                        ),
-
-                      if (order != null && orderStatus == "assigned")
-                        CustomButton(
-                          text: s.patientEvaluation,
-                          onPressed: () {
-                            // Navegar a pantalla de evaluación
-                            Navigator.pushNamed(
-                              context,
-                              '/patient-evaluation',
-                              arguments: {
-                                'patient': patient,
-                                'order': orderState.order,
-                              },
-                            );
-                          },
-                        ),
-
-                      if (order != null && orderStatus == "accepted")
-                        Column(
-                          children: [
-                            Card(
-                              color: AppColors.primary20.withOpacity(0.1),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.check_circle,
-                                      color: AppColors.primary20,
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Expanded(
-                                      child: Text(
-                                        s.orderStatusAccepted,
-                                        style: theme.textTheme.bodyLarge
-                                            ?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                      ),
-                                    ),
-                                  ],
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 16),
-                            BlocBuilder<
-                              PaymentMovementCubit,
-                              PaymentMovementState
-                            >(
-                              builder: (context, paymentState) {
-                                if (paymentState.status ==
-                                    PaymentMovementStatus.success) {
-                                  if (paymentState.paymentMovements.isEmpty) {
-                                    return Card(
-                                      color: Colors.red.withOpacity(0.1),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(16),
-                                        child: Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.error_outline,
-                                              color: Colors.red,
-                                            ),
-                                            const SizedBox(width: 12),
-                                            Expanded(
-                                              child: Text(
-                                                s.paymentMovementNotFound,
-                                                style:
-                                                    theme.textTheme.bodyMedium,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  }
-
-                                  return Column(
-                                    children: paymentState.paymentMovements.map((
-                                      movement,
-                                    ) {
-                                      final isPending =
-                                          movement.status == 'pending';
-
-                                      return Column(
-                                        children: [
-                                          Card(
-                                            color: isPending
-                                                ? AppColors.warning30
-                                                      .withOpacity(0.1)
-                                                : Colors.green.withOpacity(0.1),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(16),
-                                              child: Row(
-                                                children: [
-                                                  Icon(
-                                                    isPending
-                                                        ? Icons.access_time
-                                                        : Icons.attach_money,
-                                                    color: isPending
-                                                        ? AppColors.warning30
-                                                        : Colors.green,
-                                                  ),
-                                                  const SizedBox(width: 12),
-                                                  Expanded(
-                                                    child: Text(
-                                                      isPending
-                                                          ? s.paymentBonusPending
-                                                          : s.paymentBonusCompleted,
-                                                      style: theme
-                                                          .textTheme
-                                                          .bodyMedium,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          if (!isPending) ...[
-                                            const SizedBox(height: 16),
-                                            Card(
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(
-                                                  16,
-                                                ),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "Detalles de Bonificación",
-                                                      style: theme
-                                                          .textTheme
-                                                          .titleMedium
-                                                          ?.copyWith(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                    ),
-                                                    const SizedBox(height: 12),
-                                                    _buildInfoRow(
-                                                      "Monto",
-                                                      "\$${movement.amount.toStringAsFixed(2)} ${movement.currency.toUpperCase()}",
-                                                      false,
-                                                      theme,
-                                                      s,
-                                                    ),
-                                                    _buildInfoRow(
-                                                      "Fecha",
-                                                      DateFormat(
-                                                        'dd/MM/yyyy HH:mm',
-                                                      ).format(
-                                                        movement.createdAt,
-                                                      ),
-                                                      false,
-                                                      theme,
-                                                      s,
-                                                    ),
-                                                    _buildInfoRow(
-                                                      "Estado",
-                                                      movement.status
-                                                          .toUpperCase(),
-                                                      false,
-                                                      theme,
-                                                      s,
-                                                    ),
-                                                    _buildInfoRow(
-                                                      "ID Transacción",
-                                                      movement
-                                                              .paymentIntentId
-                                                              .isNotEmpty
-                                                          ? movement
-                                                                .paymentIntentId
-                                                          : "-",
-                                                      false,
-                                                      theme,
-                                                      s,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                          const SizedBox(height: 16),
-                                        ],
-                                      );
-                                    }).toList(),
-                                  );
-                                }
-                                return const SizedBox.shrink();
-                              },
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
+                      ),
 
                       const SizedBox(height: 32),
 
@@ -691,8 +369,6 @@ class PatientDetailsView extends StatelessWidget {
                     ],
                   ),
                 );
-              },
-            );
           },
         ),
       ),

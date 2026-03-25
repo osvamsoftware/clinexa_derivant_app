@@ -114,14 +114,14 @@ class PatientRegistrationView extends StatelessWidget {
               const SizedBox(height: 16),
 
               CustomTextField(
-                label: s.register_firstName,
+                label: '${s.register_firstName} *',
                 controller: cubit.firstNameController,
                 validator: (val) => validators.text(context, val ?? ""),
               ),
               const SizedBox(height: 16),
 
               CustomTextField(
-                label: s.register_lastName,
+                label: '${s.register_lastName} *',
                 controller: cubit.lastNameController,
                 validator: (val) => validators.text(context, val ?? ""),
               ),
@@ -131,7 +131,7 @@ class PatientRegistrationView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: CustomTextField(
-                      label: s.dni,
+                      label: '${s.dni} *',
                       controller: cubit.dniController,
                       keyboardType: TextInputType.number,
                       validator: (val) => validators.dni(context, val ?? ""),
@@ -140,7 +140,7 @@ class PatientRegistrationView extends StatelessWidget {
                   const SizedBox(width: 16),
                   Expanded(
                     child: CustomTextField(
-                      label: s.birthDate,
+                      label: '${s.birthDate} *',
                       controller: cubit.birthDateController,
                       readOnly: true,
                       onTap: () async {
@@ -164,7 +164,7 @@ class PatientRegistrationView extends StatelessWidget {
 
               // Gender Dropdown
               Text(
-                s.gender,
+                '${s.gender} *',
                 style: const TextStyle(
                   color: AppColors.neutral10,
                   fontSize: 16,
@@ -203,14 +203,14 @@ class PatientRegistrationView extends StatelessWidget {
               const SizedBox(height: 16),
 
               CustomTextField(
-                label: s.phone,
+                label: '${s.phone} *',
                 controller: cubit.phoneController,
                 keyboardType: TextInputType.phone,
                 validator: (val) => validators.phone(context, val ?? ""),
               ),
 
               CustomTextField(
-                label: s.phone2,
+                label: '${s.phone2} *',
                 controller: cubit.phone2Controller,
                 keyboardType: TextInputType.phone,
                 validator: (val) => validators.phone(context, val ?? ""),
@@ -218,7 +218,7 @@ class PatientRegistrationView extends StatelessWidget {
               const SizedBox(height: 16),
 
               CustomTextField(
-                label: s.register_email,
+                label: '${s.register_email} *',
                 controller: cubit.emailController,
                 keyboardType: TextInputType.emailAddress,
                 validator: (val) => validators.email(context, val ?? ""),
@@ -226,6 +226,15 @@ class PatientRegistrationView extends StatelessWidget {
               const SizedBox(height: 16),
 
               // Address Search - Replaced CustomTextField
+              Text(
+                s.searchAddressPrompt,
+                style: const TextStyle(
+                  color: AppColors.neutral10,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 8),
               AddressSearchBox(
                 controller: cubit.addressController,
                 onClear: cubit.clearAddress,
@@ -236,7 +245,7 @@ class PatientRegistrationView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: CustomTextField(
-                      label: s.city,
+                      label: '${s.city} *',
                       controller: cubit.cityController,
                       readOnly: true, // Make read-only as it comes from API
                       validator: (val) => validators.text(context, val ?? ""),
@@ -245,7 +254,7 @@ class PatientRegistrationView extends StatelessWidget {
                   const SizedBox(width: 16),
                   Expanded(
                     child: CustomTextField(
-                      label: s.country,
+                      label: '${s.country} *',
                       controller: cubit.countryController,
                       readOnly: true, // Make read-only
                       validator: (val) => validators.text(context, val ?? ""),
@@ -259,7 +268,7 @@ class PatientRegistrationView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: CustomTextField(
-                      label: s.provinceState,
+                      label: '${s.provinceState} *',
                       controller: cubit.stateController,
                       readOnly: true,
                     ),
@@ -267,7 +276,7 @@ class PatientRegistrationView extends StatelessWidget {
                   const SizedBox(width: 16),
                   Expanded(
                     child: CustomTextField(
-                      label: s.postalCode,
+                      label: '${s.postalCode} *',
                       controller: cubit.postalCodeController,
                       readOnly: true,
                     ),

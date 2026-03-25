@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class Validators {
   // 🔹 Regex reutilizables
   static final RegExp _emailRegExp = RegExp(
-    r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+$",
+    r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
   );
 
   static final RegExp _phoneRegExp = RegExp(r'^[0-9]{6,12}$');

@@ -163,7 +163,7 @@ class SEn extends S {
 
   @override
   String get register_header =>
-      'Create your medical account and join our network of specialists. Enter your personal, medical, and location information, choose your specialties, and complete your profile to start receiving requests from clinics and institutions safely and efficiently.';
+      'Complete your profile to evaluate patients who could benefit clinically from your trial and interact with Clinexapp';
 
   @override
   String get specialty_required =>
@@ -502,6 +502,10 @@ class SEn extends S {
   String get searchAddress => 'Search address...';
 
   @override
+  String get searchAddressPrompt =>
+      'Write your address and select from the given options *';
+
+  @override
   String get errorSelectingFiles => 'Error selecting files';
 
   @override
@@ -566,6 +570,14 @@ class SEn extends S {
 
   @override
   String get noOrderLinked => 'No order linked';
+
+  @override
+  String get whatsappVerificationNoticeDetailed =>
+      'IMPORTANT NOTICE: The doctor must inform the patient that they must have an internet connection and access to their WhatsApp.';
+
+  @override
+  String get noPatientsPromotion =>
+      'We recommend adding patients to upload them to the platform and have an opportunity to enter them into a research protocol.';
 
   @override
   String get markAsActive => 'Mark as Active';
@@ -730,4 +742,18 @@ class SEn extends S {
   @override
   String get paymentMovementNotFound =>
       'No payment movements found for this user, please contact support.';
+
+  @override
+  String get recentActivity => 'Recent Activity';
+
+  @override
+  String get noRecentActivity => 'No recent activity';
+
+  @override
+  String get searchPatientsInvite => 'Search Patients';
+
+  @override
+  String pathologiesCount(int count) {
+    return '$count pathologies';
+  }
 }

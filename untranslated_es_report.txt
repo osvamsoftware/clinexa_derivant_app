@@ -1,1 +1,8 @@
-{}
+{
+  "es": [
+    "recentActivity",
+    "noRecentActivity",
+    "searchPatientsInvite",
+    "pathologiesCount"
+  ]
+}

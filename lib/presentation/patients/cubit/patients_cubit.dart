@@ -54,10 +54,17 @@ class PatientsCubit extends Cubit<PatientsState> {
     }
   }
 
-  Future<void> loadSpecialties() async {
+  Future<void> loadSpecialties({List<String>? allowedIds}) async {
     try {
       final response = await _specialtyRepository.getSpecialties(limit: 100);
-      emit(state.copyWith(specialties: response.items ?? []));
+      final allSpecialties = response.items ?? [];
+      
+      if (allowedIds != null && allowedIds.isNotEmpty) {
+        final filtered = allSpecialties.where((s) => allowedIds.contains(s.id)).toList();
+        emit(state.copyWith(specialties: filtered));
+      } else {
+        emit(state.copyWith(specialties: allSpecialties));
+      }
     } catch (e) {
       // Log error but don't fail the whole screen if specialties fail
       print("Error loading specialties: $e");

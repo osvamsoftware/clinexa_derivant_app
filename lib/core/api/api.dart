@@ -9,39 +9,39 @@ Future<Api> createApiInstance() async {
   String baseUrl = dotenv.env['API_URL'] ?? '';
   String socketUrl = '';
 
-  // if (baseUrl.isNotEmpty) {
-  //   // If URL doesn't end with /api, we might need to adjust or assume the env var is the full root
-  //   socketUrl = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
-  // } else {
-  //   // Determine base URL based on platform and device type
-  //   final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  if (baseUrl.isNotEmpty) {
+    // If URL doesn't end with /api, we might need to adjust or assume the env var is the full root
+    socketUrl = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
+  } else {
+    // Determine base URL based on platform and device type
+    final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
-  //   if (Platform.isAndroid) {
-  //     final androidInfo = await deviceInfo.androidInfo;
-  //     if (!androidInfo.isPhysicalDevice) {
-  //       // Android Emulator
-  //       baseUrl = 'http://10.0.2.2:8000';
-  //     } else {
-  //       // Android Physical Device
-  //       baseUrl = 'http://10.0.2.2:8000';
-  //     }
-  //   } else if (Platform.isIOS) {
-  //     final iosInfo = await deviceInfo.iosInfo;
-  //     if (!iosInfo.isPhysicalDevice) {
-  //       // iOS Simulator
-  //       baseUrl = 'http://localhost:8000';
-  //     } else {
-  //       // iOS Physical Device
-  //       baseUrl = 'http://localhost:8000';
-  //     }
-  //   } else {
-  //     // Fallback for other platforms
-  //     baseUrl = 'http://10.0.2.2:8000';
-  //   }
-  // }
+    if (Platform.isAndroid) {
+      final androidInfo = await deviceInfo.androidInfo;
+      if (!androidInfo.isPhysicalDevice) {
+        // Android Emulator
+        baseUrl = 'http://10.0.2.2:8000';
+      } else {
+        // Android Physical Device
+        baseUrl = 'http://10.0.2.2:8000';
+      }
+    } else if (Platform.isIOS) {
+      final iosInfo = await deviceInfo.iosInfo;
+      if (!iosInfo.isPhysicalDevice) {
+        // iOS Simulator
+        baseUrl = 'http://localhost:8000';
+      } else {
+        // iOS Physical Device
+        baseUrl = 'http://localhost:8000';
+      }
+    } else {
+      // Fallback for other platforms
+      baseUrl = 'http://10.0.2.2:8000';
+    }
+  }
   // baseUrl = 'https://api.clinexapp.com';
   // baseUrl = 'http://localhost:8000';
-  baseUrl = 'http://192.168.170.46:8000';
+  // baseUrl = 'http://192.168.170.46:8000';
   socketUrl = '$baseUrl/';
   return Api(
     baseUrl: baseUrl,

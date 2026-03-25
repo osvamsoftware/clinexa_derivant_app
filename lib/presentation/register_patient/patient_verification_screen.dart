@@ -1,5 +1,6 @@
 import 'package:clinexa_derivant_app/core/theme.dart';
 import 'package:clinexa_derivant_app/domain/patient_repository.dart';
+import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/phone_verification/cubit/phone_verification_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/register_patient/cubit/patient_registration_cubit.dart';
@@ -40,6 +41,7 @@ class PatientVerificationScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     // Controllers para los campos de código
     final codeControllers = List.generate(6, (_) => TextEditingController());
     final codeFocusNodes = List.generate(6, (_) => FocusNode());
@@ -112,13 +114,6 @@ class PatientVerificationScreenView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Título
-              const Center(
-                child: Text(
-                  'Verifica tu número',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-              ),
               const SizedBox(height: 8),
 
               // Subtítulo
@@ -220,7 +215,7 @@ class PatientVerificationScreenView extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Asegúrese de tener conexión a internet y acceso a su WhatsApp. El código solo se enviará una vez.',
+                            s.whatsappVerificationNoticeDetailed,
                             style: TextStyle(
                               fontSize: 12,
                               color: AppColors.neutral40,
@@ -280,7 +275,7 @@ class PatientVerificationScreenView extends StatelessWidget {
                       // Label del código
                       Center(
                         child: Text(
-                          'INGRESE EL CÓDIGO DE VERIFICACIÓN',
+                          'Ingrese el número de validación recibido por el paciente',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,

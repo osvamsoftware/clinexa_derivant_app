@@ -76,7 +76,7 @@ class ProtocolCubit extends Cubit<ProtocolState> {
   void applySpecialty(String specialtyId) {
     updateFilters(
       useIds: [specialtyId],
-      pathologyIds: state.selectedPathologyIds,
+      pathologyIds: [], // Reset pathologies when specialty changes
     );
   }
 

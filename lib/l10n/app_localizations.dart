@@ -400,7 +400,7 @@ abstract class S {
   /// No description provided for @register_header.
   ///
   /// In en, this message translates to:
-  /// **'Create your medical account and join our network of specialists. Enter your personal, medical, and location information, choose your specialties, and complete your profile to start receiving requests from clinics and institutions safely and efficiently.'**
+  /// **'Complete your profile to evaluate patients who could benefit clinically from your trial and interact with Clinexapp'**
   String get register_header;
 
   /// No description provided for @specialty_required.
@@ -1051,6 +1051,12 @@ abstract class S {
   /// **'Search address...'**
   String get searchAddress;
 
+  /// No description provided for @searchAddressPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your address and select from the given options *'**
+  String get searchAddressPrompt;
+
   /// No description provided for @errorSelectingFiles.
   ///
   /// In en, this message translates to:
@@ -1176,6 +1182,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'No order linked'**
   String get noOrderLinked;
+
+  /// No description provided for @whatsappVerificationNoticeDetailed.
+  ///
+  /// In en, this message translates to:
+  /// **'IMPORTANT NOTICE: The doctor must inform the patient that they must have an internet connection and access to their WhatsApp.'**
+  String get whatsappVerificationNoticeDetailed;
+
+  /// No description provided for @noPatientsPromotion.
+  ///
+  /// In en, this message translates to:
+  /// **'We recommend adding patients to upload them to the platform and have an opportunity to enter them into a research protocol.'**
+  String get noPatientsPromotion;
 
   /// No description provided for @markAsActive.
   ///
@@ -1476,6 +1494,30 @@ abstract class S {
   /// In en, this message translates to:
   /// **'No payment movements found for this user, please contact support.'**
   String get paymentMovementNotFound;
+
+  /// No description provided for @recentActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Activity'**
+  String get recentActivity;
+
+  /// No description provided for @noRecentActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'No recent activity'**
+  String get noRecentActivity;
+
+  /// No description provided for @searchPatientsInvite.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Patients'**
+  String get searchPatientsInvite;
+
+  /// No description provided for @pathologiesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} pathologies'**
+  String pathologiesCount(int count);
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

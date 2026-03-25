@@ -69,27 +69,27 @@ class RegisterPersonalView extends StatelessWidget {
                     ),
                     const SizedBox(height: 32),
                     CustomTextField(
-                      label: s.register_firstName,
+                      label: '${s.register_firstName} *',
                       controller: cubit.firstNameController,
                       validator: (t) =>
                           (t == null || t.isEmpty) ? s.fieldRequired : null,
                     ),
                     const SizedBox(height: 16),
                     CustomTextField(
-                      label: s.register_lastName,
+                      label: '${s.register_lastName} *',
                       controller: cubit.lastNameController,
                       validator: (t) =>
                           (t == null || t.isEmpty) ? s.fieldRequired : null,
                     ),
                     const SizedBox(height: 16),
                     CustomTextField(
-                      label: s.email,
+                      label: '${s.email} *',
                       controller: cubit.emailController,
                       validator: (t) => validators.email(context, t ?? ""),
                     ),
                     const SizedBox(height: 16),
                     CustomTextField(
-                      label: s.password,
+                      label: '${s.password} *',
                       isPassword: true,
                       controller: cubit.passController,
                       validator: (t) => validators.password(context, t ?? ""),

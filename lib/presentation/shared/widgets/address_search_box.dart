@@ -30,7 +30,7 @@ class AddressSearchBox extends StatelessWidget {
             final showClear = value.text.isNotEmpty;
             return DebouncedSearchField(
               controller: controller,
-              hintText: s.searchAddress,
+              hintText: s.searchAddressPrompt,
               validator: validator,
               onSearch: context.read<AddressCubit>().search,
               icon: Icons.location_on_outlined,

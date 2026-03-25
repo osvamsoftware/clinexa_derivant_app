@@ -2,7 +2,6 @@ import 'package:clinexa_derivant_app/core/theme.dart';
 import 'package:clinexa_derivant_app/domain/patient_repository.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
-import 'package:clinexa_derivant_app/presentation/protocol/protocol_selection_screen.dart';
 import 'package:clinexa_derivant_app/presentation/patients/cubit/patients_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/patients/cubit/patients_state.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_dialogs.dart';
@@ -34,7 +33,7 @@ class PatientsScreen extends StatelessWidget {
               userId: user.id ?? "",
             )
             ..loadPatients()
-            ..loadSpecialties(),
+            ..loadSpecialties(allowedIds: user.specialties),
       child: const PatientsView(),
     );
   }
@@ -49,19 +48,6 @@ class PatientsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(s.myPatients)),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 80.0),
-        child: FloatingActionButton(
-          elevation: 0,
-          onPressed: () async {
-            await context.pushNamed(ProtocolSelectionScreen.path);
-            if (context.mounted) {
-              context.read<PatientsCubit>().loadPatients();
-            }
-          },
-          child: const Icon(Icons.add),
-        ),
-      ),
       body: BlocConsumer<PatientsCubit, PatientsState>(
         listener: (context, state) {
           if (state.status == PatientsStatus.failure) {
@@ -129,10 +115,35 @@ class PatientsView extends StatelessWidget {
               Expanded(
                 child: state.patients.isEmpty
                     ? Center(
-                        child: Text(
-                          s.noPatientsFound,
-                          style: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(color: AppColors.neutral40),
+                        child: Padding(
+                          padding: const EdgeInsets.all(32.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.person_add_outlined,
+                                size: 64,
+                                color: AppColors.neutral80,
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                s.noPatientsFound,
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.neutral40,
+                                    ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                s.noPatientsPromotion,
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                      color: AppColors.neutral50,
+                                    ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
                         ),
                       )
                     : ListView.separated(
@@ -166,13 +177,13 @@ class PatientsView extends StatelessWidget {
                             hasActiveOrder: patient.order != null,
                             orderStatus: patient.order?.status.name,
                             onTap: () async {
-                              final result = await context.push(
+                              await context.push(
                                 '/patient-details',
                                 extra: patient,
                               );
 
                               // Si hubo cambios, recargar la lista
-                              if (result == true && context.mounted) {
+                              if (context.mounted) {
                                 context.read<PatientsCubit>().loadPatients();
                               }
                             },

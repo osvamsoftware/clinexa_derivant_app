@@ -4,15 +4,14 @@ import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/protocol/cubit/protocol_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/protocol/cubit/protocol_state.dart';
 import 'package:clinexa_derivant_app/presentation/protocol/protocol_criteria_screen.dart';
-import 'package:clinexa_derivant_app/presentation/contact/contact_protocol_screen.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_dialogs.dart';
-import 'package:flutter/gestures.dart';
-import 'package:clinexa_derivant_app/presentation/shared/widgets/pathology_search_box.dart';
-import 'package:clinexa_derivant_app/presentation/shared/widgets/specialty_search_box.dart';
 import 'package:clinexa_derivant_app/presentation/specialty/cubit/specialty_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/pathology/cubit/pathology_cubit.dart';
-import 'package:clinexa_derivant_app/presentation/specialty/specialty_repository.dart';
 import 'package:clinexa_derivant_app/presentation/pathology/pathology_repository.dart';
+import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
+import 'package:clinexa_derivant_app/presentation/specialty/specialty_repository.dart';
+import 'package:clinexa_derivant_app/data/models/specialty_model.dart';
+import 'package:clinexa_derivant_app/data/models/pathology_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -27,9 +26,12 @@ class ProtocolSelectionScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-              ProtocolCubit(context.read<ProtocolRepository>())
-                ..loadProtocols(),
+          create: (context) {
+            final user = context.read<AuthCubit>().state.user;
+            return ProtocolCubit(context.read<ProtocolRepository>())
+              ..updateFilters(useIds: user?.specialties)
+              ..loadProtocols();
+          },
         ),
         BlocProvider(
           create: (context) =>
@@ -53,23 +55,71 @@ class ProtocolSelectionView extends StatefulWidget {
 }
 
 class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
-  final TextEditingController _specialtyController = TextEditingController();
-  final TextEditingController _pathologyController = TextEditingController();
+  SpecialtyModel? _selectedSpecialty;
+  PathologyModel? _selectedPathology;
+
+  List<String> _lastSpecialtyIds = [];
+  List<SpecialtyModel>? _userSpecialties;
 
   @override
-  void dispose() {
-    _specialtyController.dispose();
-    _pathologyController.dispose();
-    super.dispose();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _checkAndLoadSpecialties();
+  }
+
+  Future<void> _checkAndLoadSpecialties() async {
+    final user = context.watch<AuthCubit>().state.user;
+    final currentIds = user?.specialties ?? [];
+
+    // Verificamos si las specialties en el usuario cambiaron
+    bool hasChanged = false;
+    if (currentIds.length != _lastSpecialtyIds.length) {
+      hasChanged = true;
+    } else {
+      for (int i = 0; i < currentIds.length; i++) {
+        if (currentIds[i] != _lastSpecialtyIds[i]) {
+          hasChanged = true;
+          break;
+        }
+      }
+    }
+
+    if (hasChanged) {
+      _lastSpecialtyIds = List.from(currentIds);
+
+      final repo = context.read<SpecialtyRepository>();
+      final List<SpecialtyModel> loaded = [];
+
+      try {
+        for (final id in currentIds) {
+          final s = await repo.getSpecialtyById(id);
+          loaded.add(s);
+        }
+      } catch (e) {
+        // En caso de error, dejamos las cargadas hasta el momento
+      }
+
+      if (mounted) {
+        setState(() {
+          _userSpecialties = loaded;
+          
+          // Validar que la especialidad seleccionada aún exista en la lista (por si acaso cambian desde el perfil)
+          if (_selectedSpecialty != null && !loaded.any((s) => s.id == _selectedSpecialty!.id)) {
+            _selectedSpecialty = null;
+            _selectedPathology = null;
+          }
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
     final cubit = context.read<ProtocolCubit>();
+    final userSpecialties = _userSpecialties ?? [];
 
     return Scaffold(
-      appBar: AppBar(title: Text(s.protocolsList)),
       body: BlocConsumer<ProtocolCubit, ProtocolState>(
         listener: (context, state) {
           if (state.status == ProtocolStatus.failure) {
@@ -98,77 +148,93 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                 Row(
                   children: [
                     Expanded(
-                      child: SpecialtySearchBox(
-                        controller: _specialtyController,
-                        onSelect: (specialty) {
-                          cubit.applySpecialty(specialty.id);
-                          context.read<SpecialtyCubit>().clearSearch();
+                      child: DropdownButtonFormField<SpecialtyModel>(
+                        decoration: InputDecoration(
+                          labelText: s.specialty,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                        ),
+                        isExpanded: true,
+                        hint: const Text("Seleccione", maxLines: 1),
+                        value: _selectedSpecialty,
+                        items: userSpecialties.map((specialty) {
+                          return DropdownMenuItem<SpecialtyModel>(
+                            value: specialty,
+                            child: Text(
+                              specialty.name,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (SpecialtyModel? newValue) {
+                          setState(() {
+                            _selectedSpecialty = newValue;
+                            _selectedPathology = null; // reset pathology
+                          });
+                          
+                          if (newValue != null) {
+                            // Apply only specialty, Cubit will reset pathologyIds
+                            cubit.applySpecialty(newValue.id);
+                          } else {
+                            // If no specialty selected, reset to all user specialties
+                            cubit.updateFilters(
+                              useIds: userSpecialties.map((e) => e.id).toList(), 
+                              pathologyIds: [],
+                            );
+                          }
                         },
                       ),
                     ),
                     const SizedBox(width: 8),
                     Expanded(
-                      child: PathologySearchBox(
-                        controller: _pathologyController,
-                        onSelect: (pathology) {
-                          if (pathology.id != null) {
-                            cubit.applyPathology(pathology.id!);
-                            context.read<PathologyCubit>().clearSearch();
-                          }
-                        },
+                      child: DropdownButtonFormField<PathologyModel>(
+                        decoration: InputDecoration(
+                          labelText: "Patología",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                        ),
+                        isExpanded: true,
+                        hint: const Text("Seleccione", maxLines: 1),
+                        value: _selectedPathology,
+                        items: (_selectedSpecialty?.pathologies ?? []).map((pathology) {
+                          return DropdownMenuItem<PathologyModel>(
+                            value: pathology,
+                            child: Text(
+                              pathology.name ?? '',
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: _selectedSpecialty == null 
+                            ? null 
+                            : (PathologyModel? newValue) {
+                                setState(() {
+                                  _selectedPathology = newValue;
+                                });
+                                if (newValue?.id != null) {
+                                  // Apply specialty + pathology
+                                  cubit.applyPathology(newValue!.id!);
+                                } else if (_selectedSpecialty != null) {
+                                  // If pathology cleared, reset to specialty only
+                                  cubit.applySpecialty(_selectedSpecialty!.id);
+                                }
+                              },
                       ),
                     ),
                   ],
                 ),
 
-                // Active Filters and Clear Button
-                if (state.selectedUseIds.isNotEmpty ||
-                    state.selectedPathologyIds.isNotEmpty) ...[
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton.icon(
-                        onPressed: () {
-                          cubit.clearFilters();
-                          _specialtyController.clear();
-                          _pathologyController.clear();
-                        },
-                        icon: const Icon(Icons.clear, size: 18),
-                        label: Text(s.clearFilters),
-                      ),
-                    ],
-                  ),
-                ],
-
                 const SizedBox(height: 16),
-
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Center(
-                    child: Text.rich(
-                      TextSpan(
-                        text: s.cantFindProtocol,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppColors.neutral40,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: s.contactUsHere,
-                            style: const TextStyle(
-                              color: AppColors.primary40,
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () =>
-                                  context.push(ContactProtocolScreen.path),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
 
                 // List
                 Expanded(
@@ -238,7 +304,7 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                                       ...[
                                         const SizedBox(height: 4),
                                         Text(
-                                          protocol.description!,
+                                          protocol.description,
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium

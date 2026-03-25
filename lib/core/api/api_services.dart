@@ -11,8 +11,9 @@ class ApiService {
   static final ApiService _instance = ApiService._internal();
   factory ApiService() => _instance;
 
-  String baseUrl = "https://api.clinexapp.com";
-
+  // String baseUrl = "http://localhost:8000";
+  String baseUrl = "http://10.0.2.2:8000";
+  // String productionBaseUrl = "https://api.clinexapp.com";
   void setBaseUrl(String url) {
     baseUrl = url;
   }

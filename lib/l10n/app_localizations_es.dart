@@ -166,7 +166,7 @@ class SEs extends S {
 
   @override
   String get register_header =>
-      'Crea tu cuenta médica y únete a nuestra red de especialistas. Ingresa tu información personal, médica y de ubicación, elige tus especialidades y completa tu perfil para comenzar a recibir solicitudes de clínicas e instituciones de forma segura y eficiente.';
+      'Completa tu perfil para la evaluación de pacientes que podrían verse beneficiados clínicamente por su ensayo e interactuar con Clinexapp';
 
   @override
   String get specialty_required =>
@@ -275,7 +275,7 @@ class SEs extends S {
 
   @override
   String get protocolSelectionSubtitle =>
-      'Selecciona el protocolo al que deseas agregar al paciente y asegurate de que cumple con todos los criterios de aceptación.';
+      'Seleccione el protocolo al que usted considera referir a un paciente, y verifique que reúne los criterios requeridos';
 
   @override
   String get continue_text => 'Continuar';
@@ -506,6 +506,10 @@ class SEs extends S {
   String get searchAddress => 'Buscar dirección...';
 
   @override
+  String get searchAddressPrompt =>
+      'Escribe tu dirección y selecciona de las opciones que se te dan *';
+
+  @override
   String get errorSelectingFiles => 'Error al seleccionar archivos';
 
   @override
@@ -574,6 +578,14 @@ class SEs extends S {
   String get noOrderLinked => 'Sin orden vinculada';
 
   @override
+  String get whatsappVerificationNoticeDetailed =>
+      'AVISO IMPORTANTE: El médico debe informarle al paciente que debe tener conexión a internet y acceso a su WhatsApp.';
+
+  @override
+  String get noPatientsPromotion =>
+      'Recomendamos agregar pacientes para subirlos a la plataforma y tener oportunidad de ingresarlos en un protocolo de investigación.';
+
+  @override
   String get markAsActive => 'Marcar como Activo';
 
   @override
@@ -590,7 +602,7 @@ class SEs extends S {
   String get nationalLicense => 'Matrícula Nacional';
 
   @override
-  String get phone2 => 'Teléfono 2';
+  String get phone2 => 'Teléfono adicional';
 
   @override
   String get forgotPassword => 'Olvidé mi contraseña';
@@ -738,4 +750,18 @@ class SEs extends S {
   @override
   String get paymentMovementNotFound =>
       'No hay movimientos registrados con este usuario, contacte con soporte.';
+
+  @override
+  String get recentActivity => 'Recent Activity';
+
+  @override
+  String get noRecentActivity => 'No recent activity';
+
+  @override
+  String get searchPatientsInvite => 'Search Patients';
+
+  @override
+  String pathologiesCount(int count) {
+    return '$count pathologies';
+  }
 }

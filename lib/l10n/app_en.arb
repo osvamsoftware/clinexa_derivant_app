@@ -53,7 +53,7 @@
   "register_password": "Password",
   "register_next": "Next",
   "register_basicInfo_description": "Enter your basic information to continue.",
-  "register_header": "Create your medical account and join our network of specialists. Enter your personal, medical, and location information, choose your specialties, and complete your profile to start receiving requests from clinics and institutions safely and efficiently.",
+  "register_header": "Complete your profile to evaluate patients who could benefit clinically from your trial and interact with Clinexapp",
   "specialty_required": "Please select at least one of your specialties.",
   "register_successMessage": "Account created successfully. You can now log in!",
   "error400": "Bad Request (400)",
@@ -162,6 +162,7 @@
   "appName": "Clinexa",
   "userNotAuthenticated": "User not authenticated",
   "searchAddress": "Search address...",
+  "searchAddressPrompt": "Write your address and select from the given options *",
   "errorSelectingFiles": "Error selecting files",
   "orderCreatedSuccessfully": "Order created successfully",
   "fullDataAvailableAfterPayment": "Full patient data is available after initial payment",
@@ -183,6 +184,8 @@
   "confirmMarkAsInactive": "Are you sure you want to mark this patient as inactive? This action can be reversed later.",
   "confirm": "Confirm",
   "noOrderLinked": "No order linked",
+  "whatsappVerificationNoticeDetailed": "IMPORTANT NOTICE: The doctor must inform the patient that they must have an internet connection and access to their WhatsApp.",
+  "noPatientsPromotion": "We recommend adding patients to upload them to the platform and have an opportunity to enter them into a research protocol.",
   "markAsActive": "Mark as Active",
   "confirmMarkAsActive": "Are you sure you want to mark this patient as active?",
   "licenseType": "License Type",
@@ -232,5 +235,16 @@
   "errorLoadingImage": "Error loading signature image",
   "paymentBonusPending": "You have not yet received any bonus for this patient, please wait for one of our agents to contact you.",
   "paymentBonusCompleted": "You received a bonus for this patient. Continue making diagnoses and evaluations to accumulate bonuses for your services.",
-  "paymentMovementNotFound": "No payment movements found for this user, please contact support."
+  "paymentMovementNotFound": "No payment movements found for this user, please contact support.",
+  "recentActivity": "Recent Activity",
+  "noRecentActivity": "No recent activity",
+  "searchPatientsInvite": "Search Patients",
+  "pathologiesCount": "{count} pathologies",
+  "@pathologiesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }
