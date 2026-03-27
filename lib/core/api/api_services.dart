@@ -241,7 +241,10 @@ class ApiService {
       final uri = Uri.parse("$baseUrl/refresh");
       final res = await http.post(
         uri,
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+          "Refresh-Token": _refreshToken ?? "",
+        },
         body: jsonEncode({"refresh_token": _refreshToken ?? ""}),
       );
       if (res.statusCode == 200) {

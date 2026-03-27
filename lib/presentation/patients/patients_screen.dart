@@ -128,7 +128,8 @@ class PatientsView extends StatelessWidget {
                               const SizedBox(height: 16),
                               Text(
                                 s.noPatientsFound,
-                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(
                                       fontWeight: FontWeight.bold,
                                       color: AppColors.neutral40,
                                     ),
@@ -137,9 +138,8 @@ class PatientsView extends StatelessWidget {
                               const SizedBox(height: 12),
                               Text(
                                 s.noPatientsPromotion,
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                      color: AppColors.neutral50,
-                                    ),
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(color: AppColors.neutral50),
                                 textAlign: TextAlign.center,
                               ),
                             ],
@@ -175,7 +175,9 @@ class PatientsView extends StatelessWidget {
                             notes: patient.notes ?? '--',
                             status: patient.status.toUpperCase(),
                             hasActiveOrder: patient.order != null,
-                            orderStatus: patient.order?.status.name,
+                            orderStatus:
+                                patient.order?.status.name ??
+                                patient.status.toUpperCase(),
                             onTap: () async {
                               await context.push(
                                 '/patient-details',

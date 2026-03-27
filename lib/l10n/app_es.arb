@@ -184,6 +184,10 @@
   "confirmMarkAsInactive": "¿Estás seguro de que deseas marcar este paciente como inactivo? Esta acción puede revertirse más tarde.",
   "confirm": "Confirmar",
   "noOrderLinked": "Sin orden vinculada",
+  "activeOrder": "Orden Activa",
+  "orderId": "ID de Orden",
+  "orderStatus": "Estado de la Orden",
+  "professionalFees": "Honorarios profesionales por el tiempo dedicado a la evaluación del paciente",
   "whatsappVerificationNoticeDetailed": "AVISO IMPORTANTE: El médico debe informarle al paciente que debe tener conexión a internet y acceso a su WhatsApp.",
   "noPatientsPromotion": "Recomendamos agregar pacientes para subirlos a la plataforma y tener oportunidad de ingresarlos en un protocolo de investigación.",
   "markAsActive": "Marcar como Activo",
@@ -233,7 +237,7 @@
   "errorGeneric": "Ha ocurrido un error. Por favor, intente nuevamente.",
   "signature": "Firma del Paciente",
   "errorLoadingImage": "Error al cargar la imagen de la firma",
-  "paymentBonusPending": "Aún no has recibido ninguna bonificación por este paciente, espera a que uno de nuestros agentes se ponga en contacto contigo.",
-  "paymentBonusCompleted": "Recibiste bonificación por este paciente. Continúa haciendo diagnósticos y evaluaciones para seguir acumulando bonificaciones por tus servicios.",
+  "paymentBonusPending": "Aún no ha recibido sus honorarios profesionales por el tiempo dedicado a la evaluación de este paciente. Por favor, espere a que uno de nuestros agentes se ponga en contacto con usted.",
+  "paymentBonusCompleted": "Sus honorarios profesionales por el tiempo dedicado a la evaluación de este paciente han sido procesados. Continúe realizando diagnósticos y evaluaciones para seguir percibiendo honorarios por sus servicios.",
   "paymentMovementNotFound": "No hay movimientos registrados con este usuario, contacte con soporte."
 }

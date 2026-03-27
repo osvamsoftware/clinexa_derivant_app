@@ -185,4 +185,16 @@ class RegisterCubit extends Cubit<RegisterState> {
       );
     }
   }
+
+  @override
+  Future<void> close() {
+    firstNameController.dispose();
+    lastNameController.dispose();
+    emailController.dispose();
+    passController.dispose();
+    licenseController.dispose();
+    specialtyController.dispose();
+    addressController.dispose();
+    return super.close();
+  }
 }

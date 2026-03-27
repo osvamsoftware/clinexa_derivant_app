@@ -1,3 +1,4 @@
+import 'package:clinexa_derivant_app/core/services/notification_service.dart';
 import 'package:clinexa_derivant_app/domain/auth_repository.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,10 @@ class ManagerProvider extends StatelessWidget {
       providers: [
         BlocProvider<AuthCubit>(
           lazy: false,
-          create: (context) =>
-              AuthCubit(context.read<AuthRepository>())..initAuth(),
+          create: (context) => AuthCubit(
+            context.read<AuthRepository>(),
+            context.read<NotificationService>(),
+          )..initAuth(),
         ),
       ],
       child: child,

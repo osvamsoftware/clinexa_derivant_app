@@ -156,8 +156,8 @@ class PatientResultCard extends StatelessWidget {
         return Colors.amber;
       case 'accepted':
         return Colors.green;
-      case 'rejected':
-        return Colors.red;
+      case 'rejected' || "REJECTED":
+        return Colors.red[400]!;
       default:
         return Colors.grey;
     }
@@ -169,7 +169,7 @@ class PatientResultCard extends StatelessWidget {
         return s.orderStatusAssigned;
       case 'accepted':
         return s.orderStatusAccepted;
-      case 'rejected':
+      case 'rejected' || "REJECTED":
         return s.orderStatusRejected;
       default:
         return status;

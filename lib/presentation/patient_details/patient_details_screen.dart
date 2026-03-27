@@ -1,5 +1,7 @@
 import 'package:clinexa_derivant_app/core/theme.dart';
+import 'package:clinexa_derivant_app/data/models/order_model.dart';
 import 'package:clinexa_derivant_app/data/models/patient_model.dart';
+import 'package:clinexa_derivant_app/domain/order_repository.dart';
 import 'package:clinexa_derivant_app/domain/patient_repository.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/patient_info/cubit/patient_info_cubit.dart';
@@ -21,6 +23,7 @@ class PatientDetailsScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => PatientInfoCubit(
         patientRepository: context.read<PatientRepository>(),
+        orderRepository: context.read<OrderRepository>(),
         initialPatient: patient,
       ),
       child: PatientDetailsView(initialPatient: patient),
@@ -304,34 +307,131 @@ class PatientDetailsView extends StatelessWidget {
 
                       const SizedBox(height: 32),
 
-                      Card(
-                        color: Colors.red[400], // Red card (less intense)
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.warning_amber_rounded,
-                                color: Colors.white,
-                                size: 28,
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Text(
-                                  "No tiene orden activa",
-                                  style: theme.textTheme.titleMedium?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                      if (patient.order == null && patient.currentOrderId == null)
+                        Card(
+                          color: Colors.red[400], // Red card (less intense)
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.warning_amber_rounded,
+                                  color: Colors.white,
+                                  size: 28,
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Text(
+                                    s.noOrderLinked,
+                                    style:
+                                        theme.textTheme.titleMedium?.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ),
+                        )
+                      else if (patient.order != null)
+                        Card(
+                          color: AppColors.primary30,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.assignment_turned_in_rounded,
+                                      color: Colors.white,
+                                      size: 28,
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Text(
+                                      s.activeOrder,
+                                      style:
+                                          theme.textTheme.titleMedium?.copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+                                _buildOrderInfoRow(
+                                  s.orderId,
+                                  patient.order!.id?.substring(0, 8) ?? "-",
+                                  Colors.white70,
+                                  Colors.white,
+                                  theme,
+                                ),
+                                _buildOrderInfoRow(
+                                  s.status,
+                                  patient.order!.status.name.toUpperCase(),
+                                  Colors.white70,
+                                  Colors.white,
+                                  theme,
+                                ),
+                                const Divider(color: Colors.white24),
+                                const SizedBox(height: 8),
+                                Text(
+                                  s.professionalFees,
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: Colors.white70,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  "\$${patient.order!.amount.toStringAsFixed(2)}",
+                                  style: theme.textTheme.headlineSmall
+                                      ?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
+                                if (patient.order!.notes != null &&
+                                    patient.order!.notes!.isNotEmpty) ...[
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 8),
+                                    child: Divider(color: Colors.white24),
+                                  ),
+                                  Text(
+                                    patient.order!.status ==
+                                            OrderStatus.rejected
+                                        ? "Motivo de rechazo:"
+                                        : "Notas de aceptación:",
+                                    style: theme.textTheme.bodySmall
+                                        ?.copyWith(
+                                      color: Colors.white70,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    patient.order!.notes!,
+                                    style: theme.textTheme.bodyMedium
+                                        ?.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          )
+                        )
+                      else
+                        const Center(child: CircularProgressIndicator()),
 
                       const SizedBox(height: 32),
 
@@ -371,6 +471,34 @@ class PatientDetailsView extends StatelessWidget {
                 );
           },
         ),
+      ),
+    );
+  }
+
+  Widget _buildOrderInfoRow(
+    String label,
+    String? value,
+    Color labelColor,
+    Color valueColor,
+    ThemeData theme,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "$label:",
+            style: theme.textTheme.bodyMedium?.copyWith(color: labelColor),
+          ),
+          Text(
+            value ?? "-",
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: valueColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }

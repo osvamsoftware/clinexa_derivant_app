@@ -1,3 +1,4 @@
+import 'package:clinexa_derivant_app/core/services/notification_service.dart';
 import 'package:clinexa_derivant_app/core/services/shared_prefs_service.dart';
 import 'package:clinexa_derivant_app/data/models/user_model.dart';
 import 'package:clinexa_derivant_app/domain/auth_repository.dart';
@@ -7,8 +8,9 @@ part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository authRepository;
-
-  AuthCubit(this.authRepository) : super(AuthState());
+  final NotificationService _notificationService;
+ 
+  AuthCubit(this.authRepository, this._notificationService) : super(AuthState());
   // ======================================================
   // 🔹 Inicializa sesión al abrir la app
   // ======================================================
@@ -31,7 +33,10 @@ class AuthCubit extends Cubit<AuthState> {
 
       // 🔸 Sí hay token → intentar obtener /me
       final user = await authRepository.me();
-
+ 
+      // 🔥 Registrar dispositivo al encontrar sesión válida
+      await _notificationService.registerDevice();
+ 
       emit(
         state.copyWith(
           user: user,
@@ -54,6 +59,8 @@ class AuthCubit extends Cubit<AuthState> {
   // 🔹 Guardar usuario después del login
   // ======================================================
   Future<void> setUser(UserModel user) async {
+    // 🔥 Registrar dispositivo al iniciar sesión
+    await _notificationService.registerDevice();
     emit(state.copyWith(user: user, status: AuthStatus.authenticated));
   }
 
@@ -110,7 +117,10 @@ class AuthCubit extends Cubit<AuthState> {
   // ======================================================
   Future<void> logout() async {
     final prefs = SharedPrefsService.instance;
-
+ 
+    // 🔥 Eliminar token del backend antes de limpiar sesión local
+    await _notificationService.unsubscribe();
+ 
     await prefs.remove("auth_token");
     await prefs.remove("refresh_token");
 

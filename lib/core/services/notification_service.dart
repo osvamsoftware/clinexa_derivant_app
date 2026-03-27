@@ -140,21 +140,25 @@ class NotificationService {
 
   Future<void> registerDevice() async {
     log(
-      'Registrando dispositivo (User Autenticado)...',
+      'Iniciando proceso registerDevice() (User Autenticado)...',
       name: 'NotificationService',
     );
     try {
+      log('Llamando a _repository.getToken()...', name: 'NotificationService');
       final token = await _repository.getToken();
+      
       if (token != null) {
+        log('Token obtenido correctamente del repositorio. Llamando a _repository.saveToken(token)...', name: 'NotificationService');
         await _repository.saveToken(token);
+        log('Flujo de registro completado en NotificationService', name: 'NotificationService');
       } else {
         log(
-          'No se pudo obtener el token para el registro',
+          '⚠️ ERROR: _repository.getToken() retornó NULL. No se puede proceder con el registro.',
           name: 'NotificationService',
         );
       }
     } catch (e) {
-      log('Error en registerDevice: $e', name: 'NotificationService');
+      log('❌ ERROR EXCEPCION en registerDevice: $e', name: 'NotificationService');
     }
   }
 

@@ -15,6 +15,9 @@ import 'package:clinexa_derivant_app/data/models/pathology_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:clinexa_derivant_app/presentation/shared/widgets/debounced_search_textfield.dart';
+
+enum SearchMode { category, name }
 
 class ProtocolSelectionScreen extends StatelessWidget {
   static const path = '/protocol-selection';
@@ -57,6 +60,7 @@ class ProtocolSelectionView extends StatefulWidget {
 class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
   SpecialtyModel? _selectedSpecialty;
   PathologyModel? _selectedPathology;
+  SearchMode _searchMode = SearchMode.category;
 
   List<String> _lastSpecialtyIds = [];
   List<SpecialtyModel>? _userSpecialties;
@@ -144,95 +148,148 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                 ),
                 const SizedBox(height: 16),
 
-                // Filters
-                Row(
-                  children: [
-                    Expanded(
-                      child: DropdownButtonFormField<SpecialtyModel>(
-                        decoration: InputDecoration(
-                          labelText: s.specialty,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                        ),
-                        isExpanded: true,
-                        hint: const Text("Seleccione", maxLines: 1),
-                        value: _selectedSpecialty,
-                        items: userSpecialties.map((specialty) {
-                          return DropdownMenuItem<SpecialtyModel>(
-                            value: specialty,
-                            child: Text(
-                              specialty.name,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (SpecialtyModel? newValue) {
-                          setState(() {
-                            _selectedSpecialty = newValue;
-                            _selectedPathology = null; // reset pathology
-                          });
-                          
-                          if (newValue != null) {
-                            // Apply only specialty, Cubit will reset pathologyIds
-                            cubit.applySpecialty(newValue.id);
-                          } else {
-                            // If no specialty selected, reset to all user specialties
-                            cubit.updateFilters(
-                              useIds: userSpecialties.map((e) => e.id).toList(), 
-                              pathologyIds: [],
-                            );
-                          }
-                        },
+                const SizedBox(height: 16),
+
+                // Search Mode Selector
+                Center(
+                  child: SegmentedButton<SearchMode>(
+                    segments: const [
+                      ButtonSegment<SearchMode>(
+                        value: SearchMode.category,
+                        label: Text("Por Categoría"),
+                        icon: Icon(Icons.category_outlined),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: DropdownButtonFormField<PathologyModel>(
-                        decoration: InputDecoration(
-                          labelText: "Patología",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                        ),
-                        isExpanded: true,
-                        hint: const Text("Seleccione", maxLines: 1),
-                        value: _selectedPathology,
-                        items: (_selectedSpecialty?.pathologies ?? []).map((pathology) {
-                          return DropdownMenuItem<PathologyModel>(
-                            value: pathology,
-                            child: Text(
-                              pathology.name ?? '',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: _selectedSpecialty == null 
-                            ? null 
-                            : (PathologyModel? newValue) {
-                                setState(() {
-                                  _selectedPathology = newValue;
-                                });
-                                if (newValue?.id != null) {
-                                  // Apply specialty + pathology
-                                  cubit.applyPathology(newValue!.id!);
-                                } else if (_selectedSpecialty != null) {
-                                  // If pathology cleared, reset to specialty only
-                                  cubit.applySpecialty(_selectedSpecialty!.id);
-                                }
-                              },
+                      ButtonSegment<SearchMode>(
+                        value: SearchMode.name,
+                        label: Text("Por Nombre"),
+                        icon: Icon(Icons.search),
                       ),
+                    ],
+                    selected: {_searchMode},
+                    onSelectionChanged: (Set<SearchMode> newSelection) {
+                      setState(() {
+                        _searchMode = newSelection.first;
+                        _selectedSpecialty = null;
+                        _selectedPathology = null;
+
+                        final userIds =
+                            userSpecialties.map((e) => e.id).toList();
+
+                        // Al cambiar de modo, reseteamos a las especialidades del usuario
+                        // y limpiamos patología y query anterior
+                        cubit.updateFilters(
+                          useIds: userIds,
+                          pathologyIds: [],
+                          clearQuery: true,
+                        );
+                      });
+                    },
+                    style: SegmentedButton.styleFrom(
+                      selectedBackgroundColor: AppColors.primary40,
+                      selectedForegroundColor: Colors.white,
+                      visualDensity: VisualDensity.compact,
                     ),
-                  ],
+                  ),
                 ),
+
+                const SizedBox(height: 16),
+
+                // Filters
+                if (_searchMode == SearchMode.category)
+                  Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButtonFormField<SpecialtyModel>(
+                          decoration: InputDecoration(
+                            labelText: s.specialty,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                          ),
+                          isExpanded: true,
+                          hint: const Text("Seleccione", maxLines: 1),
+                          value: _selectedSpecialty,
+                          items: userSpecialties.map((specialty) {
+                            return DropdownMenuItem<SpecialtyModel>(
+                              value: specialty,
+                              child: Text(
+                                specialty.name,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (SpecialtyModel? newValue) {
+                            setState(() {
+                              _selectedSpecialty = newValue;
+                              _selectedPathology = null; // reset pathology
+                            });
+
+                            if (newValue != null) {
+                              cubit.applySpecialty(newValue.id);
+                            } else {
+                              cubit.updateFilters(
+                                useIds:
+                                    userSpecialties.map((e) => e.id).toList(),
+                                pathologyIds: [],
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: DropdownButtonFormField<PathologyModel>(
+                          decoration: InputDecoration(
+                            labelText: "Patología",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                          ),
+                          isExpanded: true,
+                          hint: const Text("Seleccione", maxLines: 1),
+                          value: _selectedPathology,
+                          items: (_selectedSpecialty?.pathologies ?? [])
+                              .map((pathology) {
+                            return DropdownMenuItem<PathologyModel>(
+                              value: pathology,
+                              child: Text(
+                                pathology.name ?? '',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: _selectedSpecialty == null
+                              ? null
+                              : (PathologyModel? newValue) {
+                                  setState(() {
+                                    _selectedPathology = newValue;
+                                  });
+                                  if (newValue?.id != null) {
+                                    cubit.applyPathology(newValue!.id!);
+                                  } else if (_selectedSpecialty != null) {
+                                    cubit.applySpecialty(_selectedSpecialty!.id);
+                                  }
+                                },
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  DebouncedSearchField(
+                    label: "Buscar protocolo por nombre",
+                    hintText: "Ej: Diabetes, Hipertensión...",
+                    onSearch: (value) {
+                      cubit.applyQuery(value);
+                    },
+                  ),
 
                 const SizedBox(height: 16),
 

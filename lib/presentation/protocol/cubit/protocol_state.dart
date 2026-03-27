@@ -14,6 +14,7 @@ class ProtocolState extends Equatable {
   final List<String>
   selectedUseIds; // specialties IDs (using name from prompt 'specialties')
   final List<String> selectedPathologyIds;
+  final String? query;
 
   const ProtocolState({
     this.status = ProtocolStatus.initial,
@@ -23,6 +24,7 @@ class ProtocolState extends Equatable {
     this.page = 1,
     this.selectedUseIds = const [],
     this.selectedPathologyIds = const [],
+    this.query,
   });
 
   ProtocolState copyWith({
@@ -33,6 +35,8 @@ class ProtocolState extends Equatable {
     int? page,
     List<String>? selectedUseIds,
     List<String>? selectedPathologyIds,
+    String? query,
+    bool clearQuery = false,
   }) {
     return ProtocolState(
       status: status ?? this.status,
@@ -42,6 +46,7 @@ class ProtocolState extends Equatable {
       page: page ?? this.page,
       selectedUseIds: selectedUseIds ?? this.selectedUseIds,
       selectedPathologyIds: selectedPathologyIds ?? this.selectedPathologyIds,
+      query: clearQuery ? null : (query ?? this.query),
     );
   }
 
@@ -54,5 +59,6 @@ class ProtocolState extends Equatable {
     page,
     selectedUseIds,
     selectedPathologyIds,
+    query,
   ];
 }

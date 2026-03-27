@@ -578,6 +578,19 @@ class SEs extends S {
   String get noOrderLinked => 'Sin orden vinculada';
 
   @override
+  String get activeOrder => 'Orden Activa';
+
+  @override
+  String get orderId => 'ID de Orden';
+
+  @override
+  String get orderStatus => 'Estado de la Orden';
+
+  @override
+  String get professionalFees =>
+      'Honorarios profesionales por el tiempo dedicado a la evaluación del paciente';
+
+  @override
   String get whatsappVerificationNoticeDetailed =>
       'AVISO IMPORTANTE: El médico debe informarle al paciente que debe tener conexión a internet y acceso a su WhatsApp.';
 
@@ -741,11 +754,11 @@ class SEs extends S {
 
   @override
   String get paymentBonusPending =>
-      'Aún no has recibido ninguna bonificación por este paciente, espera a que uno de nuestros agentes se ponga en contacto contigo.';
+      'Aún no ha recibido sus honorarios profesionales por el tiempo dedicado a la evaluación de este paciente. Por favor, espere a que uno de nuestros agentes se ponga en contacto con usted.';
 
   @override
   String get paymentBonusCompleted =>
-      'Recibiste bonificación por este paciente. Continúa haciendo diagnósticos y evaluaciones para seguir acumulando bonificaciones por tus servicios.';
+      'Sus honorarios profesionales por el tiempo dedicado a la evaluación de este paciente han sido procesados. Continúe realizando diagnósticos y evaluaciones para seguir percibiendo honorarios por sus servicios.';
 
   @override
   String get paymentMovementNotFound =>

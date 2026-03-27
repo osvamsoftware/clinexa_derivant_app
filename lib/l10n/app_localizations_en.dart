@@ -572,6 +572,19 @@ class SEn extends S {
   String get noOrderLinked => 'No order linked';
 
   @override
+  String get activeOrder => 'Active Order';
+
+  @override
+  String get orderId => 'Order ID';
+
+  @override
+  String get orderStatus => 'Order Status';
+
+  @override
+  String get professionalFees =>
+      'Professional fees for the time dedicated to patient evaluation';
+
+  @override
   String get whatsappVerificationNoticeDetailed =>
       'IMPORTANT NOTICE: The doctor must inform the patient that they must have an internet connection and access to their WhatsApp.';
 

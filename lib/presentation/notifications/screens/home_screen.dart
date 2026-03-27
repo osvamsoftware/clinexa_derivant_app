@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clinexa_derivant_app/presentation/protocol/protocol_selection_screen.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/home_header.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
+import 'package:clinexa_derivant_app/presentation/home/cubit/home_cubit.dart';
+import 'package:clinexa_derivant_app/core/services/notification_service.dart';
+import 'package:clinexa_derivant_app/domain/patient_repository.dart';
 
 class HomeScreen extends StatelessWidget {
   static const path = "/home";
@@ -11,22 +14,28 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, authState) {
-        final rawName = authState.user?.firstName ?? 'User';
-        final userName = _formatName(rawName);
+    return BlocProvider(
+      create: (context) => HomeCubit(
+        context.read<NotificationService>(),
+        context.read<PatientRepository>(),
+      )..init(context.read<AuthCubit>().state.user?.id ?? ""),
+      child: BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, authState) {
+          final rawName = authState.user?.firstName ?? 'User';
+          final userName = _formatName(rawName);
 
-        return Scaffold(
-          body: Column(
-            children: [
-              HomeHeader(name: userName),
-              const Expanded(
-                child: ProtocolSelectionScreen(),
-              ),
-            ],
-          ),
-        );
-      },
+          return Scaffold(
+            body: Column(
+              children: [
+                HomeHeader(name: userName),
+                const Expanded(
+                  child: ProtocolSelectionScreen(),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 

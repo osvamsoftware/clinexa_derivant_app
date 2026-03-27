@@ -46,34 +46,37 @@ class NotificationRepositoryImpl implements NotificationRepository {
 
   @override
   Future<String?> getToken() async {
+    log('[NotificationRepositoryImpl] Iniciando getToken()...', name: 'NotificationRepo');
     try {
       if (Platform.isIOS) {
+        log('[NotificationRepositoryImpl] Detectado plataforma iOS. Intentando obtener APNs token...', name: 'NotificationRepo');
         final apnsToken = await _fcm.getAPNSToken();
-        log('[NotificationRepositoryImpl] APNs token crudo: $apnsToken');
+        log('[NotificationRepositoryImpl] APNs token crudo respondido: $apnsToken', name: 'NotificationRepo');
         if (apnsToken == null) {
-          log('[NotificationRepositoryImpl] APNs token es null. Esperando 3 segundos...');
+          log('[NotificationRepositoryImpl] APNs token es null. Esperando 3 segundos...', name: 'NotificationRepo');
           await Future.delayed(const Duration(seconds: 3));
           final apnsRetry = await _fcm.getAPNSToken();
-          log('[NotificationRepositoryImpl] APNs token tras delay: $apnsRetry');
+          log('[NotificationRepositoryImpl] APNs token tras delay: $apnsRetry', name: 'NotificationRepo');
           if (apnsRetry != null) {
-            log('[NotificationRepositoryImpl] Usando APNs token nativo: $apnsRetry');
+            log('[NotificationRepositoryImpl] ÉXITO: Usando APNs token nativo: $apnsRetry', name: 'NotificationRepo');
             return apnsRetry;
           }
         } else {
-          log('[NotificationRepositoryImpl] Usando APNs token nativo: $apnsToken');
+          log('[NotificationRepositoryImpl] ÉXITO: Usando APNs token nativo: $apnsToken', name: 'NotificationRepo');
           return apnsToken;
         }
       }
+      log('[NotificationRepositoryImpl] Intentando obtener FCM token standar...', name: 'NotificationRepo');
       String? token = await _fcm.getToken();
-      log('[NotificationRepositoryImpl] Token FCM generado: $token');
+      log('[NotificationRepositoryImpl] Token FCM generado: $token', name: 'NotificationRepo');
       if (token != null) {
-        log('[NotificationRepositoryImpl] Longitud del token: ${token.length} | Es iOS: ${Platform.isIOS}');
+        log('[NotificationRepositoryImpl] Longitud del token: ${token.length} | Es iOS: ${Platform.isIOS}', name: 'NotificationRepo');
       } else {
-        log('[NotificationRepositoryImpl] Token FCM retornado null. Verifica APNs y permisos en iOS.');
+        log('[NotificationRepositoryImpl] ERROR: Token FCM retornado null. Verifica google-services.json / GoogleService-Info.plist y permisos.', name: 'NotificationRepo');
       }
       return token;
     } catch (e) {
-      log('[NotificationRepositoryImpl.getToken] Error: $e');
+      log('[NotificationRepositoryImpl.getToken] EXCEPCION: $e', name: 'NotificationRepo');
       return null;
     }
   }
@@ -83,43 +86,51 @@ class NotificationRepositoryImpl implements NotificationRepository {
 
   @override
   Future<void> saveToken(String token) async {
+    log('[NotificationRepositoryImpl] saveToken() llamado con token de longitud: ${token.length}', name: 'NotificationRepo');
     try {
       final prefs = SharedPrefsService.instance;
-      final savedToken = prefs.getString('derivant_fcm_token');
-
+      // final savedToken = prefs.getString('derivant_fcm_token');
+ 
       // Si el token ya existe localmente y es igual al actual, no lo enviamos de nuevo
-      if (savedToken == token) {
+      // COMENTADO TEMPORALMENTE: Forzar registro en cada inicio para asegurar sincronización con backend
+      /* if (savedToken == token) {
         log(
           '[NotificationRepositoryImpl] El token ya existe y no ha cambiado. Se omite el envio.',
+          name: 'NotificationRepo'
         );
         return;
-      }
-
-      log('[NotificationRepositoryImpl] Enviando nuevo token al backend...');
-
+      } */
+ 
+      log('[NotificationRepositoryImpl] Preparando request POST al backend...', name: 'NotificationRepo');
+ 
       final platform = Platform.isAndroid
           ? 'android'
           : (Platform.isIOS ? 'ios' : 'unknown');
+ 
+      final bundleId = Platform.isIOS ? 'com.clinexapp.conecta' : 'com.clinexapp.derivante';
+      
+      log('[NotificationRepositoryImpl] Endpoint: ${api.deviceToken}', name: 'NotificationRepo');
+      log('[NotificationRepositoryImpl] Payload: token: $token, platform: $platform, bundle_id: $bundleId', name: 'NotificationRepo');
 
-      await _apiService.request(
+      final response = await _apiService.request(
         path: api.deviceToken,
         method: HttpMethod.post,
         body: {
           'device_token': token, 
           'platform': platform,
-          'bundle_id': 'com.clinexapp.conecta',
+          'bundle_id': bundleId,
         },
         fromJson: (json) => json,
         withAuth: true,
       );
+ 
+      log('[NotificationRepositoryImpl] ÉXITO: Respuesta del backend: $response', name: 'NotificationRepo');
 
       // Guardamos el token enviado exitosamente en local
       await prefs.setString('derivant_fcm_token', token);
-      log(
-        '[NotificationRepositoryImpl] Token guardado correctamente en backend y local',
-      );
+      log('[NotificationRepositoryImpl] Token persistido localmente en SharedPrefs', name: 'NotificationRepo');
     } catch (e) {
-      log('[NotificationRepositoryImpl.saveToken] Error: $e');
+      log('[NotificationRepositoryImpl.saveToken] ERROR/EXCEPCION: $e', name: 'NotificationRepo');
       // Comentado para no romper flujos si falla el registro silencioso
       // rethrow;
     }

@@ -41,7 +41,6 @@ class _DebouncedSearchFieldState extends State<DebouncedSearchField> {
   @override
   void dispose() {
     _debounce?.cancel();
-    widget.controller?.dispose();
     super.dispose();
   }
 

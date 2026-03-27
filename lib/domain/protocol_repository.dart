@@ -19,6 +19,7 @@ abstract class ProtocolRepository {
     required int limit,
     List<String>? specialties,
     List<String>? pathologies,
+    String? query,
   });
 
   Future<ProtocolModel> createProtocol(ProtocolModel protocol);
@@ -133,6 +134,7 @@ class ProtocolRepositoryImpl implements ProtocolRepository {
     required int limit,
     List<String>? specialties,
     List<String>? pathologies,
+    String? query,
   }) async {
     try {
       final queryParams = {
@@ -142,6 +144,7 @@ class ProtocolRepositoryImpl implements ProtocolRepository {
           "specialties": specialties,
         if (pathologies != null && pathologies.isNotEmpty)
           "pathologies": pathologies,
+        if (query != null && query.isNotEmpty) "query": query,
       };
 
       final response = await _api.request(

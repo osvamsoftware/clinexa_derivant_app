@@ -35,6 +35,7 @@ class ProtocolCubit extends Cubit<ProtocolState> {
         pathologies: state.selectedPathologyIds.isNotEmpty
             ? state.selectedPathologyIds
             : null,
+        query: state.query,
         page: page,
         limit: _limit,
       );
@@ -63,11 +64,18 @@ class ProtocolCubit extends Cubit<ProtocolState> {
     }
   }
 
-  void updateFilters({List<String>? useIds, List<String>? pathologyIds}) {
+  void updateFilters({
+    List<String>? useIds,
+    List<String>? pathologyIds,
+    String? query,
+    bool clearQuery = false,
+  }) {
     emit(
       state.copyWith(
         selectedUseIds: useIds,
         selectedPathologyIds: pathologyIds,
+        query: query,
+        clearQuery: clearQuery,
       ),
     );
     loadProtocols(refresh: true);
@@ -77,14 +85,23 @@ class ProtocolCubit extends Cubit<ProtocolState> {
     updateFilters(
       useIds: [specialtyId],
       pathologyIds: [], // Reset pathologies when specialty changes
+      clearQuery: true,
     );
   }
 
   void applyPathology(String pathologyId) {
-    updateFilters(useIds: state.selectedUseIds, pathologyIds: [pathologyId]);
+    updateFilters(
+      useIds: state.selectedUseIds,
+      pathologyIds: [pathologyId],
+      clearQuery: true,
+    );
   }
 
-  void clearFilters() {
-    updateFilters(useIds: [], pathologyIds: []);
+  void applyQuery(String query) {
+    updateFilters(
+      useIds: state.selectedUseIds,
+      pathologyIds: [],
+      query: query,
+    );
   }
 }

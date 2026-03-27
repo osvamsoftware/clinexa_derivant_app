@@ -1183,6 +1183,30 @@ abstract class S {
   /// **'No order linked'**
   String get noOrderLinked;
 
+  /// No description provided for @activeOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Order'**
+  String get activeOrder;
+
+  /// No description provided for @orderId.
+  ///
+  /// In en, this message translates to:
+  /// **'Order ID'**
+  String get orderId;
+
+  /// No description provided for @orderStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Status'**
+  String get orderStatus;
+
+  /// No description provided for @professionalFees.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional fees for the time dedicated to patient evaluation'**
+  String get professionalFees;
+
   /// No description provided for @whatsappVerificationNoticeDetailed.
   ///
   /// In en, this message translates to:

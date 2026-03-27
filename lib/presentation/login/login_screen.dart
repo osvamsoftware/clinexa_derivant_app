@@ -3,9 +3,11 @@ import 'package:clinexa_derivant_app/core/services/error_handler.dart';
 import 'package:clinexa_derivant_app/core/services/validators.dart';
 import 'package:clinexa_derivant_app/core/theme.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
-import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
-import 'package:clinexa_derivant_app/presentation/auth_loading/splash_screen.dart';
 import 'package:clinexa_derivant_app/presentation/login/cubit/login_cubit.dart';
+import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
+import 'package:clinexa_derivant_app/core/services/notification_service.dart';
+import 'package:clinexa_derivant_app/domain/auth_repository.dart';
+import 'package:clinexa_derivant_app/presentation/auth_loading/splash_screen.dart';
 import 'package:clinexa_derivant_app/presentation/register/register_personal_screen.dart';
 import 'package:clinexa_derivant_app/presentation/password_recovery/forgot_password/forgot_password_screen.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
@@ -24,7 +26,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AuthLoginCubit(context.read()),
+      create: (_) => AuthLoginCubit(context.read<AuthRepository>(), context.read<NotificationService>()),
       child: BlocListener<AuthLoginCubit, AuthLoginState>(
         listener: (context, state) async {
           // ==========================

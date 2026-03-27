@@ -34,6 +34,7 @@ class OrderModel extends Equatable {
   final String? finalPaymentId;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final String? notes;
 
   const OrderModel({
     this.id,
@@ -46,6 +47,7 @@ class OrderModel extends Equatable {
     this.finalPaymentId,
     this.createdAt,
     this.updatedAt,
+    this.notes,
   });
 
   factory OrderModel.fromMap(Map<String, dynamic> json) {
@@ -68,6 +70,7 @@ class OrderModel extends Equatable {
       updatedAt: json['updated_at'] != null
           ? DateTime.tryParse(json['updated_at'])
           : null,
+      notes: json['notes'],
     );
   }
 
@@ -83,6 +86,7 @@ class OrderModel extends Equatable {
       if (finalPaymentId != null) 'final_payment_id': finalPaymentId,
       if (createdAt != null) 'created_at': createdAt!.toIso8601String(),
       if (updatedAt != null) 'updated_at': updatedAt!.toIso8601String(),
+      'notes': notes,
     };
   }
 
@@ -97,6 +101,7 @@ class OrderModel extends Equatable {
     String? finalPaymentId,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? notes,
   }) {
     return OrderModel(
       id: id ?? this.id,
@@ -109,6 +114,7 @@ class OrderModel extends Equatable {
       finalPaymentId: finalPaymentId ?? this.finalPaymentId,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      notes: notes ?? this.notes,
     );
   }
 
@@ -124,5 +130,6 @@ class OrderModel extends Equatable {
     finalPaymentId,
     createdAt,
     updatedAt,
+    notes,
   ];
 }
