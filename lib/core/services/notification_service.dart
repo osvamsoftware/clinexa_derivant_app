@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:clinexa_derivant_app/data/models/notification_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
+import 'package:clinexa_derivant_app/core/helpers/localization_helper.dart';
 
 import '../../domain/repositories/notification_repository.dart';
 
@@ -117,13 +120,21 @@ class NotificationService {
     }
   }
 
+  /// Muestra la notificacion localmente usando flutter_local_notifications
   Future<void> _showLocalNotification(NotificationModel notification) async {
+    // Verificar que tenga titulo o cuerpo para mostrar
     if (notification.title.isEmpty && notification.body.isEmpty) return;
+
+    final locale = ui.PlatformDispatcher.instance.locale;
+    final s = await S.delegate.load(locale);
+
+    final title = LocalizationHelper.translateNotificationKey(s, notification.title, notification.data);
+    final body = LocalizationHelper.translateNotificationKey(s, notification.body, notification.data);
 
     await _localNotificationsPlugin.show(
       notification.hashCode,
-      notification.title,
-      notification.body,
+      title,
+      body,
       NotificationDetails(
         android: AndroidNotificationDetails(
           _androidChannel.id,
@@ -131,7 +142,7 @@ class NotificationService {
           channelDescription: _androidChannel.description,
           importance: Importance.max,
           priority: Priority.high,
-          icon: '@mipmap/ic_launcher',
+          icon: '@mipmap/ic_launcher', // Asegurarse que coincida con setup
         ),
       ),
       payload: notification.data.toString(),

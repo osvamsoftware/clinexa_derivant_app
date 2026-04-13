@@ -55,6 +55,10 @@ class ErrorHandler {
       return s.errorForbidden;
     }
 
+    if (lowerError.contains('wrong_role_receptor')) {
+      return s.errorRoleReceptor;
+    }
+
     // Error genérico si no se encuentra un match específico
     return s.errorGeneric;
   }

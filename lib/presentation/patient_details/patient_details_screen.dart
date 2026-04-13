@@ -89,386 +89,371 @@ class PatientDetailsView extends StatelessWidget {
                 _isFieldHidden(patient.address?.formattedAddress);
 
             return SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (hasHiddenData)
-                        Card(
-                          color: AppColors.warning30.withOpacity(0.1),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.lock_outline,
-                                  color: AppColors.warning30,
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (hasHiddenData)
+                    Card(
+                      color: AppColors.warning30.withOpacity(0.1),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.lock_outline,
+                              color: AppColors.warning30,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                s.partialData,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.w500,
                                 ),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: Text(
-                                    s.partialData,
-                                    style: theme.textTheme.bodyMedium?.copyWith(
-                                      fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                  const SizedBox(height: 16),
+
+                  Text(
+                    s.personalInfo,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  _buildInfoRow(
+                    s.register_firstName,
+                    patient.firstName,
+                    false,
+                    theme,
+                    s,
+                  ),
+                  _buildInfoRow(
+                    s.register_lastName,
+                    _isLastNamePartial(patient.lastName)
+                        ? "${patient.lastName} 🔒"
+                        : patient.lastName,
+                    _isLastNamePartial(patient.lastName),
+                    theme,
+                    s,
+                  ),
+                  _buildInfoRow(
+                    s.dni,
+                    patient.dni,
+                    _isFieldHidden(patient.dni),
+                    theme,
+                    s,
+                  ),
+                  _buildInfoRow(s.gender, patient.gender, false, theme, s),
+                  _buildInfoRow(
+                    s.birthDate,
+                    patient.birthDate?.toString().split(' ').first,
+                    false,
+                    theme,
+                    s,
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  Text(
+                    s.contactInfo,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  _buildInfoRow(
+                    s.phone,
+                    patient.phone,
+                    _isFieldHidden(patient.phone),
+                    theme,
+                    s,
+                  ),
+                  _buildInfoRow(
+                    s.email,
+                    patient.email,
+                    _isFieldHidden(patient.email),
+                    theme,
+                    s,
+                  ),
+                  _buildInfoRow(
+                    s.address,
+                    patient.address?.formattedAddress ?? patient.address?.city,
+                    _isFieldHidden(patient.address?.formattedAddress),
+                    theme,
+                    s,
+                  ),
+                  _buildInfoRow(s.city, patient.address?.city, false, theme, s),
+
+                  const SizedBox(height: 24),
+
+                  Text(
+                    s.medicalInfo,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  _buildInfoRow(
+                    s.protocol,
+                    patient.protocol?.name,
+                    false,
+                    theme,
+                    s,
+                  ),
+                  _buildInfoRow(
+                    s.specialty,
+                    patient.specialties.isNotEmpty
+                        ? '${patient.specialties.length} especialidades'
+                        : null,
+                    false,
+                    theme,
+                    s,
+                  ),
+                  _buildInfoRow(
+                    s.homePathology,
+                    patient.pathologies.isNotEmpty
+                        ? '${patient.pathologies.length} patologías'
+                        : null,
+                    false,
+                    theme,
+                    s,
+                  ),
+                  _buildInfoRow(s.notes, patient.notes, false, theme, s),
+
+                  const SizedBox(height: 24),
+
+                  // Firma del paciente
+                  if (patient.signatureUrl != null &&
+                      patient.signatureUrl!.isNotEmpty) ...[
+                    Text(
+                      s.signature,
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Container(
+                      height: 200,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: AppColors.neutral80),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.network(
+                          patient.signatureUrl!,
+                          fit: BoxFit.contain,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value:
+                                    loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.broken_image_outlined,
+                                    size: 40,
+                                    color: AppColors.neutral50,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    s.errorLoadingImage,
+                                    style: TextStyle(
+                                      color: AppColors.neutral50,
                                     ),
                                   ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+
+                  const SizedBox(height: 32),
+
+                  if (patient.order == null && patient.currentOrderId == null)
+                    Card(
+                      color: Colors.red[400], // Red card (less intense)
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.warning_amber_rounded,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                s.noOrderLinked,
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-
-                      const SizedBox(height: 16),
-
-                      Text(
-                        s.personalInfo,
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 12),
-
-                      _buildInfoRow(
-                        s.register_firstName,
-                        patient.firstName,
-                        false,
-                        theme,
-                        s,
+                    )
+                  else if (patient.order != null &&
+                      patient.order!.paymentStage != 'initial')
+                    Card(
+                      color: AppColors.primary30,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      _buildInfoRow(
-                        s.register_lastName,
-                        _isLastNamePartial(patient.lastName)
-                            ? "${patient.lastName} 🔒"
-                            : patient.lastName,
-                        _isLastNamePartial(patient.lastName),
-                        theme,
-                        s,
-                      ),
-                      _buildInfoRow(
-                        s.dni,
-                        patient.dni,
-                        _isFieldHidden(patient.dni),
-                        theme,
-                        s,
-                      ),
-                      _buildInfoRow(s.gender, patient.gender, false, theme, s),
-                      _buildInfoRow(
-                        s.birthDate,
-                        patient.birthDate?.toString().split(' ').first,
-                        false,
-                        theme,
-                        s,
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      Text(
-                        s.contactInfo,
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-
-                      _buildInfoRow(
-                        s.phone,
-                        patient.phone,
-                        _isFieldHidden(patient.phone),
-                        theme,
-                        s,
-                      ),
-                      _buildInfoRow(
-                        s.email,
-                        patient.email,
-                        _isFieldHidden(patient.email),
-                        theme,
-                        s,
-                      ),
-                      _buildInfoRow(
-                        s.address,
-                        patient.address?.formattedAddress ??
-                            patient.address?.city,
-                        _isFieldHidden(patient.address?.formattedAddress),
-                        theme,
-                        s,
-                      ),
-                      _buildInfoRow(
-                        s.city,
-                        patient.address?.city,
-                        false,
-                        theme,
-                        s,
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      Text(
-                        s.medicalInfo,
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-
-                      _buildInfoRow(
-                        s.protocol,
-                        patient.protocol?.name,
-                        false,
-                        theme,
-                        s,
-                      ),
-                      _buildInfoRow(
-                        s.specialty,
-                        patient.specialties.isNotEmpty
-                            ? '${patient.specialties.length} especialidades'
-                            : null,
-                        false,
-                        theme,
-                        s,
-                      ),
-                      _buildInfoRow(
-                        s.homePathology,
-                        patient.pathologies.isNotEmpty
-                            ? '${patient.pathologies.length} patologías'
-                            : null,
-                        false,
-                        theme,
-                        s,
-                      ),
-                      _buildInfoRow(s.notes, patient.notes, false, theme, s),
-
-                      const SizedBox(height: 24),
-
-                      // Firma del paciente
-                      if (patient.signatureUrl != null &&
-                          patient.signatureUrl!.isNotEmpty) ...[
-                        Text(
-                          s.signature,
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        Container(
-                          height: 200,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: AppColors.neutral80),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.network(
-                              patient.signatureUrl!,
-                              fit: BoxFit.contain,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        value:
-                                            loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes!
-                                            : null,
-                                      ),
-                                    );
-                                  },
-                              errorBuilder: (context, error, stackTrace) {
-                                return Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.broken_image_outlined,
-                                        size: 40,
-                                        color: AppColors.neutral50,
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        s.errorLoadingImage,
-                                        style: TextStyle(
-                                          color: AppColors.neutral50,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-
-                      const SizedBox(height: 32),
-
-                      if (patient.order == null && patient.currentOrderId == null)
-                        Card(
-                          color: Colors.red[400], // Red card (less intense)
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Row(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
                               children: [
                                 const Icon(
-                                  Icons.warning_amber_rounded,
+                                  Icons.assignment_turned_in_rounded,
                                   color: Colors.white,
                                   size: 28,
                                 ),
                                 const SizedBox(width: 12),
-                                Expanded(
-                                  child: Text(
-                                    s.noOrderLinked,
-                                    style:
-                                        theme.textTheme.titleMedium?.copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                Text(
+                                  s.activeOrder,
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        )
-                      else if (patient.order != null)
-                        Card(
-                          color: AppColors.primary30,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.assignment_turned_in_rounded,
-                                      color: Colors.white,
-                                      size: 28,
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Text(
-                                      s.activeOrder,
-                                      style:
-                                          theme.textTheme.titleMedium?.copyWith(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 16),
-                                _buildOrderInfoRow(
-                                  s.orderId,
-                                  patient.order!.id?.substring(0, 8) ?? "-",
-                                  Colors.white70,
-                                  Colors.white,
-                                  theme,
-                                ),
-                                _buildOrderInfoRow(
-                                  s.status,
-                                  patient.order!.status.name.toUpperCase(),
-                                  Colors.white70,
-                                  Colors.white,
-                                  theme,
-                                ),
-                                const Divider(color: Colors.white24),
-                                const SizedBox(height: 8),
-                                Text(
-                                  s.professionalFees,
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    color: Colors.white70,
-                                    fontStyle: FontStyle.italic,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  "\$${patient.order!.amount.toStringAsFixed(2)}",
-                                  style: theme.textTheme.headlineSmall
-                                      ?.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                ),
-                                if (patient.order!.notes != null &&
-                                    patient.order!.notes!.isNotEmpty) ...[
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 8),
-                                    child: Divider(color: Colors.white24),
-                                  ),
-                                  Text(
-                                    patient.order!.status ==
-                                            OrderStatus.rejected
-                                        ? "Motivo de rechazo:"
-                                        : "Notas de aceptación:",
-                                    style: theme.textTheme.bodySmall
-                                        ?.copyWith(
-                                      color: Colors.white70,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    patient.order!.notes!,
-                                    style: theme.textTheme.bodyMedium
-                                        ?.copyWith(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ],
+                            const SizedBox(height: 16),
+                            _buildOrderInfoRow(
+                              s.orderId,
+                              patient.order!.id?.substring(0, 8) ?? "-",
+                              Colors.white70,
+                              Colors.white,
+                              theme,
                             ),
-                          )
-                        )
-                      else
-                        const Center(child: CircularProgressIndicator()),
-
-                      const SizedBox(height: 32),
-
-                      // Active/Inactive Button
-                      if (isActive)
-                        CustomButton(
-                          text: s.markAsInactive,
-                          onPressed:
-                              patientState.status == PatientInfoStatus.loading
-                              ? null
-                              : () {
-                                  _showConfirmationDialog(
-                                    context,
-                                    s,
-                                    isMarkingAsActive: false,
-                                    cubit: context.read<PatientInfoCubit>(),
-                                  );
-                                },
-                        )
-                      else
-                        CustomButton(
-                          text: s.markAsActive,
-                          onPressed:
-                              patientState.status == PatientInfoStatus.loading
-                              ? null
-                              : () {
-                                  _showConfirmationDialog(
-                                    context,
-                                    s,
-                                    isMarkingAsActive: true,
-                                    cubit: context.read<PatientInfoCubit>(),
-                                  );
-                                },
+                            _buildOrderInfoRow(
+                              s.status,
+                              patient.order!.status.name.toUpperCase(),
+                              Colors.white70,
+                              Colors.white,
+                              theme,
+                            ),
+                            const Divider(color: Colors.white24),
+                            const SizedBox(height: 8),
+                            Text(
+                              s.professionalFees,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: Colors.white70,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              "\$${(patient.order!.amount * 0.9).toStringAsFixed(2)}",
+                              style: theme.textTheme.headlineSmall?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            if (patient.order!.notes != null &&
+                                patient.order!.notes!.isNotEmpty) ...[
+                              const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 8),
+                                child: Divider(color: Colors.white24),
+                              ),
+                              Text(
+                                patient.order!.status == OrderStatus.rejected
+                                    ? "Motivo de rechazo:"
+                                    : "Notas de aceptación:",
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: Colors.white70,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                patient.order!.notes!,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ],
                         ),
-                    ],
-                  ),
-                );
+                      ),
+                    )
+                  else if (patient.order == null &&
+                      patient.currentOrderId != null)
+                    const Center(child: CircularProgressIndicator()),
+
+                  const SizedBox(height: 32),
+
+                  // Active/Inactive Button
+                  if (isActive)
+                    CustomButton(
+                      text: s.markAsInactive,
+                      onPressed:
+                          patientState.status == PatientInfoStatus.loading
+                          ? null
+                          : () {
+                              _showConfirmationDialog(
+                                context,
+                                s,
+                                isMarkingAsActive: false,
+                                cubit: context.read<PatientInfoCubit>(),
+                              );
+                            },
+                    )
+                  else
+                    CustomButton(
+                      text: s.markAsActive,
+                      onPressed:
+                          patientState.status == PatientInfoStatus.loading
+                          ? null
+                          : () {
+                              _showConfirmationDialog(
+                                context,
+                                s,
+                                isMarkingAsActive: true,
+                                cubit: context.read<PatientInfoCubit>(),
+                              );
+                            },
+                    ),
+                ],
+              ),
+            );
           },
         ),
       ),

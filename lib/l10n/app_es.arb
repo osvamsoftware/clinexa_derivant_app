@@ -239,5 +239,45 @@
   "errorLoadingImage": "Error al cargar la imagen de la firma",
   "paymentBonusPending": "Aún no ha recibido sus honorarios profesionales por el tiempo dedicado a la evaluación de este paciente. Por favor, espere a que uno de nuestros agentes se ponga en contacto con usted.",
   "paymentBonusCompleted": "Sus honorarios profesionales por el tiempo dedicado a la evaluación de este paciente han sido procesados. Continúe realizando diagnósticos y evaluaciones para seguir percibiendo honorarios por sus servicios.",
-  "paymentMovementNotFound": "No hay movimientos registrados con este usuario, contacte con soporte."
+  "paymentMovementNotFound": "No hay movimientos registrados con este usuario, contacte con soporte.",
+  "errorRoleReceptor": "Este email se registró como receptor. Prueba creando una cuenta con un nuevo email.",
+  "notif_patient_rejected_title": "Paciente Rechazado",
+  "notif_patient_rejected_body": "El paciente {patient_name} no fue aceptado. Nota: {notes}",
+  "@notif_patient_rejected_body": {
+    "placeholders": {
+      "patient_name": {
+        "type": "String"
+      },
+      "notes": {
+        "type": "String"
+      }
+    }
+  },
+  "notif_patient_assigned_title": "¡Paciente Referido!",
+  "notif_patient_assigned_body": "Su paciente {patient_name} ha sido referido y será evaluado para la posible participación en el estudio",
+  "@notif_patient_assigned_body": {
+    "placeholders": {
+      "patient_name": {
+        "type": "String"
+      }
+    }
+  },
+  "notif_patient_accepted_title": "¡Paciente Aceptado!",
+  "notif_patient_accepted_body": "El paciente {patient_name} ha sido aceptado para evaluación y posible participación en el estudio.",
+  "@notif_patient_accepted_body": {
+    "placeholders": {
+      "patient_name": {
+        "type": "String"
+      }
+    }
+  },
+  "notif_prospect_patient_title": "Nuevo Prospecto",
+  "notif_prospect_patient_body": "Un nuevo paciente ha sido registrado como prospecto en uno de tus Protocolos.",
+  "@notif_prospect_patient_body": {
+    "placeholders": {
+      "patient_name": {
+        "type": "String"
+      }
+    }
+  }
 }

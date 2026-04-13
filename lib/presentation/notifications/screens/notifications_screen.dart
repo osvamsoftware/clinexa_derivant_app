@@ -10,6 +10,9 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'dart:developer';
 
+import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
+import 'package:clinexa_derivant_app/core/helpers/localization_helper.dart';
+
 class NotificationsScreen extends StatelessWidget {
   static const String path = '/notifications';
 
@@ -192,6 +195,18 @@ class _NotificationCard extends StatelessWidget {
     final dateStr = DateFormat(
       'dd MMM yyyy HH:mm',
     ).format(notification.createdAt);
+    final s = S.of(context);
+    
+    final translatedTitle = LocalizationHelper.translateNotificationKey(
+      s,
+      notification.title,
+      notification.data,
+    );
+    final translatedBody = LocalizationHelper.translateNotificationKey(
+      s,
+      notification.body,
+      notification.data,
+    );
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -238,7 +253,7 @@ class _NotificationCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            notification.title,
+                            translatedTitle,
                             style: theme.textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -260,7 +275,7 @@ class _NotificationCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      notification.body,
+                      translatedBody,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),

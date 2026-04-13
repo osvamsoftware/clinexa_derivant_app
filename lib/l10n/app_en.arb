@@ -250,5 +250,45 @@
         "type": "int"
       }
     }
+  },
+  "errorRoleReceptor": "This email is registered as a receptor. Please try creating an account with a new email.",
+  "notif_patient_rejected_title": "Patient Rejected",
+  "notif_patient_rejected_body": "The patient {patient_name} was not accepted. Note: {notes}",
+  "@notif_patient_rejected_body": {
+    "placeholders": {
+      "patient_name": {
+        "type": "String"
+      },
+      "notes": {
+        "type": "String"
+      }
+    }
+  },
+  "notif_prospect_patient_title": "New Prospect",
+  "notif_prospect_patient_body": "A new patient has been registered as a prospect in one of your Protocols.",
+  "@notif_prospect_patient_body": {
+    "placeholders": {
+      "patient_name": {
+        "type": "String"
+      }
+    }
+  },
+  "notif_patient_assigned_title": "Patient Assigned!",
+  "notif_patient_assigned_body": "Your patient {patient_name} has been referred and will be evaluated for possible participation in the study",
+  "@notif_patient_assigned_body": {
+    "placeholders": {
+      "patient_name": {
+        "type": "String"
+      }
+    }
+  },
+  "notif_patient_accepted_title": "Patient Accepted!",
+  "notif_patient_accepted_body": "The patient {patient_name} has been accepted for evaluation and possible participation in the study",
+  "@notif_patient_accepted_body": {
+    "placeholders": {
+      "patient_name": {
+        "type": "String"
+      }
+    }
   }
 }

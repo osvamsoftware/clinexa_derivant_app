@@ -1,6 +1,8 @@
 import 'package:clinexa_derivant_app/data/models/notification_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
+import 'package:clinexa_derivant_app/core/helpers/localization_helper.dart';
 
 class NotificationDetailScreen extends StatelessWidget {
   static const String path = '/notifications/detail';
@@ -13,6 +15,18 @@ class NotificationDetailScreen extends StatelessWidget {
     final dateStr = DateFormat(
       'dd MMM yyyy HH:mm',
     ).format(notification.createdAt);
+    
+    final s = S.of(context);
+    final translatedTitle = LocalizationHelper.translateNotificationKey(
+      s,
+      notification.title,
+      notification.data,
+    );
+    final translatedBody = LocalizationHelper.translateNotificationKey(
+      s,
+      notification.body,
+      notification.data,
+    );
 
     return Scaffold(
       appBar: AppBar(title: const Text('Detalle de Notificación')),
@@ -22,7 +36,7 @@ class NotificationDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              notification.title,
+              translatedTitle,
               style: Theme.of(
                 context,
               ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
@@ -36,7 +50,7 @@ class NotificationDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              notification.body,
+              translatedBody,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             if (notification.data.isNotEmpty) ...  [

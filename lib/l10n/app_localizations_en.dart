@@ -769,4 +769,40 @@ class SEn extends S {
   String pathologiesCount(int count) {
     return '$count pathologies';
   }
+
+  @override
+  String get errorRoleReceptor =>
+      'This email is registered as a receptor. Please try creating an account with a new email.';
+
+  @override
+  String get notif_patient_rejected_title => 'Patient Rejected';
+
+  @override
+  String notif_patient_rejected_body(String patient_name, String notes) {
+    return 'The patient $patient_name was not accepted. Note: $notes';
+  }
+
+  @override
+  String get notif_prospect_patient_title => 'New Prospect';
+
+  @override
+  String notif_prospect_patient_body(String patient_name) {
+    return 'A new patient has been registered as a prospect in one of your Protocols.';
+  }
+
+  @override
+  String get notif_patient_assigned_title => 'Patient Assigned!';
+
+  @override
+  String notif_patient_assigned_body(String patient_name) {
+    return 'Your patient $patient_name has been referred and will be evaluated for possible participation in the study';
+  }
+
+  @override
+  String get notif_patient_accepted_title => 'Patient Accepted!';
+
+  @override
+  String notif_patient_accepted_body(String patient_name) {
+    return 'The patient $patient_name has been accepted for evaluation and possible participation in the study';
+  }
 }

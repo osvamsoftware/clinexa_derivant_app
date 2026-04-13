@@ -777,4 +777,40 @@ class SEs extends S {
   String pathologiesCount(int count) {
     return '$count pathologies';
   }
+
+  @override
+  String get errorRoleReceptor =>
+      'Este email se registró como receptor. Prueba creando una cuenta con un nuevo email.';
+
+  @override
+  String get notif_patient_rejected_title => 'Paciente Rechazado';
+
+  @override
+  String notif_patient_rejected_body(String patient_name, String notes) {
+    return 'El paciente $patient_name no fue aceptado. Nota: $notes';
+  }
+
+  @override
+  String get notif_prospect_patient_title => 'Nuevo Prospecto';
+
+  @override
+  String notif_prospect_patient_body(String patient_name) {
+    return 'Un nuevo paciente ha sido registrado como prospecto en uno de tus Protocolos.';
+  }
+
+  @override
+  String get notif_patient_assigned_title => '¡Paciente Referido!';
+
+  @override
+  String notif_patient_assigned_body(String patient_name) {
+    return 'Su paciente $patient_name ha sido referido y será evaluado para la posible participación en el estudio';
+  }
+
+  @override
+  String get notif_patient_accepted_title => '¡Paciente Aceptado!';
+
+  @override
+  String notif_patient_accepted_body(String patient_name) {
+    return 'El paciente $patient_name ha sido aceptado para evaluación y posible participación en el estudio.';
+  }
 }

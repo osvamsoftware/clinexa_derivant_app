@@ -15,12 +15,41 @@ import 'package:clinexa_derivant_app/firebase_options.dart';
 import 'package:clinexa_derivant_app/core/services/notification_service.dart';
 import 'package:clinexa_derivant_app/data/repositories/notification_repository_impl.dart';
 
+import 'dart:ui' as ui;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:clinexa_derivant_app/data/models/notification_model.dart';
+import 'package:clinexa_derivant_app/core/helpers/localization_helper.dart';
+
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print(
-    "Mensaje en segundo plano (Background/Terminated): ${message.notification?.title}",
-  );
+  
+  final locale = ui.PlatformDispatcher.instance.locale;
+  final s = await S.delegate.load(locale);
+  
+  final notificationModel = NotificationModel.fromRemoteMessage(message);
+  
+  final title = LocalizationHelper.translateNotificationKey(s, notificationModel.title, notificationModel.data);
+  final body = LocalizationHelper.translateNotificationKey(s, notificationModel.body, notificationModel.data);
+  
+  if (title.isNotEmpty || body.isNotEmpty) {
+      final localNotificationsPlugin = FlutterLocalNotificationsPlugin();
+      await localNotificationsPlugin.show(
+        notificationModel.hashCode,
+        title,
+        body,
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'high_importance_channel',
+            'Notificaciones Importantes',
+            channelDescription: 'Canal usado para notificaciones importantes en primer plano.',
+            importance: Importance.max,
+            priority: Priority.high,
+            icon: '@mipmap/ic_launcher',
+          ),
+        ),
+      );
+  }
 }
 
 void main() async {
