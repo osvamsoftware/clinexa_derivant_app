@@ -39,8 +39,8 @@ abstract interface class PatientRepository {
   Future<void> sendVerificationCode(String phone);
 
   Future<bool> verifyCode(String phone, String code);
-
 }
+
 class PatientRepositoryImpl implements PatientRepository {
   final ApiService apiService = ApiService();
   final Api api;
@@ -341,6 +341,4 @@ class PatientRepositoryImpl implements PatientRepository {
   // pantalla. El endpoint que lo servía devolvía el OTP de CUALQUIER teléfono
   // sin autenticación, anulando la verificación telefónica. Se eliminó del
   // backend; el código solo llega por WhatsApp.
-
 }
-

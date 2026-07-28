@@ -16,20 +16,26 @@ class AuthLoginCubit extends Cubit<AuthLoginState> {
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  AuthLoginCubit(this.authRepository, this._notificationService) : super(AuthLoginState());
+  AuthLoginCubit(this.authRepository, this._notificationService)
+    : super(AuthLoginState());
 
   Future<UserModel?> login(String email, String password) async {
     emit(state.copyWith(status: Status.loading));
     try {
       final user = await authRepository.login(email: email, password: password);
-      
+
       if (user.role == 'receptor') {
         // Rol equivocado para esta app: se cierra la sesión recién abierta.
         await ApiService().clearTokens();
-        emit(state.copyWith(status: Status.error, errorMessage: "wrong_role_receptor"));
+        emit(
+          state.copyWith(
+            status: Status.error,
+            errorMessage: "wrong_role_receptor",
+          ),
+        );
         return null;
       }
-      
+
       // Registrar dispositivo para push notifications
       await _notificationService.registerDevice();
       emit(state.copyWith(status: Status.success));

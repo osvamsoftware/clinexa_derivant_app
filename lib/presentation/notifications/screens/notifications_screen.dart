@@ -196,7 +196,7 @@ class _NotificationCard extends StatelessWidget {
       'dd MMM yyyy HH:mm',
     ).format(notification.createdAt);
     final s = S.of(context);
-    
+
     final translatedTitle = LocalizationHelper.translateNotificationKey(
       s,
       notification.title,

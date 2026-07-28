@@ -4,7 +4,9 @@ class TripHelpers {
   String getCity(String locationString) {
     final parts = locationString.split(',').map((e) => e.trim()).toList();
     if (parts.length < 3) {
-      throw const FormatException('La cadena debe tener el formato "ciudad, estado, país"');
+      throw const FormatException(
+        'La cadena debe tener el formato "ciudad, estado, país"',
+      );
     }
     return parts[0]; // La ciudad está en la primera posición
   }
@@ -13,7 +15,9 @@ class TripHelpers {
     final parts = locationString.split(',').map((e) => e.trim()).toList();
 
     if (parts.length < 3) {
-      throw const FormatException('La cadena debe tener el formato "ciudad, estado, país"');
+      throw const FormatException(
+        'La cadena debe tener el formato "ciudad, estado, país"',
+      );
     }
     return parts[1]; // El estado está en la segunda posición
   }
@@ -22,7 +26,9 @@ class TripHelpers {
     final parts = locationString.split(',').map((e) => e.trim()).toList();
 
     if (parts.length < 3) {
-      throw const FormatException('La cadena debe tener el formato "ciudad, estado, país"');
+      throw const FormatException(
+        'La cadena debe tener el formato "ciudad, estado, país"',
+      );
     }
     return parts[2]; // El estado está en la segunda posición
   }

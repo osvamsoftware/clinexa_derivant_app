@@ -106,9 +106,10 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
       if (mounted) {
         setState(() {
           _userSpecialties = loaded;
-          
+
           // Validar que la especialidad seleccionada aún exista en la lista (por si acaso cambian desde el perfil)
-          if (_selectedSpecialty != null && !loaded.any((s) => s.id == _selectedSpecialty!.id)) {
+          if (_selectedSpecialty != null &&
+              !loaded.any((s) => s.id == _selectedSpecialty!.id)) {
             _selectedSpecialty = null;
             _selectedPathology = null;
           }
@@ -172,8 +173,9 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                         _selectedSpecialty = null;
                         _selectedPathology = null;
 
-                        final userIds =
-                            userSpecialties.map((e) => e.id).toList();
+                        final userIds = userSpecialties
+                            .map((e) => e.id)
+                            .toList();
 
                         // Al cambiar de modo, reseteamos a las especialidades del usuario
                         // y limpiamos patología y query anterior
@@ -232,8 +234,9 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                               cubit.applySpecialty(newValue.id);
                             } else {
                               cubit.updateFilters(
-                                useIds:
-                                    userSpecialties.map((e) => e.id).toList(),
+                                useIds: userSpecialties
+                                    .map((e) => e.id)
+                                    .toList(),
                                 pathologyIds: [],
                               );
                             }
@@ -256,8 +259,9 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                           isExpanded: true,
                           hint: const Text("Seleccione", maxLines: 1),
                           value: _selectedPathology,
-                          items: (_selectedSpecialty?.pathologies ?? [])
-                              .map((pathology) {
+                          items: (_selectedSpecialty?.pathologies ?? []).map((
+                            pathology,
+                          ) {
                             return DropdownMenuItem<PathologyModel>(
                               value: pathology,
                               child: Text(
@@ -275,7 +279,9 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                                   if (newValue?.id != null) {
                                     cubit.applyPathology(newValue!.id!);
                                   } else if (_selectedSpecialty != null) {
-                                    cubit.applySpecialty(_selectedSpecialty!.id);
+                                    cubit.applySpecialty(
+                                      _selectedSpecialty!.id,
+                                    );
                                   }
                                 },
                         ),

@@ -394,7 +394,6 @@ class ApiService {
         throw ApiException("Error desconocido", status);
     }
   }
-
 }
 
 class ApiException implements Exception {

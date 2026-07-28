@@ -98,10 +98,6 @@ class ProtocolCubit extends Cubit<ProtocolState> {
   }
 
   void applyQuery(String query) {
-    updateFilters(
-      useIds: state.selectedUseIds,
-      pathologyIds: [],
-      query: query,
-    );
+    updateFilters(useIds: state.selectedUseIds, pathologyIds: [], query: query);
   }
 }

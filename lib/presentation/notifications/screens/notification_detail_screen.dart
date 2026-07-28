@@ -15,7 +15,7 @@ class NotificationDetailScreen extends StatelessWidget {
     final dateStr = DateFormat(
       'dd MMM yyyy HH:mm',
     ).format(notification.createdAt);
-    
+
     final s = S.of(context);
     final translatedTitle = LocalizationHelper.translateNotificationKey(
       s,
@@ -49,11 +49,8 @@ class NotificationDetailScreen extends StatelessWidget {
               ).textTheme.bodySmall?.copyWith(color: Colors.grey),
             ),
             const SizedBox(height: 24),
-            Text(
-              translatedBody,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            if (notification.data.isNotEmpty) ...  [
+            Text(translatedBody, style: Theme.of(context).textTheme.bodyMedium),
+            if (notification.data.isNotEmpty) ...[
               const SizedBox(height: 24),
               const Divider(),
               const Text(

@@ -59,9 +59,11 @@ class PatientsCubit extends Cubit<PatientsState> {
     try {
       final response = await _specialtyRepository.getSpecialties(limit: 100);
       final allSpecialties = response.items ?? [];
-      
+
       if (allowedIds != null && allowedIds.isNotEmpty) {
-        final filtered = allSpecialties.where((s) => allowedIds.contains(s.id)).toList();
+        final filtered = allSpecialties
+            .where((s) => allowedIds.contains(s.id))
+            .toList();
         emit(state.copyWith(specialties: filtered));
       } else {
         emit(state.copyWith(specialties: allSpecialties));

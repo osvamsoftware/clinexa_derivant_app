@@ -10,8 +10,9 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository authRepository;
   final NotificationService _notificationService;
- 
-  AuthCubit(this.authRepository, this._notificationService) : super(AuthState());
+
+  AuthCubit(this.authRepository, this._notificationService)
+    : super(AuthState());
   // ======================================================
   // 🔹 Inicializa sesión al abrir la app
   // ======================================================
@@ -33,10 +34,10 @@ class AuthCubit extends Cubit<AuthState> {
 
       // 🔸 Sí hay token → intentar obtener /me
       final user = await authRepository.me();
- 
+
       // 🔥 Registrar dispositivo al encontrar sesión válida
       await _notificationService.registerDevice();
- 
+
       emit(
         state.copyWith(
           user: user,

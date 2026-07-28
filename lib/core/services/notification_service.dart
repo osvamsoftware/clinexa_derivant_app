@@ -128,8 +128,16 @@ class NotificationService {
     final locale = ui.PlatformDispatcher.instance.locale;
     final s = await S.delegate.load(locale);
 
-    final title = LocalizationHelper.translateNotificationKey(s, notification.title, notification.data);
-    final body = LocalizationHelper.translateNotificationKey(s, notification.body, notification.data);
+    final title = LocalizationHelper.translateNotificationKey(
+      s,
+      notification.title,
+      notification.data,
+    );
+    final body = LocalizationHelper.translateNotificationKey(
+      s,
+      notification.body,
+      notification.data,
+    );
 
     await _localNotificationsPlugin.show(
       notification.hashCode,
@@ -157,11 +165,17 @@ class NotificationService {
     try {
       log('Llamando a _repository.getToken()...', name: 'NotificationService');
       final token = await _repository.getToken();
-      
+
       if (token != null) {
-        log('Token obtenido correctamente del repositorio. Llamando a _repository.saveToken(token)...', name: 'NotificationService');
+        log(
+          'Token obtenido correctamente del repositorio. Llamando a _repository.saveToken(token)...',
+          name: 'NotificationService',
+        );
         await _repository.saveToken(token);
-        log('Flujo de registro completado en NotificationService', name: 'NotificationService');
+        log(
+          'Flujo de registro completado en NotificationService',
+          name: 'NotificationService',
+        );
       } else {
         log(
           '⚠️ ERROR: _repository.getToken() retornó NULL. No se puede proceder con el registro.',
@@ -169,7 +183,10 @@ class NotificationService {
         );
       }
     } catch (e) {
-      log('❌ ERROR EXCEPCION en registerDevice: $e', name: 'NotificationService');
+      log(
+        '❌ ERROR EXCEPCION en registerDevice: $e',
+        name: 'NotificationService',
+      );
     }
   }
 

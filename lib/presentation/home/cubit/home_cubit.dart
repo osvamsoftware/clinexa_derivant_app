@@ -17,9 +17,13 @@ class HomeCubit extends Cubit<HomeState> {
       emit(state.copyWith(status: HomeStatus.loading));
 
       // Registrar dispositivo para notificaciones push
-      developer.log("🏠 [HomeCubit] Ejecutando _notificationService.registerDevice()...");
+      developer.log(
+        "🏠 [HomeCubit] Ejecutando _notificationService.registerDevice()...",
+      );
       await _notificationService.registerDevice();
-      developer.log("🏠 [HomeCubit] _notificationService.registerDevice() finalizado.");
+      developer.log(
+        "🏠 [HomeCubit] _notificationService.registerDevice() finalizado.",
+      );
 
       // Obtener pacientes del usuario
 

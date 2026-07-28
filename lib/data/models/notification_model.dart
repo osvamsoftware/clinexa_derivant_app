@@ -55,8 +55,16 @@ class NotificationModel extends Equatable {
     return NotificationModel(
       id: data['_id'] ?? '',
       userId: data['user_id'] ?? '',
-      title: message.notification?.title ?? data['title_loc_key'] ?? data['title'] ?? '',
-      body: message.notification?.body ?? data['body_loc_key'] ?? data['body'] ?? '',
+      title:
+          message.notification?.title ??
+          data['title_loc_key'] ??
+          data['title'] ??
+          '',
+      body:
+          message.notification?.body ??
+          data['body_loc_key'] ??
+          data['body'] ??
+          '',
       typeNotification: data['type_notification'] ?? 'general',
       data: data,
       isRead: false,
