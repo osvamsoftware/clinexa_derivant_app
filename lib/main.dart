@@ -1,3 +1,4 @@
+import 'package:clinexa_derivant_app/core/config/app_config.dart';
 import 'package:clinexa_derivant_app/core/api/api.dart';
 import 'package:clinexa_derivant_app/core/api/api_services.dart';
 import 'package:clinexa_derivant_app/core/services/shared_prefs_service.dart';
@@ -6,7 +7,6 @@ import 'package:clinexa_derivant_app/presentation/managers/manager_provider.dart
 import 'package:clinexa_derivant_app/presentation/managers/manager_repository.dart';
 import 'package:clinexa_derivant_app/presentation/router/app_router.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -67,7 +67,11 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await SharedPrefsService.instance.init();
-  await dotenv.load(fileName: ".env");
+
+  // La configuración llega por --dart-define en tiempo de compilación.
+  // Antes venía de un .env empaquetado como asset dentro del APK.
+  AppConfig.assertValid();
+
   final api = await createApiInstance();
 
   // Initialize ApiService with the correct base URL

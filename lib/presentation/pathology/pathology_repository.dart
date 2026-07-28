@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'package:clinexa_derivant_app/core/api/api.dart';
 import 'package:clinexa_derivant_app/core/api/api_services.dart';
 import 'package:clinexa_derivant_app/data/models/api_response_model.dart';
@@ -52,7 +53,7 @@ class PathologyRepositoryImpl implements PathologyRepository {
         items: res.items?.map((e) => PathologyModel.fromMap(e)).toList(),
       );
     } catch (e) {
-      print("❌ [PathologyRepository.getPathologies] $e");
+      developer.log("❌ [PathologyRepository.getPathologies] $e");
       rethrow;
     }
   }
@@ -69,7 +70,7 @@ class PathologyRepositoryImpl implements PathologyRepository {
 
       return PathologyModel.fromMap(res.data ?? {});
     } catch (e) {
-      print("❌ [PathologyRepository.getPathologyById] $e");
+      developer.log("❌ [PathologyRepository.getPathologyById] $e");
       rethrow;
     }
   }
@@ -87,7 +88,7 @@ class PathologyRepositoryImpl implements PathologyRepository {
 
       return PathologyModel.fromMap(res.data ?? {});
     } catch (e) {
-      print("❌ [PathologyRepository.createPathology] $e");
+      developer.log("❌ [PathologyRepository.createPathology] $e");
       rethrow;
     }
   }
@@ -105,7 +106,7 @@ class PathologyRepositoryImpl implements PathologyRepository {
 
       return PathologyModel.fromMap(res.data ?? {});
     } catch (e) {
-      print("❌ [PathologyRepository.updatePathology] $e");
+      developer.log("❌ [PathologyRepository.updatePathology] $e");
       rethrow;
     }
   }
@@ -122,7 +123,7 @@ class PathologyRepositoryImpl implements PathologyRepository {
 
       return true;
     } catch (e) {
-      print("❌ [PathologyRepository.deletePathology] $e");
+      developer.log("❌ [PathologyRepository.deletePathology] $e");
       rethrow;
     }
   }

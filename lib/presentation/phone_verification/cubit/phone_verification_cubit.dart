@@ -9,7 +9,6 @@ part 'phone_verification_state.dart';
 class PhoneVerificationCubit extends Cubit<PhoneVerificationState> {
   final PatientRepository _repository;
   Timer? _resendTimer;
-  Timer? _fetchCodeCountdownTimer;
 
   PhoneVerificationCubit(this._repository)
     : super(const PhoneVerificationState());
@@ -44,7 +43,6 @@ class PhoneVerificationCubit extends Cubit<PhoneVerificationState> {
       );
 
       _startResendTimer();
-      _fetchExpectedCode(fullPhone);
     } catch (e) {
       emit(
         state.copyWith(
@@ -68,29 +66,11 @@ class PhoneVerificationCubit extends Cubit<PhoneVerificationState> {
     });
   }
 
-  Future<void> _fetchExpectedCode(String fullPhone) async {
-    // Reset expected code and set timer to 3 seconds
-    emit(state.copyWith(fetchCodeTimer: 3, expectedCode: null));
-    
-    _fetchCodeCountdownTimer?.cancel();
-    _fetchCodeCountdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      if (state.fetchCodeTimer > 1) {
-        emit(state.copyWith(fetchCodeTimer: state.fetchCodeTimer - 1));
-      } else {
-        timer.cancel();
-        emit(state.copyWith(fetchCodeTimer: 0));
-        
-        try {
-          final code = await _repository.getExpectedCode(fullPhone);
-          if (code != null) {
-            emit(state.copyWith(expectedCode: code));
-          }
-        } catch (e) {
-          // Ignorar el error para que siga el flujo normal de la app
-        }
-      }
-    });
-  }
+  // ELIMINADO: _fetchExpectedCode()
+  //
+  // Consultaba el código al servidor para mostrarlo en pantalla. El endpoint
+  // que lo servía devolvía el OTP de cualquier teléfono sin autenticación:
+  // se eliminó del backend. El código solo llega por WhatsApp.
 
   Future<void> verifyCode(String code) async {
     if (code.length != 6) {
@@ -132,7 +112,6 @@ class PhoneVerificationCubit extends Cubit<PhoneVerificationState> {
   @override
   Future<void> close() {
     _resendTimer?.cancel();
-    _fetchCodeCountdownTimer?.cancel();
     return super.close();
   }
 }

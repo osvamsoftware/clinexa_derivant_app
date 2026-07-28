@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'package:clinexa_derivant_app/core/api/api.dart';
 import 'package:clinexa_derivant_app/core/api/api_services.dart';
 import 'package:clinexa_derivant_app/data/models/api_response_model.dart';
@@ -58,7 +59,7 @@ class SpecialtyRepositoryImpl implements SpecialtyRepository {
         items: res.items?.map((e) => SpecialtyModel.fromMap(e)).toList(),
       );
     } catch (e) {
-      print("❌ [SpecialtyRepository.getSpecialties] $e");
+      developer.log("❌ [SpecialtyRepository.getSpecialties] $e");
       rethrow;
     }
   }
@@ -78,7 +79,7 @@ class SpecialtyRepositoryImpl implements SpecialtyRepository {
 
       return SpecialtyModel.fromMap(res.data ?? {});
     } catch (e) {
-      print("❌ [SpecialtyRepository.getSpecialtyById] $e");
+      developer.log("❌ [SpecialtyRepository.getSpecialtyById] $e");
       rethrow;
     }
   }
@@ -99,7 +100,7 @@ class SpecialtyRepositoryImpl implements SpecialtyRepository {
 
       return SpecialtyModel.fromMap(res.data ?? {});
     } catch (e) {
-      print("❌ [SpecialtyRepository.createSpecialty] $e");
+      developer.log("❌ [SpecialtyRepository.createSpecialty] $e");
       rethrow;
     }
   }
@@ -120,7 +121,7 @@ class SpecialtyRepositoryImpl implements SpecialtyRepository {
 
       return SpecialtyModel.fromMap(res.data ?? {});
     } catch (e) {
-      print("❌ [SpecialtyRepository.updateSpecialty] $e");
+      developer.log("❌ [SpecialtyRepository.updateSpecialty] $e");
       rethrow;
     }
   }
@@ -140,7 +141,7 @@ class SpecialtyRepositoryImpl implements SpecialtyRepository {
 
       return true;
     } catch (e) {
-      print("❌ [SpecialtyRepository.deleteSpecialty] $e");
+      developer.log("❌ [SpecialtyRepository.deleteSpecialty] $e");
       rethrow;
     }
   }

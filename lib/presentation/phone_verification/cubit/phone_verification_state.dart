@@ -16,8 +16,6 @@ class PhoneVerificationState extends Equatable {
   final bool canResendCode;
   final int resendTimer;
   final String? errorMessage;
-  final String? expectedCode;
-  final int fetchCodeTimer;
 
   const PhoneVerificationState({
     this.status = PhoneVerificationStatus.initial,
@@ -26,8 +24,6 @@ class PhoneVerificationState extends Equatable {
     this.canResendCode = false,
     this.resendTimer = 60,
     this.errorMessage,
-    this.expectedCode,
-    this.fetchCodeTimer = 0,
   });
 
   PhoneVerificationState copyWith({
@@ -37,8 +33,6 @@ class PhoneVerificationState extends Equatable {
     bool? canResendCode,
     int? resendTimer,
     String? errorMessage,
-    String? expectedCode,
-    int? fetchCodeTimer,
   }) {
     return PhoneVerificationState(
       status: status ?? this.status,
@@ -47,8 +41,6 @@ class PhoneVerificationState extends Equatable {
       canResendCode: canResendCode ?? this.canResendCode,
       resendTimer: resendTimer ?? this.resendTimer,
       errorMessage: errorMessage ?? this.errorMessage,
-      expectedCode: expectedCode ?? this.expectedCode,
-      fetchCodeTimer: fetchCodeTimer ?? this.fetchCodeTimer,
     );
   }
 
@@ -60,7 +52,5 @@ class PhoneVerificationState extends Equatable {
     canResendCode,
     resendTimer,
     errorMessage,
-    expectedCode,
-    fetchCodeTimer,
   ];
 }

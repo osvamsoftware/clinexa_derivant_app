@@ -286,35 +286,9 @@ class PatientVerificationScreenView extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
 
-                      if (state.fetchCodeTimer > 0)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: Center(
-                            child: Text(
-                              'Por favor espere ${state.fetchCodeTimer} segundo${state.fetchCodeTimer == 1 ? '' : 's'} para obtener el código de prueba...',
-                              style: TextStyle(
-                                color: AppColors.primary40,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        )
-                      else if (state.expectedCode != null)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: Center(
-                            child: Text(
-                              'Código esperado para pruebas: ${state.expectedCode}',
-                              style: const TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
+                      // El código de verificación ya no se muestra en
+                      // pantalla ni se consulta al servidor: solo llega por
+                      // WhatsApp.
 
                       // Campos de código (6 dígitos)
                       Row(

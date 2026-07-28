@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "security/**", "feature/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  analyze:
+    name: Análisis estático y tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Dependencias
+        run: flutter pub get
+
+      - name: Formato
+        run: dart format --output=none --set-exit-if-changed lib
+
+      - name: Análisis estático
+        run: flutter analyze --no-fatal-infos
+
+      - name: Tests
+        run: flutter test
+
+  secrets-scan:
+    name: Verificar que no hay secretos en el repositorio
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: El .env no debe estar versionado ni empaquetado
+        run: |
+          set -e
+          if git ls-files | grep -E '^\.env$'; then
+            echo "::error::.env versionado. La config va por --dart-define."
+            exit 1
+          fi
+          if grep -qE '^\s*-\s*\.env\s*$' pubspec.yaml; then
+            echo "::error::.env declarado como asset: acabaría dentro del APK."
+            exit 1
+          fi
+          echo "OK"
+
+      - name: Sin claves ni keystores versionados
+        run: |
+          set -e
+          if git ls-files | grep -E '\.(jks|keystore|p8|pem)$|key\.properties$'; then
+            echo "::error::Material de firma versionado"
+            exit 1
+          fi
+          if git grep -nE '\bsk_(live|test)_[A-Za-z0-9]{20,}' -- . ':!*.md'; then
+            echo "::error::Clave SECRETA de Stripe en el código de la app"
+            exit 1
+          fi
+          echo "OK"
+
+      - name: La app no debe firmarse con la clave de debug en release
+        run: |
+          set -e
+          if grep -A2 'release {' android/app/build.gradle.kts | grep -q 'signingConfigs.getByName("debug")' && \
+             ! grep -q 'hasReleaseKeystore' android/app/build.gradle.kts; then
+            echo "::error::El build de release usa la clave de debug"
+            exit 1
+          fi
+          echo "OK"

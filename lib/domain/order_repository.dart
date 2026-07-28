@@ -1,3 +1,4 @@
+import 'package:clinexa_derivant_app/core/services/secure_token_storage.dart';
 import 'dart:developer';
 import 'dart:io';
 
@@ -5,7 +6,6 @@ import 'package:clinexa_derivant_app/core/api/api.dart';
 import 'package:clinexa_derivant_app/core/api/api_services.dart';
 import 'package:clinexa_derivant_app/data/models/order_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 abstract interface class OrderRepository {
@@ -50,17 +50,16 @@ class OrderRepositoryImpl implements OrderRepository {
     try {
       log("📩 REJECT ORDER REQUEST → $orderId");
 
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString("derivant_access_token");
+      final token = await SecureTokenStorage().readAccessToken();
 
-      if (token == null) {
+      if (token == null || token.isEmpty) {
         throw Exception("No hay token de autenticación disponible");
       }
 
       final uri = Uri.parse("${api.baseUrl}/orders/$orderId/reject");
       final request = http.MultipartRequest('POST', uri);
 
-      request.headers['Authorization'] = token;
+      request.headers['Authorization'] = 'Bearer $token';
 
       if (proofDocuments != null && proofDocuments.isNotEmpty) {
         for (var file in proofDocuments) {
@@ -75,7 +74,6 @@ class OrderRepositoryImpl implements OrderRepository {
       final response = await http.Response.fromStream(streamedResponse);
 
       log("✅ REJECT ORDER RESPONSE [${response.statusCode}]");
-      log("Response Body: ${response.body}");
 
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);

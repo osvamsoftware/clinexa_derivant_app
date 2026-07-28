@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'package:clinexa_derivant_app/core/api/api.dart';
 import 'package:clinexa_derivant_app/core/api/api_services.dart';
 import 'package:clinexa_derivant_app/data/models/user_status_model.dart';
@@ -24,7 +25,7 @@ class UserStatusRepositoryImpl implements UserStatusRepository {
 
       return UserStatusModel.fromMap(response.data!);
     } catch (e) {
-      print("❌ Error en UserStatusRepositoryImpl.getStatusById: $e");
+      developer.log("❌ Error en UserStatusRepositoryImpl.getStatusById: $e");
       rethrow;
     }
   }

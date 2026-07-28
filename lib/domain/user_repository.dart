@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'package:clinexa_derivant_app/core/api/api.dart';
 import 'package:clinexa_derivant_app/core/api/api_services.dart';
 import 'package:clinexa_derivant_app/data/models/api_response_model.dart';
@@ -42,7 +43,7 @@ class UserRepositoryImpl implements UserRepository {
 
       return response.data!;
     } catch (e) {
-      print("❌ [UserRepositoryImpl.createUser] $e");
+      developer.log("❌ [UserRepositoryImpl.createUser] $e");
       rethrow;
     }
   }
@@ -75,7 +76,7 @@ class UserRepositoryImpl implements UserRepository {
 
       return response;
     } catch (e) {
-      print("❌ [UserRepositoryImpl.getUsers] $e");
+      developer.log("❌ [UserRepositoryImpl.getUsers] $e");
       rethrow;
     }
   }
@@ -95,7 +96,7 @@ class UserRepositoryImpl implements UserRepository {
 
       return response.data!;
     } catch (e) {
-      print("❌ [UserRepositoryImpl.getUserById] $e");
+      developer.log("❌ [UserRepositoryImpl.getUserById] $e");
       rethrow;
     }
   }
@@ -116,7 +117,7 @@ class UserRepositoryImpl implements UserRepository {
 
       return response.data!;
     } catch (e) {
-      print("❌ [UserRepositoryImpl.updateUser] $e");
+      developer.log("❌ [UserRepositoryImpl.updateUser] $e");
       rethrow;
     }
   }
@@ -137,7 +138,7 @@ class UserRepositoryImpl implements UserRepository {
 
       return true;
     } catch (e) {
-      print("❌ [UserRepositoryImpl.deleteUser] $e");
+      developer.log("❌ [UserRepositoryImpl.deleteUser] $e");
       rethrow;
     }
   }

@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'package:clinexa_derivant_app/core/api/api.dart';
 import 'package:clinexa_derivant_app/core/api/api_services.dart';
 import 'package:clinexa_derivant_app/data/models/api_response_model.dart';
@@ -68,7 +69,7 @@ class ProtocolRepositoryImpl implements ProtocolRepository {
         fromJson: (json) => ProtocolModel.fromMap(json),
       );
     } catch (e) {
-      print("❌ [ProtocolRepositoryImpl.getProtocols] $e");
+      developer.log("❌ [ProtocolRepositoryImpl.getProtocols] $e");
       rethrow;
     }
   }
@@ -88,7 +89,7 @@ class ProtocolRepositoryImpl implements ProtocolRepository {
 
       return response.data!;
     } catch (e) {
-      print("❌ [ProtocolRepositoryImpl.getProtocolById] $e");
+      developer.log("❌ [ProtocolRepositoryImpl.getProtocolById] $e");
       rethrow;
     }
   }
@@ -123,7 +124,7 @@ class ProtocolRepositoryImpl implements ProtocolRepository {
 
       return response.data!;
     } catch (e) {
-      print("❌ [ProtocolRepositoryImpl.createProtocol] $e");
+      developer.log("❌ [ProtocolRepositoryImpl.createProtocol] $e");
       rethrow;
     }
   }
@@ -157,7 +158,7 @@ class ProtocolRepositoryImpl implements ProtocolRepository {
 
       return response;
     } catch (e) {
-      print("❌ [ProtocolRepositoryImpl.getProtocolsByCategories] $e");
+      developer.log("❌ [ProtocolRepositoryImpl.getProtocolsByCategories] $e");
       rethrow;
     }
   }
@@ -192,7 +193,7 @@ class ProtocolRepositoryImpl implements ProtocolRepository {
 
       return response.data!;
     } catch (e) {
-      print("❌ [ProtocolRepositoryImpl.updateProtocol] $e");
+      developer.log("❌ [ProtocolRepositoryImpl.updateProtocol] $e");
       rethrow;
     }
   }
@@ -211,7 +212,7 @@ class ProtocolRepositoryImpl implements ProtocolRepository {
       );
       return true;
     } catch (e) {
-      print("❌ [ProtocolRepositoryImpl.deleteProtocol] $e");
+      developer.log("❌ [ProtocolRepositoryImpl.deleteProtocol] $e");
       rethrow;
     }
   }
@@ -231,7 +232,7 @@ class ProtocolRepositoryImpl implements ProtocolRepository {
 
       return response.items!;
     } catch (e) {
-      print("❌ Error in getProtocolsByIds: $e");
+      developer.log("❌ Error in getProtocolsByIds: $e");
       rethrow;
     }
   }

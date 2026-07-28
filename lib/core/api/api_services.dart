@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:developer' as developer;
 
+import 'package:clinexa_derivant_app/core/config/app_config.dart';
+import 'package:clinexa_derivant_app/core/services/secure_token_storage.dart';
 import 'package:clinexa_derivant_app/data/models/api_response_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 enum HttpMethod { get, post, put, delete }
 
@@ -11,54 +13,52 @@ class ApiService {
   static final ApiService _instance = ApiService._internal();
   factory ApiService() => _instance;
 
-  // String baseUrl = "http://localhost:8000";
-  String baseUrl = "http://10.0.2.2:8000";
-  // String productionBaseUrl = "https://api.clinexapp.com";
+  // La URL llega por --dart-define; antes se cambiaba comentando líneas.
+  String baseUrl = AppConfig.apiBaseUrl;
+
   void setBaseUrl(String url) {
     baseUrl = url;
   }
 
-  ApiService._internal() {
-    _loadTokensFromPrefs();
-  }
+  ApiService._internal();
+
+  final SecureTokenStorage _tokenStorage = SecureTokenStorage();
 
   String? _accessToken;
   String? _refreshToken;
 
-  // ============================================================
-  // 🔹 Cargar tokens desde SharedPreferences (al iniciar)
-  // ============================================================
-  Future<void> _loadTokensFromPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    _accessToken = prefs.getString("derivant_access_token");
-    _refreshToken = prefs.getString("derivant_refresh_token");
+  /// Registro solo en debug: los logs del dispositivo no deben contener
+  /// tokens ni cuerpos de respuesta con datos de pacientes.
+  void _debugLog(String message) {
+    if (kDebugMode) {
+      developer.log(message, name: 'API');
+    }
   }
 
   // ============================================================
-  // 🔹 Set tokens + guardarlos en SharedPreferences
+  // 🔹 Tokens (Keychain / Keystore, nunca SharedPreferences)
   // ============================================================
+  Future<void> _loadTokensFromPrefs() async {
+    _accessToken ??= await _tokenStorage.readAccessToken();
+    _refreshToken ??= await _tokenStorage.readRefreshToken();
+  }
+
   Future<void> setTokens({
     required String accessToken,
     required String refreshToken,
   }) async {
     _accessToken = accessToken;
     _refreshToken = refreshToken;
-
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString("derivant_access_token", accessToken);
-    await prefs.setString("derivant_refresh_token", refreshToken);
+    await _tokenStorage.saveTokens(
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+    );
   }
 
-  // ============================================================
-  // 🔹 Borrar tokens del sistema + SharedPreferences
-  // ============================================================
   Future<void> clearTokens() async {
     _accessToken = null;
     _refreshToken = null;
-
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove("derivant_access_token");
-    await prefs.remove("derivant_refresh_token");
+    await _tokenStorage.clear();
   }
 
   // ============================================================
@@ -82,19 +82,11 @@ class ApiService {
 
       final headers = {
         "Content-Type": "application/json",
-        if (withAuth && _accessToken != null) "Authorization": _accessToken!,
+        if (withAuth && _accessToken != null)
+          "Authorization": "Bearer $_accessToken",
       };
 
-      developer.log("🔵 REQUEST [${method.name.toUpperCase()}] -> $uri");
-      developer.log("Headers: $headers");
-      if (body != null) {
-        try {
-          final maskedBody = _maskSensitiveData(body);
-          developer.log("Body: ${jsonEncode(maskedBody)}");
-        } catch (e) {
-          developer.log("Body: ${jsonEncode(body)} (Error masking data)");
-        }
-      }
+      _debugLog("➡️ ${method.name.toUpperCase()} ${uri.path}");
 
       http.Response response;
 
@@ -128,8 +120,7 @@ class ApiService {
           break;
       }
 
-      developer.log("🟢 RESPONSE [${response.statusCode}] <- $uri");
-      developer.log("Response Body: ${response.body}");
+      _debugLog("⬅️ ${response.statusCode} ${uri.path}");
 
       // ============================================================
       // 🔄 REFRESH TOKEN AUTOMÁTICO
@@ -150,9 +141,11 @@ class ApiService {
       }
 
       return _handleResponse<T>(response, fromJson);
+    } on ApiException {
+      rethrow;
     } catch (e) {
-      developer.log("🔴 EXCEPTION in request: $e", error: e);
-      throw Exception("Error realizando la petición HTTP: $e");
+      _debugLog("❌ Error de red");
+      throw Exception("Error realizando la petición HTTP");
     }
   }
 
@@ -176,10 +169,11 @@ class ApiService {
 
       final headers = {
         "Content-Type": "application/json",
-        if (withAuth && _accessToken != null) "Authorization": _accessToken!,
+        if (withAuth && _accessToken != null)
+          "Authorization": "Bearer $_accessToken",
       };
 
-      developer.log("🔵 REQUEST LIST [${method.name.toUpperCase()}] -> $uri");
+      _debugLog("➡️ LIST ${method.name.toUpperCase()} ${uri.path}");
 
       http.Response response;
 
@@ -210,7 +204,7 @@ class ApiService {
           break;
       }
 
-      developer.log("🟢 RESPONSE LIST [${response.statusCode}] <- $uri");
+      _debugLog("⬅️ LIST ${response.statusCode} ${uri.path}");
 
       if (response.statusCode == 401 && withAuth && _refreshToken != null) {
         final refreshed = await _tryRefreshToken();
@@ -227,9 +221,11 @@ class ApiService {
       }
 
       return _handleListResponse<T>(response, fromJson);
+    } on ApiException {
+      rethrow;
     } catch (e) {
-      developer.log("🔴 EXCEPTION in requestList: $e", error: e);
-      throw Exception("Error realizando la petición HTTP (List): $e");
+      _debugLog("❌ Error de red (lista)");
+      throw Exception("Error realizando la petición HTTP (List)");
     }
   }
 
@@ -254,8 +250,13 @@ class ApiService {
             jsonResponse["id_token"] ?? jsonResponse["access_token"];
         final newRefresh = jsonResponse["refresh_token"] ?? _refreshToken;
         // Guardar todo en memoria + prefs
+        if (newAccess == null || newRefresh == null) return false;
         await setTokens(accessToken: newAccess, refreshToken: newRefresh);
         return true;
+      }
+      // Si el refresh falla, la sesión ya no sirve.
+      if (res.statusCode == 401 || res.statusCode == 403) {
+        await clearTokens();
       }
       return false;
     } catch (e) {
@@ -301,10 +302,19 @@ class ApiService {
         throw ApiException("Token inválido o expirado.", 401);
 
       case 403:
-        throw ApiException("Sin permisos para esta acción.", 403);
+        throw ApiException(message ?? "Sin permisos para esta acción.", 403);
 
       case 404:
         throw ApiException("Recurso no encontrado.", 404);
+
+      case 422:
+        throw ApiException(message ?? "Datos inválidos.", 422);
+
+      case 429:
+        throw ApiException(
+          "Demasiados intentos. Espera un momento e inténtalo de nuevo.",
+          429,
+        );
 
       case 500:
         throw ApiException("Error interno del servidor.", 500);
@@ -363,10 +373,19 @@ class ApiService {
         throw ApiException("Token inválido o expirado.", 401);
 
       case 403:
-        throw ApiException("Sin permisos para esta acción.", 403);
+        throw ApiException(message ?? "Sin permisos para esta acción.", 403);
 
       case 404:
         throw ApiException("Recursos no encontrados.", 404);
+
+      case 422:
+        throw ApiException(message ?? "Datos inválidos.", 422);
+
+      case 429:
+        throw ApiException(
+          "Demasiados intentos. Espera un momento e inténtalo de nuevo.",
+          429,
+        );
 
       case 500:
         throw ApiException("Error interno del servidor.", 500);
@@ -376,37 +395,6 @@ class ApiService {
     }
   }
 
-  // ============================================================
-  // 🔹 HELPER: MASK SENSITIVE DATA
-  // ============================================================
-  dynamic _maskSensitiveData(dynamic data) {
-    if (data is Map<String, dynamic>) {
-      final newData = Map<String, dynamic>.from(data);
-      const sensitiveKeys = [
-        'password',
-        'token',
-        'access_token',
-        'refresh_token',
-        'secret',
-        'pass',
-      ];
-
-      for (final key in newData.keys) {
-        final lowerKey = key.toLowerCase();
-        // Si la clave contiene alguna palabra sensible, enmascaramos
-        if (sensitiveKeys.any((s) => lowerKey.contains(s))) {
-          newData[key] = "*****";
-        } else {
-          // Recursión para objetos anidados
-          newData[key] = _maskSensitiveData(newData[key]);
-        }
-      }
-      return newData;
-    } else if (data is List) {
-      return data.map((e) => _maskSensitiveData(e)).toList();
-    }
-    return data;
-  }
 }
 
 class ApiException implements Exception {

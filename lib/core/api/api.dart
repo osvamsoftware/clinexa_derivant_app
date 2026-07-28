@@ -1,51 +1,13 @@
-import 'dart:io';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:clinexa_derivant_app/core/config/app_config.dart';
 
+/// La URL del backend viene de `--dart-define=API_BASE_URL=...`.
+/// Antes se elegía comentando y descomentando líneas, con el riesgo de
+/// publicar una build apuntando al entorno equivocado.
 Future<Api> createApiInstance() async {
-  // String baseUrl = "http://18.225.7.38:8000";
-
-  // // Try to get URL from env first
-  String baseUrl = dotenv.env['API_URL'] ?? '';
-  String socketUrl = '';
-
-  // if (baseUrl.isNotEmpty) {
-  //   // If URL doesn't end with /api, we might need to adjust or assume the env var is the full root
-  //   socketUrl = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
-  // } else {
-  //   // Determine base URL based on platform and device type
-  //   final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-
-  //   if (Platform.isAndroid) {
-  //     final androidInfo = await deviceInfo.androidInfo;
-  //     if (!androidInfo.isPhysicalDevice) {
-  //       // Android Emulator
-  //       baseUrl = 'http://10.0.2.2:8000';
-  //     } else {
-  //       // Android Physical Device
-  //       baseUrl = 'http://10.0.2.2:8000';
-  //     }
-  //   } else if (Platform.isIOS) {
-  //     final iosInfo = await deviceInfo.iosInfo;
-  //     if (!iosInfo.isPhysicalDevice) {
-  //       // iOS Simulator
-  //       baseUrl = 'http://localhost:8000';
-  //     } else {
-  //       // iOS Physical Device
-  //       baseUrl = 'http://localhost:8000';
-  //     }
-  //   } else {
-  //     // Fallback for other platforms
-  //     baseUrl = 'http://10.0.2.2:8000';
-  //   }
-  // }
-  baseUrl = 'https://api.clinexapp.com';
-  // baseUrl = 'http://localhost:8000';
-  // baseUrl = 'http://192.168.170.46:8000';
-  socketUrl = '$baseUrl/';
+  final baseUrl = AppConfig.apiBaseUrl;
   return Api(
     baseUrl: baseUrl,
-    socketUrl: socketUrl,
+    socketUrl: '$baseUrl/',
     googleMapsBaseUrl: 'https://maps.googleapis.com/maps/api',
   );
 }
@@ -159,9 +121,9 @@ class Api {
   String get verificationVerifyCode =>
       _constructApiUrl(_verificationVerifyCode);
 
-  static const String _verificationGetCode = '/verification/code';
-  String verificationGetCode(String phone) =>
-      _constructApiUrl('$_verificationGetCode/$phone');
+  // ELIMINADO: GET /verification/code/{phone}
+  // Devolvía el código de verificación de cualquier teléfono sin
+  // autenticación, lo que anulaba la verificación telefónica.
 
   //check email
   static const String _checkEmail = '/check-email';

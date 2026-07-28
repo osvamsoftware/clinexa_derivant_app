@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:clinexa_derivant_app/core/api/api.dart';
 import 'package:clinexa_derivant_app/core/api/api_services.dart';
-import 'package:clinexa_derivant_app/core/services/shared_prefs_service.dart';
+import 'package:clinexa_derivant_app/core/services/secure_token_storage.dart';
 import 'package:clinexa_derivant_app/data/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -42,7 +42,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     try {
-      log("📩 LOGIN REQUEST → email: $email");
+      log("📩 LOGIN REQUEST");
 
       final response = await apiService.request<Map<String, dynamic>>(
         path: api.login,
@@ -51,14 +51,11 @@ class AuthRepositoryImpl implements AuthRepository {
         fromJson: (json) => json,
       );
 
-      log("✅ LOGIN RESPONSE → ${response.data}");
+      log("✅ LOGIN OK");
 
-      final prefs = SharedPrefsService.instance;
-
-      await prefs.setString("auth_token", response.data?["auth_token"]);
-      await prefs.setString("refresh_token", response.data?["refresh_token"]);
-
-      apiService.setTokens(
+      // Los tokens van SOLO al almacenamiento seguro (Keychain/Keystore).
+      // Antes se duplicaban en SharedPreferences, que no está cifrado.
+      await apiService.setTokens(
         accessToken: response.data?["auth_token"],
         refreshToken: response.data?["refresh_token"],
       );
@@ -81,7 +78,6 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       log("📩 REGISTER REQUEST → ${user.toMap()}");
       final requestBody = {"user": user.toMap(), "password": password};
-      print(requestBody);
 
       final response = await apiService.request<Map<String, dynamic>>(
         path: api.register,
@@ -90,7 +86,7 @@ class AuthRepositoryImpl implements AuthRepository {
         fromJson: (json) => json,
       );
 
-      log("✅ REGISTER RESPONSE → ${response.data}");
+      log("✅ REGISTER RESPONSE");
 
       return UserModel.fromMap(response.data ?? {});
     } catch (e, stack) {
@@ -114,17 +110,15 @@ class AuthRepositoryImpl implements AuthRepository {
         withAuth: true,
       );
 
-      log("✅ ME RESPONSE → ${response.data}");
-
-      final prefs = SharedPrefsService.instance;
+      log("✅ ME RESPONSE");
 
       if (response.data?["new_token"] != null) {
-        log("🔄 NEW ACCESS TOKEN RECEIVED → ${response.data?["new_token"]}");
+        log("🔄 Nuevo access token recibido");
 
-        await prefs.setString("auth_token", response.data?["new_token"]);
-        apiService.setTokens(
+        final currentRefresh = await SecureTokenStorage().readRefreshToken();
+        await apiService.setTokens(
           accessToken: response.data?["new_token"],
-          refreshToken: prefs.getString("refresh_token") ?? "",
+          refreshToken: currentRefresh ?? "",
         );
       }
 
@@ -141,7 +135,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Map<String, dynamic>> refresh({required String refreshToken}) async {
     try {
-      log("🔄 REFRESH TOKEN REQUEST → $refreshToken");
+      log("🔄 REFRESH TOKEN REQUEST");
 
       final response = await apiService.request<Map<String, dynamic>>(
         path: api.refresh,
@@ -150,7 +144,7 @@ class AuthRepositoryImpl implements AuthRepository {
         fromJson: (json) => json,
       );
 
-      log("✅ REFRESH RESPONSE → ${response.data}");
+      log("✅ REFRESH RESPONSE");
 
       return response.data ?? {};
     } catch (e, stack) {
@@ -216,7 +210,7 @@ class AuthRepositoryImpl implements AuthRepository {
         fromJson: (json) => json,
       );
 
-      log("✅ CHECK EMAIL RESPONSE → ${response.data}");
+      log("✅ CHECK EMAIL RESPONSE");
       return response.data?["exists"] ?? false;
     } catch (e, stack) {
       log("❌ CHECK EMAIL ERROR", error: e, stackTrace: stack);

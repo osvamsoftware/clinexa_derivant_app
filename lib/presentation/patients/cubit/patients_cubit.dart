@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'dart:async'; // Add async for debounce if needed, though simple query is fine for now
 import 'package:bloc/bloc.dart';
 import 'package:clinexa_derivant_app/data/models/patient_model.dart';
@@ -67,7 +68,7 @@ class PatientsCubit extends Cubit<PatientsState> {
       }
     } catch (e) {
       // Log error but don't fail the whole screen if specialties fail
-      print("Error loading specialties: $e");
+      developer.log("Error loading specialties: $e");
     }
   }
 

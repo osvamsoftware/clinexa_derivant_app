@@ -1,9 +1,9 @@
+import 'package:clinexa_derivant_app/core/api/api_services.dart';
 import 'package:clinexa_derivant_app/data/models/user_model.dart';
 import 'package:clinexa_derivant_app/core/services/notification_service.dart';
 import 'package:clinexa_derivant_app/domain/auth_repository.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:clinexa_derivant_app/core/services/shared_prefs_service.dart';
 
 part 'login_state.dart';
 
@@ -24,9 +24,8 @@ class AuthLoginCubit extends Cubit<AuthLoginState> {
       final user = await authRepository.login(email: email, password: password);
       
       if (user.role == 'receptor') {
-        final prefs = SharedPrefsService.instance;
-        await prefs.remove("auth_token");
-        await prefs.remove("refresh_token");
+        // Rol equivocado para esta app: se cierra la sesión recién abierta.
+        await ApiService().clearTokens();
         emit(state.copyWith(status: Status.error, errorMessage: "wrong_role_receptor"));
         return null;
       }

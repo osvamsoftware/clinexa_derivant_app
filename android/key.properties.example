@@ -1,0 +1,13 @@
+# Copia este archivo a android/key.properties y completa los valores.
+# NUNCA subas key.properties ni el .jks al repositorio.
+#
+# Generar el keystore (una sola vez, y guardarlo en un lugar seguro:
+# si se pierde, no se puede volver a publicar una actualización de la app):
+#
+#   keytool -genkey -v -keystore ~/clinexa-derivant-upload.jks \
+#     -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+
+storePassword=
+keyPassword=
+keyAlias=upload
+storeFile=/ruta/absoluta/a/clinexa-derivant-upload.jks

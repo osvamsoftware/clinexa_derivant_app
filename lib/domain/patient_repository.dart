@@ -40,7 +40,6 @@ abstract interface class PatientRepository {
 
   Future<bool> verifyCode(String phone, String code);
 
-  Future<String?> getExpectedCode(String phone);
 }
 class PatientRepositoryImpl implements PatientRepository {
   final ApiService apiService = ApiService();
@@ -245,8 +244,7 @@ class PatientRepositoryImpl implements PatientRepository {
       final timestamp = DateTime.now().millisecondsSinceEpoch;
       log("🚀 STARTING SIGNATURE UPLOAD: $timestamp");
       log("📦 Size: ${signatureData.lengthInBytes} bytes");
-      print(Firebase.app().options.projectId);
-      print(Firebase.app().options.storageBucket);
+      log('Firebase project: ${Firebase.app().options.projectId}');
 
       final ref = FirebaseStorage.instance.ref().child(
         'signatures/signature_$timestamp.png',
@@ -337,27 +335,12 @@ class PatientRepositoryImpl implements PatientRepository {
     }
   }
 
-  // =============================================================
-  // 🔹 GET EXPECTED CODE (FOR TESTING)
-  // =============================================================
-  @override
-  Future<String?> getExpectedCode(String phone) async {
-    try {
-      log("📩 GET EXPECTED CODE REQUEST → $phone");
+  // ELIMINADO: getExpectedCode()
+  //
+  // Leía el código de verificación desde el servidor para autocompletarlo en
+  // pantalla. El endpoint que lo servía devolvía el OTP de CUALQUIER teléfono
+  // sin autenticación, anulando la verificación telefónica. Se eliminó del
+  // backend; el código solo llega por WhatsApp.
 
-      final response = await apiService.request<dynamic>(
-        path: api.verificationGetCode(phone),
-        method: HttpMethod.get,
-        fromJson: (json) => json,
-      );
-
-      log("✅ GET EXPECTED CODE RESPONSE → ${response.data}");
-      // Adjust according to the backend response format: {"success": True, "code": "..."}
-      return response.data?["code"]?.toString();
-    } catch (e) {
-      log("❌ GET EXPECTED CODE ERROR: $e");
-      return null;
-    }
-  }
 }
 

@@ -1,5 +1,6 @@
+import 'package:clinexa_derivant_app/core/services/secure_token_storage.dart';
+import 'package:clinexa_derivant_app/core/api/api_services.dart';
 import 'package:clinexa_derivant_app/core/services/notification_service.dart';
-import 'package:clinexa_derivant_app/core/services/shared_prefs_service.dart';
 import 'package:clinexa_derivant_app/data/models/user_model.dart';
 import 'package:clinexa_derivant_app/domain/auth_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,12 +20,11 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(status: AuthStatus.loading));
 
     try {
-      final prefs = SharedPrefsService.instance;
-
-      final token = prefs.getString("auth_token");
+      // El token vive en el Keychain/Keystore, no en SharedPreferences.
+      final token = await SecureTokenStorage().readAccessToken();
 
       // 🔸 No hay token → usuario NO autenticado
-      if (token == null) {
+      if (token == null || token.isEmpty) {
         emit(
           state.copyWith(initialized: true, status: AuthStatus.unauthenticated),
         );
@@ -71,11 +71,9 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(status: AuthStatus.loading));
 
     try {
-      final prefs = SharedPrefsService.instance;
+      final refreshToken = await SecureTokenStorage().readRefreshToken();
 
-      final refreshToken = prefs.getString("refresh_token");
-
-      if (refreshToken == null) {
+      if (refreshToken == null || refreshToken.isEmpty) {
         emit(
           state.copyWith(
             status: AuthStatus.error,
@@ -116,13 +114,12 @@ class AuthCubit extends Cubit<AuthState> {
   // 🔹 Logout
   // ======================================================
   Future<void> logout() async {
-    final prefs = SharedPrefsService.instance;
- 
     // 🔥 Eliminar token del backend antes de limpiar sesión local
     await _notificationService.unsubscribe();
- 
-    await prefs.remove("auth_token");
-    await prefs.remove("refresh_token");
+
+    // Borra los tokens del Keychain/Keystore y cualquier resto de la
+    // versión anterior que los guardaba sin cifrar.
+    await ApiService().clearTokens();
 
     emit(
       AuthState(

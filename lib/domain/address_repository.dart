@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'package:clinexa_derivant_app/core/api/api.dart';
 import 'package:clinexa_derivant_app/core/api/api_services.dart';
 import 'package:clinexa_derivant_app/data/models/address_model.dart';
@@ -39,7 +40,7 @@ class AddressRepositoryImpl implements AddressRepository {
           .map<AddressSuggestion>((e) => AddressSuggestion.fromMap(e))
           .toList();
     } catch (e) {
-      print("❌ [AddressRepository.searchAddress] $e");
+      developer.log("❌ [AddressRepository.searchAddress] $e");
       rethrow;
     }
   }
@@ -60,7 +61,7 @@ class AddressRepositoryImpl implements AddressRepository {
 
       return AddressModel.fromGoogleMap(res.data ?? {});
     } catch (e) {
-      print("❌ [AddressRepository.getAddressDetail] $e");
+      developer.log("❌ [AddressRepository.getAddressDetail] $e");
       rethrow;
     }
   }

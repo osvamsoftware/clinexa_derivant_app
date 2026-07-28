@@ -66,18 +66,8 @@ class SharedPrefsService {
   // 🔹 Helpers de uso frecuente
   // =============================================================
 
-  /// Token JWT
-  Future<void> saveToken(String token) async {
-    await setString("derivant_auth_token", token);
-  }
-
-  String? getToken() {
-    return getString("derivant_auth_token");
-  }
-
-  Future<void> deleteToken() async {
-    await remove("derivant_auth_token");
-  }
+  // Los tokens de sesión NO se guardan aquí: SharedPreferences no está
+  // cifrado. Usa SecureTokenStorage (Keychain / Keystore).
 
   /// Guardar tema Oscuro/Claro
   Future<void> setDarkMode(bool value) async {
