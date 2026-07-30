@@ -54,10 +54,15 @@ class SEs extends S {
       'Por favor, introduce un número de teléfono válido (6-12 dígitos).';
 
   @override
-  String get passwordMin => 'La contraseña debe tener al menos 6 caracteres.';
+  String get passwordMin => 'La contraseña debe tener al menos 8 caracteres.';
 
   @override
-  String get passwordMax => 'La contraseña no puede exceder los 20 caracteres.';
+  String get passwordMax =>
+      'La contraseña no puede exceder los 128 caracteres.';
+
+  @override
+  String get passwordComplexity =>
+      'La contraseña debe combinar mayúsculas, minúsculas y números.';
 
   @override
   String get passwordMismatch => 'Las contraseñas no coinciden.';

@@ -42,8 +42,17 @@ class Validators {
     final s = S.of(context);
 
     if (password.isEmpty) return s.fieldRequired;
-    if (password.length < 6) return s.passwordMin;
-    if (password.length > 20) return s.passwordMax;
+
+    // Estos requisitos son los mismos que aplica el backend en /register.
+    // Si divergen, el usuario rellena el formulario, lo envía y recibe un
+    // 422 sin haber podido corregirlo antes.
+    if (password.length < 8) return s.passwordMin;
+    if (password.length > 128) return s.passwordMax;
+
+    final hasLower = password.contains(RegExp(r'[a-z]'));
+    final hasUpper = password.contains(RegExp(r'[A-Z]'));
+    final hasDigit = password.contains(RegExp(r'[0-9]'));
+    if (!hasLower || !hasUpper || !hasDigit) return s.passwordComplexity;
 
     return null;
   }

@@ -184,14 +184,20 @@ abstract class S {
   /// No description provided for @passwordMin.
   ///
   /// In en, this message translates to:
-  /// **'Password must be at least 6 characters'**
+  /// **'Password must be at least 8 characters'**
   String get passwordMin;
 
   /// No description provided for @passwordMax.
   ///
   /// In en, this message translates to:
-  /// **'Password must be less than 20 characters'**
+  /// **'Password must be less than 128 characters'**
   String get passwordMax;
+
+  /// No description provided for @passwordComplexity.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must combine uppercase, lowercase and numbers'**
+  String get passwordComplexity;
 
   /// No description provided for @passwordMismatch.
   ///

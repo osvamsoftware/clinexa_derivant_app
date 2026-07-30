@@ -52,10 +52,14 @@ class SEn extends S {
   String get invalidPhone => 'Invalid phone number';
 
   @override
-  String get passwordMin => 'Password must be at least 6 characters';
+  String get passwordMin => 'Password must be at least 8 characters';
 
   @override
-  String get passwordMax => 'Password must be less than 20 characters';
+  String get passwordMax => 'Password must be less than 128 characters';
+
+  @override
+  String get passwordComplexity =>
+      'Password must combine uppercase, lowercase and numbers';
 
   @override
   String get passwordMismatch => 'Passwords do not match';
