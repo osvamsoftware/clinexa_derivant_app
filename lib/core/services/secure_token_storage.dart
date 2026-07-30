@@ -54,15 +54,28 @@ class SecureTokenStorage {
     }
   }
 
-  Future<String?> readAccessToken() async {
-    await _migrateLegacyTokensOnce();
-    return _storage.read(key: _accessTokenKey);
+  /// Lee del almacenamiento seguro tolerando un fallo del backend nativo.
+  ///
+  /// El Keystore de Android puede dejar los datos ilegibles tras ciertas
+  /// actualizaciones del sistema o restauraciones. Si eso ocurre, `read()`
+  /// lanza; propagarlo dejaría la app inutilizable, sin poder ni siquiera
+  /// iniciar sesión de nuevo. Ante un fallo se limpia y se trata como
+  /// "no hay sesión": el usuario vuelve a entrar y sigue trabajando.
+  Future<String?> _readOrRecover(String key) async {
+    try {
+      await _migrateLegacyTokensOnce();
+      return await _storage.read(key: key);
+    } catch (_) {
+      try {
+        await _storage.deleteAll();
+      } catch (_) {}
+      return null;
+    }
   }
 
-  Future<String?> readRefreshToken() async {
-    await _migrateLegacyTokensOnce();
-    return _storage.read(key: _refreshTokenKey);
-  }
+  Future<String?> readAccessToken() => _readOrRecover(_accessTokenKey);
+
+  Future<String?> readRefreshToken() => _readOrRecover(_refreshTokenKey);
 
   Future<void> saveTokens({
     required String accessToken,
@@ -73,8 +86,12 @@ class SecureTokenStorage {
   }
 
   Future<void> clear() async {
-    await _storage.delete(key: _accessTokenKey);
-    await _storage.delete(key: _refreshTokenKey);
+    try {
+      await _storage.delete(key: _accessTokenKey);
+      await _storage.delete(key: _refreshTokenKey);
+    } catch (_) {
+      // Cerrar sesión nunca debe fallar por un problema del almacenamiento.
+    }
 
     try {
       final prefs = await SharedPreferences.getInstance();

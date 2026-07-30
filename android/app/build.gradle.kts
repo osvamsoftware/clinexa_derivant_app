@@ -42,7 +42,11 @@ android {
         applicationId = "com.clinexapp.derivante"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion // Recommendation for some Firebase/Notification features
+        // Explícito y no heredado: flutter_secure_storage usa
+        // EncryptedSharedPreferences, que requiere API 23+. Si el minSdk
+        // bajara al cambiar de versión de Flutter, el almacenamiento seguro
+        // de los tokens fallaría en tiempo de ejecución.
+        minSdk = maxOf(flutter.minSdkVersion, 24) // Recommendation for some Firebase/Notification features
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
