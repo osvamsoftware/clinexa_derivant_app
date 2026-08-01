@@ -51,3 +51,9 @@ app.*.map.json
 android/key.properties
 *.jks
 *.keystore
+
+# Configuración local de desarrollo: contiene claves, no se versiona.
+# Se inyecta al compilar con --dart-define-from-file, NO se empaqueta como
+# asset, así que no acaba dentro del APK.
+config/*.json
+!config/*.example
