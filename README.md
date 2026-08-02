@@ -4,21 +4,32 @@ Flutter. Consume la API de `clinexa_backend`.
 
 ## Configuración
 
-La app **no lleva ningún archivo de configuración empaquetado**. Todos los
-valores se inyectan al compilar con `--dart-define`.
+Los valores salen de dos sitios, en este orden de prioridad:
 
-> El `.env` anterior se declaraba como asset en `pubspec.yaml`: viajaba dentro
-> del APK/IPA y se podía extraer con `unzip`. La clave de Google Maps que
-> contenía debe considerarse comprometida y rotarse, además de restringirse
-> por bundle ID / SHA-1 en Google Cloud Console.
+1. **`--dart-define`**, si se pasa al compilar.
+2. **`.env`**, que se carga al arrancar (`flutter_dotenv`).
 
 ### Desarrollo
 
+Copia la plantilla una vez y ya puedes arrancar sin argumentos:
+
 ```bash
-flutter run \
-  --dart-define=API_BASE_URL=http://10.0.2.2:8000 \
-  --dart-define=GOOGLE_MAPS_API_KEY=...
+cp .env.example .env    # y completa las claves
+flutter run
 ```
+
+El `.env` es **obligatorio**: está declarado como asset en `pubspec.yaml`, así
+que sin él la compilación falla con `No file or variants found for asset:
+.env`. No se versiona (está en `.gitignore`); `.env.example` sí.
+
+> ⚠️ **El `.env` viaja dentro del APK y del IPA** y se puede extraer con
+> `unzip`. Ahí solo pueden ir claves públicas. La de Google Maps lo es: lo que
+> la protege es restringirla por bundle ID / SHA-1 en Google Cloud Console, no
+> esconderla. Aun así, la que había en el `.env` de una versión anterior
+> quedó publicada en el repositorio y conviene rotarla.
+
+Para un paquete de producción sin claves dentro, deja el `.env` vacío y pasa
+los valores por `--dart-define`, que tienen prioridad:
 
 ### Release
 

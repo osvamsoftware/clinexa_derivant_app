@@ -64,6 +64,14 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Carga el .env antes que nada: el resto del arranque (la URL del API, la
+  // clave de Maps) depende de esos valores.
+  //
+  // El .env viaja empaquetado como asset dentro del APK/IPA. Ahí solo deben
+  // vivir claves públicas (la de Maps, restringida por bundle ID). Ver la
+  // nota en AppConfig.
+  await AppConfig.load();
+
   try {
     if (Firebase.apps.isEmpty) {
       await Firebase.initializeApp(
@@ -77,11 +85,10 @@ void main() async {
 
   await SharedPrefsService.instance.init();
 
-  // La configuración llega por --dart-define en tiempo de compilación.
-  // Antes venía de un .env empaquetado como asset dentro del APK.
+  // En release exige que el build esté completo; en desarrollo no bloquea.
   AppConfig.assertValid();
 
-  // Muestra en consola qué configuración recibió el build (solo en debug).
+  // Muestra en consola qué configuración cargó la app (solo en debug).
   AppConfig.debugPrintConfig();
 
   final api = await createApiInstance();

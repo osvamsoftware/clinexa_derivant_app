@@ -5,16 +5,14 @@
       "name": "Derivante (desarrollo)",
       "request": "launch",
       "type": "dart",
-      "program": "lib/main.dart",
-      "toolArgs": ["--dart-define-from-file", ".env"]
+      "program": "lib/main.dart"
     },
     {
       "name": "Derivante (perfil)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
-      "program": "lib/main.dart",
-      "toolArgs": ["--dart-define-from-file", ".env"]
+      "program": "lib/main.dart"
     }
   ]
 }
