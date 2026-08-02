@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Derivante (desarrollo)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "toolArgs": ["--dart-define-from-file", "config/dev.json"]
+    },
+    {
+      "name": "Derivante (perfil)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "program": "lib/main.dart",
+      "toolArgs": ["--dart-define-from-file", "config/dev.json"]
+    }
+  ]
+}
