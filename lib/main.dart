@@ -81,6 +81,9 @@ void main() async {
   // Antes venía de un .env empaquetado como asset dentro del APK.
   AppConfig.assertValid();
 
+  // Muestra en consola qué configuración recibió el build (solo en debug).
+  AppConfig.debugPrintConfig();
+
   final api = await createApiInstance();
 
   // Initialize ApiService with the correct base URL
