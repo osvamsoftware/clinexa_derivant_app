@@ -1,4 +1,5 @@
 import 'package:clinexa_derivant_app/core/config/app_config.dart';
+import 'package:clinexa_derivant_app/core/config/config_error_screen.dart';
 import 'package:clinexa_derivant_app/core/api/api.dart';
 import 'package:clinexa_derivant_app/core/api/api_services.dart';
 import 'package:clinexa_derivant_app/core/services/shared_prefs_service.dart';
@@ -85,8 +86,18 @@ void main() async {
 
   await SharedPrefsService.instance.init();
 
-  // En release exige que el build esté completo; en desarrollo no bloquea.
-  AppConfig.assertValid();
+  // En release exige que el .env esté completo; en desarrollo no bloquea.
+  //
+  // Se captura el fallo para poder explicarlo: dejando que la excepción
+  // subiera, Flutter la registraba y seguía adelante, así que la app se
+  // quedaba en la pantalla de lanzamiento indefinidamente —parecía que
+  // estaba cargando— y el motivo solo aparecía en logcat o en Xcode.
+  try {
+    AppConfig.assertValid();
+  } catch (e) {
+    runApp(ConfigErrorScreen(detalle: e.toString()));
+    return;
+  }
 
   // Muestra en consola qué configuración cargó la app (solo en debug).
   AppConfig.debugPrintConfig();

@@ -1,10 +1,9 @@
 import 'package:clinexa_derivant_app/core/config/app_config.dart';
 
-/// Acceso a la configuración de entorno.
+/// Atajo a los valores de configuración que usa la capa de datos.
 ///
-/// Antes leía un `.env` empaquetado como asset: un archivo plano dentro del
-/// APK/IPA, extraíble con `unzip`. Ahora los valores se inyectan en tiempo de
-/// compilación con `--dart-define` (ver AppConfig).
+/// La fuente es siempre [AppConfig], que los lee del archivo `.env`. Esta
+/// clase existe solo para no acoplar los repositorios a AppConfig.
 class Env {
   const Env._();
 

@@ -4,17 +4,11 @@ Flutter. Consume la API de `clinexa_backend`.
 
 ## Configuración
 
-Los valores salen de dos sitios, en este orden de prioridad:
-
-1. **`--dart-define`**, si se pasa al compilar.
-2. **`.env`**, que se carga al arrancar (`flutter_dotenv`).
-
-### Desarrollo
-
-Copia la plantilla una vez y ya puedes arrancar sin argumentos:
+**Todo se configura en el archivo `.env`**, en desarrollo y en producción. No
+hay que pasar argumentos a `flutter`.
 
 ```bash
-cp .env.example .env    # y completa las claves
+cp .env.example .env    # la primera vez, y completa las claves
 flutter run
 ```
 
@@ -22,25 +16,32 @@ El `.env` es **obligatorio**: está declarado como asset en `pubspec.yaml`, así
 que sin él la compilación falla con `No file or variants found for asset:
 .env`. No se versiona (está en `.gitignore`); `.env.example` sí.
 
+Si lo editas, para el proceso y vuelve a arrancar: un hot reload no recarga los
+assets. Si aun así no lo toma, `flutter clean && flutter pub get`.
+
+### Release
+
+Pon los valores de producción en el `.env` y compila normal:
+
+```env
+API_BASE_URL=https://tu-api-desplegada
+GOOGLE_MAPS_API_KEY=AIza...
+```
+
+```bash
+flutter build appbundle --release
+flutter build ipa --release --export-options-plist=ios/ExportOptions.plist
+```
+
+`AppConfig.assertValid()` corta el arranque si un build de release sale sin
+configurar o apuntando a una URL sin HTTPS. Es deliberado: mejor que falle en
+tu Mac a que llegue roto a la tienda.
+
 > ⚠️ **El `.env` viaja dentro del APK y del IPA** y se puede extraer con
 > `unzip`. Ahí solo pueden ir claves públicas. La de Google Maps lo es: lo que
 > la protege es restringirla por bundle ID / SHA-1 en Google Cloud Console, no
 > esconderla. Aun así, la que había en el `.env` de una versión anterior
 > quedó publicada en el repositorio y conviene rotarla.
-
-Para un paquete de producción sin claves dentro, deja el `.env` vacío y pasa
-los valores por `--dart-define`, que tienen prioridad:
-
-### Release
-
-```bash
-flutter build appbundle --release \
-  --dart-define=API_BASE_URL=https://api.clinexapp.com \
-  --dart-define=GOOGLE_MAPS_API_KEY=...
-```
-
-`AppConfig.assertValid()` corta el arranque si un build de release sale sin
-configurar o apuntando a una URL sin HTTPS.
 
 ## Firma de release
 

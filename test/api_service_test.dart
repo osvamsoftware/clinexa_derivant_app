@@ -17,7 +17,7 @@ void main() {
       expect(identical(ApiService(), ApiService()), isTrue);
     });
 
-    test('usa la URL configurada en tiempo de compilación', () {
+    test('usa la URL configurada en el .env', () {
       expect(ApiService().baseUrl, isNotEmpty);
     });
   });

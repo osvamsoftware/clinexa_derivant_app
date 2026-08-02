@@ -1,83 +1,57 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-/// Configuración de la aplicación.
+/// Configuración de la aplicación, leída del archivo `.env`.
 ///
-/// Los valores se resuelven en este orden:
-///
-/// 1. **`--dart-define`**, si se pasó al compilar. Es lo que se usa en los
-///    builds de producción.
-/// 2. **`.env`**, que se carga al arrancar. Es lo que permite lanzar la app
-///    con `flutter run` sin argumentos durante el desarrollo.
-///
-/// ⚠️ **El `.env` está declarado como asset en `pubspec.yaml`.** Eso significa
-/// que el archivo —y las claves que contenga— viaja **dentro del APK y del
-/// IPA**, y se puede extraer con `unzip`. Es una decisión consciente, a
-/// cambio de poder arrancar sin argumentos.
-///
-/// La clave de Google Maps es pública por diseño; lo que la protege es la
-/// restricción por bundle ID / SHA-1 en Google Cloud Console, no el
-/// esconderla. **Nunca pongas aquí credenciales de servidor.**
-///
-/// Para producción, lo más seguro es compilar con `--dart-define` y dejar el
-/// `.env` vacío, de modo que el paquete no lleve nada dentro:
+/// Un único sitio para todo: desarrollo y producción se configuran igual,
+/// editando el `.env` de la raíz del proyecto. No hay que pasar argumentos al
+/// compilar ni al arrancar.
 ///
 /// ```
-/// flutter build appbundle --release \
-///   --dart-define=API_BASE_URL=https://api.clinexapp.com \
-///   --dart-define=GOOGLE_MAPS_API_KEY=...
+/// cp .env.example .env    # la primera vez
+/// flutter run             # desarrollo
+/// flutter build ipa       # producción, con los valores de producción en el .env
 /// ```
+///
+/// El `.env` está declarado como asset en `pubspec.yaml`, así que se empaqueta
+/// dentro del APK y del IPA y se puede extraer con `unzip`. La clave de Google
+/// Maps que va ahí es pública por diseño —viaja en cada petición que hace la
+/// app—: lo que la protege es la restricción por bundle ID / SHA-1 en Google
+/// Cloud Console, no esconderla.
+///
+/// **Nunca pongas aquí credenciales de servidor.**
 class AppConfig {
   const AppConfig._();
 
-  // --- Valores de compilación (tienen prioridad) ---------------------
-  static const String _apiBaseUrlDefine = String.fromEnvironment(
-    'API_BASE_URL',
-  );
-  static const String _mapsKeyDefine = String.fromEnvironment(
-    'GOOGLE_MAPS_API_KEY',
-  );
-
-  /// Carga el `.env`. Debe llamarse antes de leer cualquier valor.
+  /// Carga el `.env`. Se llama al arrancar, antes de leer ningún valor.
   ///
-  /// No falla si el archivo no existe: un build de producción hecho con
-  /// `--dart-define` puede llevar el `.env` vacío.
+  /// Si el archivo no existe, los valores quedan vacíos y [assertValid] lo
+  /// detecta: en release corta el arranque, y en desarrollo lo avisa por
+  /// consola [debugPrintConfig].
   static Future<void> load() async {
     try {
       await dotenv.load(fileName: '.env');
     } catch (_) {
-      // Sin .env se usan los valores de compilación.
+      // Sin .env se arranca con los valores vacíos; assertValid decide.
     }
   }
 
-  /// Lee una variable: primero de `--dart-define`, luego del `.env`.
-  static String _read(
-    String clave,
-    String desdeDefine, {
-    String fallback = '',
-  }) {
-    if (desdeDefine.isNotEmpty) return desdeDefine;
-    if (dotenv.isInitialized) {
-      final valor = dotenv.maybeGet(clave);
-      if (valor != null && valor.isNotEmpty) return valor;
-    }
-    return fallback;
+  static String _leer(String clave, {String fallback = ''}) {
+    if (!dotenv.isInitialized) return fallback;
+    final valor = dotenv.maybeGet(clave);
+    return (valor == null || valor.isEmpty) ? fallback : valor;
   }
 
-  static String get apiBaseUrl => _read(
-    'API_BASE_URL',
-    _apiBaseUrlDefine,
-    fallback: 'http://10.0.2.2:8000',
-  );
+  static String get apiBaseUrl =>
+      _leer('API_BASE_URL', fallback: 'http://10.0.2.2:8000');
 
   /// Restringida por bundle ID / SHA-1 en Google Cloud Console.
-  static String get googleMapsApiKey =>
-      _read('GOOGLE_MAPS_API_KEY', _mapsKeyDefine);
+  static String get googleMapsApiKey => _leer('GOOGLE_MAPS_API_KEY');
 
   static bool get isProduction =>
       kReleaseMode && apiBaseUrl.startsWith('https://');
 
-  /// Imprime la configuración cargada, para confirmar de dónde salió.
+  /// Imprime en consola la configuración que se cargó.
   ///
   /// **Solo en debug.** En release no se ejecuta, así que las claves nunca
   /// aparecen en los registros del dispositivo de un usuario.
@@ -122,20 +96,27 @@ class AppConfig {
     return '  $nombre = $valor   [${valor.length} caracteres]';
   }
 
-  /// Falla al arrancar si un build de release sale sin configurar, en vez de
-  /// romper más tarde con un error confuso.
+  /// Comprueba que el `.env` está completo antes de seguir.
+  ///
+  /// En release es estricto: un build mal configurado no debe publicarse, así
+  /// que es preferible que falle en tu Mac a que llegue roto a la tienda.
+  /// En desarrollo no bloquea; el aviso lo da [debugPrintConfig].
   static void assertValid() {
     if (!kReleaseMode) return;
 
     final missing = <String>[];
     if (!apiBaseUrl.startsWith('https://')) {
-      missing.add('API_BASE_URL debe ser https en release');
+      missing.add(
+        'API_BASE_URL debe ser https en release (ahora: '
+        '"$apiBaseUrl")',
+      );
     }
     if (googleMapsApiKey.isEmpty) missing.add('GOOGLE_MAPS_API_KEY');
 
     if (missing.isNotEmpty) {
       throw StateError(
-        'Build de release mal configurado. Faltan: ${missing.join(", ")}',
+        'El .env no está listo para un build de release. '
+        'Revisa: ${missing.join(", ")}',
       );
     }
   }

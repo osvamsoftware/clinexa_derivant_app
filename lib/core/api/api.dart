@@ -1,6 +1,6 @@
 import 'package:clinexa_derivant_app/core/config/app_config.dart';
 
-/// La URL del backend viene de `--dart-define=API_BASE_URL=...`.
+/// La URL del backend viene de `API_BASE_URL` en el archivo `.env`.
 /// Antes se elegía comentando y descomentando líneas, con el riesgo de
 /// publicar una build apuntando al entorno equivocado.
 Future<Api> createApiInstance() async {

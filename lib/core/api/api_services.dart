@@ -13,7 +13,7 @@ class ApiService {
   static final ApiService _instance = ApiService._internal();
   factory ApiService() => _instance;
 
-  // La URL llega por --dart-define; antes se cambiaba comentando líneas.
+  // La URL viene del .env; antes se cambiaba comentando líneas.
   String baseUrl = AppConfig.apiBaseUrl;
 
   void setBaseUrl(String url) {

@@ -23,8 +23,8 @@ class AddressServiceException implements Exception {
   /// Mensaje para el usuario, según lo que haya fallado de verdad.
   String get userMessage {
     if (status == 'MISSING_API_KEY') {
-      return 'La app se compiló sin la clave de Google Maps. '
-          'Arráncala con: flutter run --dart-define-from-file=.env';
+      return 'Falta la clave de Google Maps en el archivo .env. '
+          'Añade GOOGLE_MAPS_API_KEY y vuelve a arrancar la app.';
     }
 
     switch (status) {
@@ -62,12 +62,12 @@ class AddressRepositoryImpl implements AddressRepository {
   // 🔹 SEARCH ADDRESS (GOOGLE AUTOCOMPLETE)
   // =============================================================
   /// Sin clave no tiene sentido llamar: Google responde "You must use an API
-  /// key...", un mensaje que no dice lo que realmente pasa —que el build no
-  /// recibió la configuración—.
+  /// key...", un mensaje que no dice lo que realmente pasa —que falta la
+  /// clave en el `.env`—.
   void _requireApiKey() {
     if (apiKey.isEmpty) {
       developer.log(
-        'GOOGLE_MAPS_API_KEY vacía: la app se compiló sin --dart-define-from-file',
+        'GOOGLE_MAPS_API_KEY vacía: falta en el archivo .env del proyecto',
       );
       throw AddressServiceException('MISSING_API_KEY');
     }

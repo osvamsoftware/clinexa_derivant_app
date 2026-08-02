@@ -45,6 +45,16 @@ void main() {
       }
     });
 
+    test('los valores expuestos son exactamente los del .env', () async {
+      // Contrato: el .env es la unica fuente de configuracion. Si alguien
+      // reintroduce --dart-define o un valor por defecto que pise al del
+      // archivo, este test lo delata.
+      await AppConfig.load();
+
+      expect(AppConfig.apiBaseUrl, dotenv.get('API_BASE_URL'));
+      expect(AppConfig.googleMapsApiKey, dotenv.get('GOOGLE_MAPS_API_KEY'));
+    });
+
     test('el .env no contiene credenciales de servidor', () async {
       // El .env viaja dentro del APK: solo puede llevar claves públicas.
       await AppConfig.load();
