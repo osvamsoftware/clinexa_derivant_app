@@ -68,5 +68,16 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<!-- Declaracion de cumplimiento de exportacion de criptografia.
+
+	     La app solo usa HTTPS y el llavero del sistema, que son exenciones
+	     estandar; no implementa criptografia propia. Declararlo aqui evita
+	     que App Store Connect pregunte por ello en cada subida y deje la
+	     build bloqueada hasta responder.
+
+	     Si algun dia se anade cifrado propio en el cliente, hay que revisar
+	     esta declaracion. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Opciones de exportación para TestFlight y App Store.
+
+	     Sin este archivo, `flutter build ipa` firmaba el paquete con el
+	     certificado "Apple Development" y el perfil de desarrollo. El .ipa
+	     se generaba sin error, pero App Store Connect lo rechaza, y el
+	     entitlement de notificaciones quedaba en "development": las push
+	     no habrían llegado a ningún tester.
+
+	     Con estas opciones, la exportación vuelve a firmar con el perfil
+	     "iOS Team Store Provisioning Profile" y el resultado lleva
+	     aps-environment=production, beta-reports-active=true y
+	     get-task-allow=false, que es lo que TestFlight espera. -->
+	<key>method</key>
+	<string>app-store-connect</string>
+	<key>teamID</key>
+	<string>WL5VHZU3LV</string>
+	<!-- Los perfiles los gestiona Xcode: con "manual" la exportación falla
+	     diciendo que el perfil es Xcode managed. -->
+	<key>signingStyle</key>
+	<string>automatic</string>
+	<key>uploadSymbols</key>
+	<true/>
+</dict>
+</plist>

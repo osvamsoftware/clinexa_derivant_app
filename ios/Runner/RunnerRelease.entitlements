@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Entorno de APNs para las configuraciones distribuidas (Release y
+	     Profile). Debug sigue usando Runner.entitlements, con "development".
+
+	     Con firma automática, el valor que acaba en el binario lo decide el
+	     perfil de aprovisionamiento, no este archivo: quien resuelve que el
+	     paquete salga con aps-environment=production es ios/ExportOptions.plist.
+	     Esto está aquí por coherencia —que la configuración Release no
+	     declare "development"— y para que el proyecto siga siendo correcto
+	     si algún día se pasa a firma manual. -->
+	<key>aps-environment</key>
+	<string>production</string>
+</dict>
+</plist>
