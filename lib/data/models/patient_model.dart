@@ -70,6 +70,31 @@ class PatientModel extends Equatable {
   // Helpers
   String get fullName => "$firstName $lastName";
 
+  /// Extrae una lista de identificadores de un campo que el backend devuelve
+  /// de dos formas distintas.
+  ///
+  /// Al crear un paciente se envían `specialties` y `pathologies` como lista
+  /// de identificadores, pero al leerlo el backend las devuelve **enriquecidas
+  /// como objetos** (`{id, name, description, ...}`). Un
+  /// `List<String>.from(...)` sobre esos objetos lanza un `TypeError`, y como
+  /// eso ocurría al deserializar la lista entera, "Mis pacientes" fallaba con
+  /// un escueto "Error realizando la petición HTTP" pese a que la respuesta
+  /// era un 200 correcto.
+  ///
+  /// No se veía porque los pacientes antiguos tenían la lista vacía: bastaba
+  /// con que un paciente tuviera especialidad para tumbar toda la pantalla.
+  static List<String> _idsDesde(dynamic valor) {
+    if (valor is! List) return const [];
+    return valor
+        .map((e) {
+          if (e is String) return e;
+          if (e is Map) return (e['id'] ?? e['_id'] ?? '').toString();
+          return '';
+        })
+        .where((s) => s.isNotEmpty)
+        .toList();
+  }
+
   factory PatientModel.fromMap(Map<String, dynamic> json) {
     return PatientModel(
       id: json['_id'] ?? json['id'],
@@ -86,8 +111,8 @@ class PatientModel extends Equatable {
       address: json['address'] != null
           ? AddressModel.fromMap(json['address'])
           : null,
-      specialties: List<String>.from(json['specialties'] ?? []),
-      pathologies: List<String>.from(json['pathologies'] ?? []),
+      specialties: _idsDesde(json['specialties']),
+      pathologies: _idsDesde(json['pathologies']),
       protocolId: json['protocol_id'],
       protocol: json['protocol'] != null
           ? ProtocolModel.fromMap(json['protocol'])
