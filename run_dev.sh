@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 #
-# Arranca la app en desarrollo con la configuración local.
-#
-# Las claves NO se empaquetan en la app: se inyectan al compilar desde
-# config/dev.json, que no está versionado.
+# Arranca la app en desarrollo leyendo las claves del .env
 #
 #   ./run_dev.sh                 # dispositivo por defecto
 #   ./run_dev.sh -d chrome       # cualquier argumento pasa a flutter run
+#
+# El .env se inyecta al COMPILAR: no se empaqueta dentro de la app.
+# Si lo editas, hay que reiniciar (un hot reload no basta).
 
 set -euo pipefail
 cd "$(dirname "$0")"
 
-if [[ ! -f config/dev.json ]]; then
-  echo "Falta config/dev.json. Créalo con:"
-  echo "  cp config/dev.json.example config/dev.json"
-  echo "y completa los valores."
+if [[ ! -f .env ]]; then
+  echo "Falta el archivo .env. Créalo con:"
+  echo "  cp .env.example .env"
+  echo "y completa las claves."
   exit 1
 fi
 
-exec flutter run --dart-define-from-file=config/dev.json "$@"
+exec flutter run --dart-define-from-file=.env "$@"

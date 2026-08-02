@@ -24,7 +24,7 @@ class AddressServiceException implements Exception {
   String get userMessage {
     if (status == 'MISSING_API_KEY') {
       return 'La app se compiló sin la clave de Google Maps. '
-          'Arráncala con: flutter run --dart-define-from-file=config/dev.json';
+          'Arráncala con: flutter run --dart-define-from-file=.env';
     }
 
     switch (status) {
