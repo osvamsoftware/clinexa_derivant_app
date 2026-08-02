@@ -8,6 +8,44 @@ abstract class AddressRepository {
   Future<AddressModel?> getAddressDetail(String placeId);
 }
 
+/// Error del servicio de direcciones de Google.
+///
+/// Google responde **HTTP 200 incluso cuando rechaza la petición**: el motivo
+/// real viaja en el campo `status` del cuerpo. Sin mirarlo, un rechazo se
+/// confunde con "no hay resultados" y el usuario ve un desplegable vacío sin
+/// ninguna explicación.
+class AddressServiceException implements Exception {
+  final String status;
+  final String? googleMessage;
+
+  AddressServiceException(this.status, [this.googleMessage]);
+
+  /// Mensaje para el usuario, según lo que haya fallado de verdad.
+  String get userMessage {
+    switch (status) {
+      case 'REQUEST_DENIED':
+        return 'El servicio de direcciones no está disponible. '
+            'Puedes escribir la dirección manualmente.';
+      case 'OVER_QUERY_LIMIT':
+        return 'Se alcanzó el límite de búsquedas. Inténtalo en unos minutos '
+            'o escribe la dirección manualmente.';
+      case 'INVALID_REQUEST':
+        return 'La búsqueda no es válida. Prueba con más caracteres.';
+      default:
+        return 'No se pudieron buscar direcciones. '
+            'Puedes escribirla manualmente.';
+    }
+  }
+
+  @override
+  String toString() =>
+      'AddressServiceException($status)'
+      '${googleMessage != null ? ": $googleMessage" : ""}';
+}
+
+/// Estados de la API de Google que no son un fallo.
+const _okStatuses = {'OK', 'ZERO_RESULTS'};
+
 class AddressRepositoryImpl implements AddressRepository {
   final ApiService _api = ApiService(); // estándar Clinexa
   final Api api;
@@ -34,11 +72,22 @@ class AddressRepositoryImpl implements AddressRepository {
         fromJson: (json) => json,
       );
 
+      // Google devuelve 200 aunque rechace la petición: el motivo está en
+      // `status`. Sin comprobarlo, un rechazo parecía "sin resultados".
+      final status = res.data?["status"] as String? ?? 'UNKNOWN_ERROR';
+      if (!_okStatuses.contains(status)) {
+        final message = res.data?["error_message"] as String?;
+        developer.log('Places autocomplete rechazado: $status');
+        throw AddressServiceException(status, message);
+      }
+
       final predictions = res.data?["predictions"] ?? [];
 
       return predictions
           .map<AddressSuggestion>((e) => AddressSuggestion.fromMap(e))
           .toList();
+    } on AddressServiceException {
+      rethrow;
     } catch (e) {
       developer.log("❌ [AddressRepository.searchAddress] $e");
       rethrow;
@@ -58,6 +107,13 @@ class AddressRepositoryImpl implements AddressRepository {
         query: {"place_id": placeId, "key": apiKey, "language": "es"},
         fromJson: (json) => json,
       );
+
+      final status = res.data?["status"] as String? ?? 'UNKNOWN_ERROR';
+      if (!_okStatuses.contains(status)) {
+        final message = res.data?["error_message"] as String?;
+        developer.log('Place details rechazado: $status');
+        throw AddressServiceException(status, message);
+      }
 
       return AddressModel.fromGoogleMap(res.data ?? {});
     } catch (e) {

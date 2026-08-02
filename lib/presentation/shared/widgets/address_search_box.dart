@@ -59,6 +59,38 @@ class AddressSearchBox extends StatelessWidget {
 
         BlocBuilder<AddressCubit, AddressState>(
           builder: (context, state) {
+            // Un fallo del servicio de direcciones se veía igual que "sin
+            // resultados": el desplegable simplemente no aparecía y no había
+            // forma de saber por qué.
+            if (state.status == Status.error && state.errorMessage != null) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      size: 18,
+                      color: AppColors.danger40,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        state.errorMessage!,
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: AppColors.danger40,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+
             if (state.suggestions.isEmpty ||
                 state.status == Status.initial ||
                 state.status == Status.loading) {

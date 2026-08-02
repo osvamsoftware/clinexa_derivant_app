@@ -21,11 +21,25 @@ class AddressCubit extends Cubit<AddressState> {
       final results = await repository.searchAddress(query);
 
       emit(state.copyWith(suggestions: results, status: Status.success));
+    } on AddressServiceException catch (e) {
+      // El servicio rechazó la petición (facturación, cuota, clave). Antes
+      // esto se confundía con "sin resultados" y el usuario veía un
+      // desplegable vacío sin saber por qué.
+      emit(
+        state.copyWith(
+          suggestions: [],
+          status: Status.error,
+          errorMessage: e.userMessage,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(
+          suggestions: [],
           status: Status.error,
-          errorMessage: "Error al buscar direcciones",
+          errorMessage:
+              "No se pudieron buscar direcciones. "
+              "Revisa tu conexión o escríbela manualmente.",
         ),
       );
     }
@@ -53,6 +67,8 @@ class AddressCubit extends Cubit<AddressState> {
           ),
         );
       }
+    } on AddressServiceException catch (e) {
+      emit(state.copyWith(status: Status.error, errorMessage: e.userMessage));
     } catch (e) {
       emit(
         state.copyWith(
