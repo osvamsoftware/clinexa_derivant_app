@@ -19,6 +19,25 @@ que sin él la compilación falla con `No file or variants found for asset:
 Si lo editas, para el proceso y vuelve a arrancar: un hot reload no recarga los
 assets. Si aun así no lo toma, `flutter clean && flutter pub get`.
 
+### Depuración manual: emulador vs. dispositivo físico
+
+La app detecta sola en qué está corriendo y elige la URL del backend:
+
+- **Emulador o simulador** → `API_BASE_URL` (`http://10.0.2.2:8000` en
+  Android, `http://localhost:8000` en iOS).
+- **iPhone o Android físico** → `API_BASE_URL_DEVICE`, la IP local de tu Mac
+  en la misma red:
+  ```bash
+  ipconfig getifaddr en0
+  ```
+  ```env
+  API_BASE_URL_DEVICE=http://192.168.1.32:8000
+  ```
+
+Sin `API_BASE_URL_DEVICE` configurada, un dispositivo físico cae en
+`API_BASE_URL` (que casi nunca es alcanzable desde un teléfono real) y
+`AppConfig.debugPrintConfig()` lo avisa por consola al arrancar.
+
 ### Release
 
 Pon los valores de producción en el `.env` y compila normal:

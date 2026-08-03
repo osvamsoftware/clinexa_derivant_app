@@ -779,6 +779,16 @@ class SEn extends S {
       'This email is registered as a receptor. Please try creating an account with a new email.';
 
   @override
+  String get wrongRoleTitle => 'Wrong app';
+
+  @override
+  String get wrongRoleMessageDerivante =>
+      'This is the referring physician app, but the credentials you entered belong to a receiving physician. Download the Receptor app or sign in with a derivante account.';
+
+  @override
+  String get wrongRoleExitButton => 'Log out';
+
+  @override
   String get notif_patient_rejected_title => 'Patient Rejected';
 
   @override
@@ -800,6 +810,14 @@ class SEn extends S {
   @override
   String notif_patient_assigned_body(String patient_name) {
     return 'Your patient $patient_name has been referred and will be evaluated for possible participation in the study';
+  }
+
+  @override
+  String get notif_patient_taken_title => 'Patient Taken!';
+
+  @override
+  String notif_patient_taken_body(String patient_name) {
+    return 'A receiving doctor has paid the initial access and took your patient $patient_name for evaluation.';
   }
 
   @override

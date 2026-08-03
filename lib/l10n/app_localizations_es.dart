@@ -788,6 +788,16 @@ class SEs extends S {
       'Este email se registró como receptor. Prueba creando una cuenta con un nuevo email.';
 
   @override
+  String get wrongRoleTitle => 'Estás en la app equivocada';
+
+  @override
+  String get wrongRoleMessageDerivante =>
+      'Esta es la app de médicos derivantes, pero las credenciales que ingresaste corresponden a un médico receptor. Descarga la app Receptor o inicia sesión con una cuenta de derivante.';
+
+  @override
+  String get wrongRoleExitButton => 'Salir';
+
+  @override
   String get notif_patient_rejected_title => 'Paciente Rechazado';
 
   @override
@@ -809,6 +819,14 @@ class SEs extends S {
   @override
   String notif_patient_assigned_body(String patient_name) {
     return 'Su paciente $patient_name ha sido referido y será evaluado para la posible participación en el estudio';
+  }
+
+  @override
+  String get notif_patient_taken_title => '¡Paciente Tomado!';
+
+  @override
+  String notif_patient_taken_body(String patient_name) {
+    return 'Un médico receptor ha pagado el acceso inicial y tomó a su paciente $patient_name para evaluación.';
   }
 
   @override

@@ -33,6 +33,13 @@ class LocalizationHelper {
         return s.notif_patient_assigned_body(
           data['patient_name']?.toString() ?? '',
         );
+      //taken (primer pago del receptor)
+      case 'notif_patient_taken_title':
+        return s.notif_patient_taken_title;
+      case 'notif_patient_taken_body':
+        return s.notif_patient_taken_body(
+          data['patient_name']?.toString() ?? '',
+        );
       default:
         return key; // Fallback to raw string if no translation is found
     }

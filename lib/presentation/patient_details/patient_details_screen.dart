@@ -420,37 +420,43 @@ class PatientDetailsView extends StatelessWidget {
 
                   const SizedBox(height: 32),
 
-                  // Active/Inactive Button
-                  if (isActive)
-                    CustomButton(
-                      text: s.markAsInactive,
-                      onPressed:
-                          patientState.status == PatientInfoStatus.loading
-                          ? null
-                          : () {
-                              _showConfirmationDialog(
-                                context,
-                                s,
-                                isMarkingAsActive: false,
-                                cubit: context.read<PatientInfoCubit>(),
-                              );
-                            },
-                    )
-                  else
-                    CustomButton(
-                      text: s.markAsActive,
-                      onPressed:
-                          patientState.status == PatientInfoStatus.loading
-                          ? null
-                          : () {
-                              _showConfirmationDialog(
-                                context,
-                                s,
-                                isMarkingAsActive: true,
-                                cubit: context.read<PatientInfoCubit>(),
-                              );
-                            },
-                    ),
+                  // Active/Inactive Button: solo mientras nadie pagó por ver
+                  // los datos del paciente. Una vez que un receptor paga el
+                  // acceso inicial, patient.assignedTo queda seteado (y no
+                  // se limpia ni siquiera si luego rechaza al paciente), así
+                  // que ya no tiene sentido dejar que el derivante lo
+                  // active/desactive manualmente.
+                  if (patient.assignedTo == null)
+                    if (isActive)
+                      CustomButton(
+                        text: s.markAsInactive,
+                        onPressed:
+                            patientState.status == PatientInfoStatus.loading
+                            ? null
+                            : () {
+                                _showConfirmationDialog(
+                                  context,
+                                  s,
+                                  isMarkingAsActive: false,
+                                  cubit: context.read<PatientInfoCubit>(),
+                                );
+                              },
+                      )
+                    else
+                      CustomButton(
+                        text: s.markAsActive,
+                        onPressed:
+                            patientState.status == PatientInfoStatus.loading
+                            ? null
+                            : () {
+                                _showConfirmationDialog(
+                                  context,
+                                  s,
+                                  isMarkingAsActive: true,
+                                  cubit: context.read<PatientInfoCubit>(),
+                                );
+                              },
+                      ),
                 ],
               ),
             );

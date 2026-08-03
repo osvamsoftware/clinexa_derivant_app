@@ -1555,6 +1555,24 @@ abstract class S {
   /// **'This email is registered as a receptor. Please try creating an account with a new email.'**
   String get errorRoleReceptor;
 
+  /// No description provided for @wrongRoleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong app'**
+  String get wrongRoleTitle;
+
+  /// No description provided for @wrongRoleMessageDerivante.
+  ///
+  /// In en, this message translates to:
+  /// **'This is the referring physician app, but the credentials you entered belong to a receiving physician. Download the Receptor app or sign in with a derivante account.'**
+  String get wrongRoleMessageDerivante;
+
+  /// No description provided for @wrongRoleExitButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get wrongRoleExitButton;
+
   /// No description provided for @notif_patient_rejected_title.
   ///
   /// In en, this message translates to:
@@ -1590,6 +1608,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Your patient {patient_name} has been referred and will be evaluated for possible participation in the study'**
   String notif_patient_assigned_body(String patient_name);
+
+  /// No description provided for @notif_patient_taken_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Taken!'**
+  String get notif_patient_taken_title;
+
+  /// No description provided for @notif_patient_taken_body.
+  ///
+  /// In en, this message translates to:
+  /// **'A receiving doctor has paid the initial access and took your patient {patient_name} for evaluation.'**
+  String notif_patient_taken_body(String patient_name);
 
   /// No description provided for @notif_patient_accepted_title.
   ///

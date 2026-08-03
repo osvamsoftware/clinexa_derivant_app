@@ -1,3 +1,6 @@
+import 'dart:io' show Platform;
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -23,9 +26,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class AppConfig {
   const AppConfig._();
 
-  /// Carga el `.env`. Se llama al arrancar, antes de leer ningún valor.
+  static bool? _esDispositivoFisico;
+
+  /// Carga el `.env` y detecta si se está corriendo en un dispositivo físico
+  /// o en un emulador/simulador. Se llama al arrancar, antes de leer ningún
+  /// valor.
   ///
-  /// Si el archivo no existe, los valores quedan vacíos y [assertValid] lo
+  /// Si el `.env` no existe, los valores quedan vacíos y [assertValid] lo
   /// detecta: en release corta el arranque, y en desarrollo lo avisa por
   /// consola [debugPrintConfig].
   static Future<void> load() async {
@@ -33,6 +40,31 @@ class AppConfig {
       await dotenv.load(fileName: '.env');
     } catch (_) {
       // Sin .env se arranca con los valores vacíos; assertValid decide.
+    }
+    await _detectarDispositivo();
+  }
+
+  /// Determina si el proceso corre en un dispositivo físico.
+  ///
+  /// Solo importa para elegir la URL en desarrollo (ver [apiBaseUrl]): en
+  /// release siempre se usa `API_BASE_URL` tal cual, sin este chequeo.
+  ///
+  /// Ante cualquier fallo de la plataforma se asume dispositivo físico: es la
+  /// opción más conservadora, porque de lo contrario un iPhone real caería
+  /// silenciosamente en la URL de emulador y ninguna petición llegaría a
+  /// destino.
+  static Future<void> _detectarDispositivo() async {
+    try {
+      final info = DeviceInfoPlugin();
+      if (Platform.isAndroid) {
+        _esDispositivoFisico = (await info.androidInfo).isPhysicalDevice;
+      } else if (Platform.isIOS) {
+        _esDispositivoFisico = (await info.iosInfo).isPhysicalDevice;
+      } else {
+        _esDispositivoFisico = true;
+      }
+    } catch (_) {
+      _esDispositivoFisico = true;
     }
   }
 
@@ -42,8 +74,42 @@ class AppConfig {
     return (valor == null || valor.isEmpty) ? fallback : valor;
   }
 
-  static String get apiBaseUrl =>
-      _leer('API_BASE_URL', fallback: 'http://10.0.2.2:8000');
+  static const String _apiBaseUrlFallback = 'http://10.0.2.2:8000';
+
+  /// URL del backend para builds de producción, y valor por defecto en
+  /// desarrollo cuando no aplica ninguna ruta específica por dispositivo.
+  static String get _apiBaseUrlGeneral =>
+      _leer('API_BASE_URL', fallback: _apiBaseUrlFallback);
+
+  /// URL para depuración manual en un dispositivo físico (el iPhone o el
+  /// Android reales conectados por USB o WiFi), normalmente la IP local de
+  /// la Mac. Solo se usa fuera de release.
+  static String get _apiBaseUrlDispositivo => _leer('API_BASE_URL_DEVICE');
+
+  /// URL del backend.
+  ///
+  /// En release es siempre `API_BASE_URL` (debe ser https,
+  /// [assertValid] lo exige).
+  ///
+  /// En desarrollo se elige sola según en qué se esté corriendo la app:
+  /// - **Dispositivo físico** → `API_BASE_URL_DEVICE`, si está configurada.
+  ///   Sin ella, cae en `API_BASE_URL` de todos modos (y [debugPrintConfig]
+  ///   lo avisa), porque es mejor seguir con una URL que probablemente no
+  ///   funcione que no arrancar.
+  /// - **Emulador o simulador** → `API_BASE_URL`, como siempre.
+  ///
+  /// Antes había que editar el `.env` a mano cada vez que se cambiaba entre
+  /// probar en el emulador y en un teléfono real.
+  static String get apiBaseUrl {
+    if (kReleaseMode) return _apiBaseUrlGeneral;
+
+    if (_esDispositivoFisico == true) {
+      final delDispositivo = _apiBaseUrlDispositivo;
+      if (delDispositivo.isNotEmpty) return delDispositivo;
+    }
+
+    return _apiBaseUrlGeneral;
+  }
 
   /// Restringida por bundle ID / SHA-1 en Google Cloud Console.
   static String get googleMapsApiKey => _leer('GOOGLE_MAPS_API_KEY');
@@ -68,15 +134,28 @@ class AppConfig {
     debugPrint(separador);
     debugPrint('  CONFIGURACION CARGADA');
     debugPrint('  .env: ${dotenv.isInitialized ? "cargado" : "NO cargado"}');
+    debugPrint(
+      '  dispositivo: ${_esDispositivoFisico == true ? "fisico" : "emulador/simulador"}',
+    );
     debugPrint(separador);
-    debugPrint(_describe('API_BASE_URL          ', apiBaseUrl));
+    debugPrint(_describe('API_BASE_URL          ', _apiBaseUrlGeneral));
+    if (_esDispositivoFisico == true) {
+      debugPrint(_describe('API_BASE_URL_DEVICE   ', _apiBaseUrlDispositivo));
+    }
+    debugPrint('  -> URL en uso: $apiBaseUrl');
     debugPrint(_describe('GOOGLE_MAPS_API_KEY   ', googleMapsApiKey));
     debugPrint(separador);
 
     final faltantes = <String>[
-      if (apiBaseUrl.isEmpty) 'API_BASE_URL',
       if (googleMapsApiKey.isEmpty) 'GOOGLE_MAPS_API_KEY',
     ];
+    if (_esDispositivoFisico == true && _apiBaseUrlDispositivo.isEmpty) {
+      debugPrint(
+        '  AVISO: estás en un dispositivo físico y falta '
+        'API_BASE_URL_DEVICE en el .env. Usando API_BASE_URL, que '
+        'probablemente no es alcanzable desde este dispositivo.',
+      );
+    }
 
     if (faltantes.isEmpty) {
       debugPrint('  OK: configuracion completa');
@@ -105,10 +184,10 @@ class AppConfig {
     if (!kReleaseMode) return;
 
     final missing = <String>[];
-    if (!apiBaseUrl.startsWith('https://')) {
+    if (!_apiBaseUrlGeneral.startsWith('https://')) {
       missing.add(
         'API_BASE_URL debe ser https en release (ahora: '
-        '"$apiBaseUrl")',
+        '"$_apiBaseUrlGeneral")',
       );
     }
     if (googleMapsApiKey.isEmpty) missing.add('GOOGLE_MAPS_API_KEY');

@@ -1,9 +1,11 @@
 import 'package:clinexa_derivant_app/core/constants/paths.dart';
 import 'package:clinexa_derivant_app/core/services/error_handler.dart';
+import 'package:clinexa_derivant_app/core/services/role_guard.dart';
 import 'package:clinexa_derivant_app/core/services/validators.dart';
 import 'package:clinexa_derivant_app/core/theme.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/login/cubit/login_cubit.dart';
+import 'package:clinexa_derivant_app/presentation/login/wrong_role_screen.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
 import 'package:clinexa_derivant_app/core/services/notification_service.dart';
 import 'package:clinexa_derivant_app/domain/auth_repository.dart';
@@ -44,17 +46,29 @@ class LoginScreen extends StatelessWidget {
           // ==========================
           if (state.status == Status.error) {
             context.pop();
-            final friendlyMessage = ErrorHandler.getErrorMessage(
-              context,
-              state.errorMessage ?? '',
-            );
-            CustomDialogs.errorDialog(
-              context,
-              friendlyMessage,
-              onTap: () {
-                context.pop();
-              },
-            );
+
+            if (state.errorMessage == kWrongRoleErrorCode) {
+              // Pantalla completa, no un diálogo: es imposible seguir
+              // usando el login por error, y solo se sale con el botón.
+              Navigator.of(context, rootNavigator: true).push(
+                MaterialPageRoute(
+                  fullscreenDialog: true,
+                  builder: (_) => const WrongRoleScreen(),
+                ),
+              );
+            } else {
+              final friendlyMessage = ErrorHandler.getErrorMessage(
+                context,
+                state.errorMessage ?? '',
+              );
+              CustomDialogs.errorDialog(
+                context,
+                friendlyMessage,
+                onTap: () {
+                  context.pop();
+                },
+              );
+            }
           }
 
           // ==========================
