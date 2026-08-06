@@ -428,26 +428,6 @@ class SEn extends S {
   String get hiddenField => 'Hidden field';
 
   @override
-  String get rejectPatient => 'Reject Patient';
-
-  @override
-  String get acceptAndPayFinal => 'Accept and Pay 90%';
-
-  @override
-  String get attachProof => 'Attach proof (optional)';
-
-  @override
-  String get paymentInitialSuccess =>
-      'Initial payment processed. You can now see the patient\'s full data.';
-
-  @override
-  String get paymentFinalSuccess =>
-      'Final payment processed. Patient accepted in treatment.';
-
-  @override
-  String get orderRejected => 'Patient rejected successfully';
-
-  @override
   String get orderStatusAssigned => 'Assigned';
 
   @override
@@ -460,35 +440,7 @@ class SEn extends S {
   String get patientDetails => 'Patient Details';
 
   @override
-  String get patientEvaluation => 'Patient Evaluation';
-
-  @override
-  String get fullData => 'Full Data';
-
-  @override
   String get partialData => 'Partial Data';
-
-  @override
-  String get confirmReject => 'Confirm rejection?';
-
-  @override
-  String get confirmRejectMessage =>
-      'Are you sure you want to reject this patient? This action cannot be undone.';
-
-  @override
-  String get reject => 'Reject';
-
-  @override
-  String get acceptPatient => 'Accept Patient';
-
-  @override
-  String get processing => 'Processing...';
-
-  @override
-  String get attachDocuments => 'Attach documents';
-
-  @override
-  String get noDocumentsAttached => 'No documents attached';
 
   @override
   String get protocol => 'Protocol';
@@ -508,16 +460,6 @@ class SEn extends S {
   @override
   String get searchAddressPrompt =>
       'Write your address and select from the given options *';
-
-  @override
-  String get errorSelectingFiles => 'Error selecting files';
-
-  @override
-  String get orderCreatedSuccessfully => 'Order created successfully';
-
-  @override
-  String get fullDataAvailableAfterPayment =>
-      'Full patient data is available after initial payment';
 
   @override
   String get paymentProcessedSuccessfully => 'Payment processed successfully';

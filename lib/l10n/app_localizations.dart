@@ -907,42 +907,6 @@ abstract class S {
   /// **'Hidden field'**
   String get hiddenField;
 
-  /// No description provided for @rejectPatient.
-  ///
-  /// In en, this message translates to:
-  /// **'Reject Patient'**
-  String get rejectPatient;
-
-  /// No description provided for @acceptAndPayFinal.
-  ///
-  /// In en, this message translates to:
-  /// **'Accept and Pay 90%'**
-  String get acceptAndPayFinal;
-
-  /// No description provided for @attachProof.
-  ///
-  /// In en, this message translates to:
-  /// **'Attach proof (optional)'**
-  String get attachProof;
-
-  /// No description provided for @paymentInitialSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Initial payment processed. You can now see the patient\'s full data.'**
-  String get paymentInitialSuccess;
-
-  /// No description provided for @paymentFinalSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Final payment processed. Patient accepted in treatment.'**
-  String get paymentFinalSuccess;
-
-  /// No description provided for @orderRejected.
-  ///
-  /// In en, this message translates to:
-  /// **'Patient rejected successfully'**
-  String get orderRejected;
-
   /// No description provided for @orderStatusAssigned.
   ///
   /// In en, this message translates to:
@@ -967,65 +931,11 @@ abstract class S {
   /// **'Patient Details'**
   String get patientDetails;
 
-  /// No description provided for @patientEvaluation.
-  ///
-  /// In en, this message translates to:
-  /// **'Patient Evaluation'**
-  String get patientEvaluation;
-
-  /// No description provided for @fullData.
-  ///
-  /// In en, this message translates to:
-  /// **'Full Data'**
-  String get fullData;
-
   /// No description provided for @partialData.
   ///
   /// In en, this message translates to:
   /// **'Partial Data'**
   String get partialData;
-
-  /// No description provided for @confirmReject.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm rejection?'**
-  String get confirmReject;
-
-  /// No description provided for @confirmRejectMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to reject this patient? This action cannot be undone.'**
-  String get confirmRejectMessage;
-
-  /// No description provided for @reject.
-  ///
-  /// In en, this message translates to:
-  /// **'Reject'**
-  String get reject;
-
-  /// No description provided for @acceptPatient.
-  ///
-  /// In en, this message translates to:
-  /// **'Accept Patient'**
-  String get acceptPatient;
-
-  /// No description provided for @processing.
-  ///
-  /// In en, this message translates to:
-  /// **'Processing...'**
-  String get processing;
-
-  /// No description provided for @attachDocuments.
-  ///
-  /// In en, this message translates to:
-  /// **'Attach documents'**
-  String get attachDocuments;
-
-  /// No description provided for @noDocumentsAttached.
-  ///
-  /// In en, this message translates to:
-  /// **'No documents attached'**
-  String get noDocumentsAttached;
 
   /// No description provided for @protocol.
   ///
@@ -1062,24 +972,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Write your address and select from the given options *'**
   String get searchAddressPrompt;
-
-  /// No description provided for @errorSelectingFiles.
-  ///
-  /// In en, this message translates to:
-  /// **'Error selecting files'**
-  String get errorSelectingFiles;
-
-  /// No description provided for @orderCreatedSuccessfully.
-  ///
-  /// In en, this message translates to:
-  /// **'Order created successfully'**
-  String get orderCreatedSuccessfully;
-
-  /// No description provided for @fullDataAvailableAfterPayment.
-  ///
-  /// In en, this message translates to:
-  /// **'Full patient data is available after initial payment'**
-  String get fullDataAvailableAfterPayment;
 
   /// No description provided for @paymentProcessedSuccessfully.
   ///

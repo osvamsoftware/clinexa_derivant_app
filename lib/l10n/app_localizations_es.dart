@@ -433,26 +433,6 @@ class SEs extends S {
   String get hiddenField => 'Campo oculto';
 
   @override
-  String get rejectPatient => 'Rechazar Paciente';
-
-  @override
-  String get acceptAndPayFinal => 'Aceptar y Pagar 90%';
-
-  @override
-  String get attachProof => 'Adjuntar pruebas (opcional)';
-
-  @override
-  String get paymentInitialSuccess =>
-      'Pago inicial procesado. Ahora puede ver los datos completos del paciente.';
-
-  @override
-  String get paymentFinalSuccess =>
-      'Pago final procesado. Paciente aceptado en el tratamiento.';
-
-  @override
-  String get orderRejected => 'Paciente rechazado correctamente';
-
-  @override
   String get orderStatusAssigned => 'Asignado';
 
   @override
@@ -465,35 +445,7 @@ class SEs extends S {
   String get patientDetails => 'Detalles del Paciente';
 
   @override
-  String get patientEvaluation => 'Evaluación del Paciente';
-
-  @override
-  String get fullData => 'Datos Completos';
-
-  @override
   String get partialData => 'Datos Parciales';
-
-  @override
-  String get confirmReject => '¿Confirmar rechazo?';
-
-  @override
-  String get confirmRejectMessage =>
-      '¿Estás seguro de que deseas rechazar este paciente? Esta acción no se puede deshacer.';
-
-  @override
-  String get reject => 'Rechazar';
-
-  @override
-  String get acceptPatient => 'Aceptar Paciente';
-
-  @override
-  String get processing => 'Procesando...';
-
-  @override
-  String get attachDocuments => 'Adjuntar documentos';
-
-  @override
-  String get noDocumentsAttached => 'No hay documentos adjuntos';
 
   @override
   String get protocol => 'Protocolo';
@@ -513,16 +465,6 @@ class SEs extends S {
   @override
   String get searchAddressPrompt =>
       'Escribe tu dirección y selecciona de las opciones que se te dan *';
-
-  @override
-  String get errorSelectingFiles => 'Error al seleccionar archivos';
-
-  @override
-  String get orderCreatedSuccessfully => 'Orden creada exitosamente';
-
-  @override
-  String get fullDataAvailableAfterPayment =>
-      'Los datos completos del paciente están disponibles después del pago inicial';
 
   @override
   String get paymentProcessedSuccessfully => 'Pago procesado correctamente';

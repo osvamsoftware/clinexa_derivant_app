@@ -6,7 +6,6 @@ import 'package:clinexa_derivant_app/domain/address_repository.dart';
 import 'package:clinexa_derivant_app/domain/auth_repository.dart';
 import 'package:clinexa_derivant_app/domain/order_repository.dart';
 import 'package:clinexa_derivant_app/domain/payment_movement_repository.dart';
-import 'package:clinexa_derivant_app/domain/payment_repository.dart';
 import 'package:clinexa_derivant_app/domain/user_repository.dart';
 import 'package:clinexa_derivant_app/domain/user_status_repository.dart';
 import 'package:clinexa_derivant_app/domain/patient_repository.dart';
@@ -75,10 +74,6 @@ class ManagerRepository extends StatelessWidget {
         // Notification repository
         RepositoryProvider<NotificationRepository>(
           create: (context) => NotificationRepositoryImpl(api: api),
-        ),
-        //payment repository
-        RepositoryProvider<PaymentRepository>(
-          create: (context) => PaymentRepositoryImpl(api),
         ),
         //order repository
         RepositoryProvider<OrderRepository>(
