@@ -21,6 +21,8 @@ import 'package:clinexa_derivant_app/presentation/welcome/welcome_screen.dart';
 import 'package:clinexa_derivant_app/presentation/password_recovery/forgot_password/forgot_password_screen.dart';
 import 'package:clinexa_derivant_app/presentation/password_recovery/reset_password/reset_password_screen.dart';
 import 'package:clinexa_derivant_app/presentation/profile/edit_profile_screen.dart';
+import 'package:clinexa_derivant_app/presentation/legal/legal_document_screen.dart';
+import 'package:clinexa_derivant_app/presentation/legal/legal_documents_screen.dart';
 import 'package:clinexa_derivant_app/data/models/user_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -210,6 +212,18 @@ class AppRouter {
           final patient = state.extra as dynamic;
           return PatientDetailsScreen(patient: patient);
         },
+      ),
+      //documentos legales
+      GoRoute(
+        path: LegalDocumentsScreen.path,
+        name: LegalDocumentsScreen.path,
+        builder: (context, state) => const LegalDocumentsScreen(),
+      ),
+      GoRoute(
+        // El slug va en la ruta para no declarar una pantalla por documento.
+        path: '${LegalDocumentScreen.path}/:slug',
+        builder: (context, state) =>
+            LegalDocumentScreen(slug: state.pathParameters['slug'] ?? ''),
       ),
     ],
     redirect: (context, state) {

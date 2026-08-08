@@ -1,4 +1,7 @@
+import 'package:clinexa_derivant_app/core/legal/legal_catalog.dart';
+import 'package:clinexa_derivant_app/core/legal/legal_document.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
+import 'package:clinexa_derivant_app/presentation/legal/legal_document_screen.dart';
 import 'package:clinexa_derivant_app/presentation/login/login_screen.dart';
 import 'package:clinexa_derivant_app/presentation/register/cubit/register_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
@@ -90,47 +93,21 @@ class _RegisterProfileViewState extends State<RegisterProfileView> {
                 ),
               ),
               const SizedBox(height: 16),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.5,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.withOpacity(0.5)),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: SingleChildScrollView(
-                  child: Text(
-                    """Términos y Condiciones de Uso
 
-Bienvenido a Clinexa. Al crear una cuenta, usted acepta cumplir y estar sujeto a los siguientes términos y condiciones de uso, que junto con nuestra política de privacidad gobiernan la relación de Clinexa con usted en relación con esta aplicación.
-
-1. Aceptación de los Términos
-Al acceder y utilizar esta aplicación, usted acepta estar sujeto a estos términos y condiciones y a nuestra Política de Privacidad. Si no está de acuerdo con alguna parte de estos términos, no podrá utilizar nuestros servicios.
-
-2. Uso de la Aplicación
-Usted se compromete a utilizar la aplicación solo para fines legales y de una manera que no infrinja los derechos de, restrinja o inhiba el uso y disfrute de la aplicación por parte de cualquier tercero.
-
-3. Cuenta de Usuario
-Para acceder a ciertas funciones de la aplicación, debe crear una cuenta. Usted es responsable de mantener la confidencialidad de su cuenta y contraseña y de restringir el acceso a su dispositivo.
-
-4. Privacidad
-Su uso de la aplicación también está regido por nuestra Política de Privacidad. Por favor revise nuestra Política de Privacidad para entender nuestras prácticas.
-
-5. Modificaciones
-Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios entrarán en vigor inmediatamente después de su publicación en la aplicación.
-
-6. Terminación
-Podemos terminar o suspender su cuenta inmediatamente, sin previo aviso o responsabilidad, por cualquier motivo, incluyendo, sin limitación, si usted incumple los Términos.
-
-7. Limitación de Responsabilidad
-En ningún caso Clinexa, ni sus directores, empleados, socios, agentes, proveedores o afiliados, serán responsables por daños indirectos, incidentales, especiales, consecuentes o punitivos.
-
-8. Ley Aplicable
-Estos Términos se regirán e interpretarán de acuerdo con las leyes vigentes, sin tener en cuenta sus disposiciones sobre conflictos de leyes.
-
-Al marcar la casilla de verificación, usted confirma que ha leído, entendido y aceptado estos términos y condiciones y se compromete a cumplirlos al utilizar la aplicación.""",
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                ),
+              // Aquí había un texto genérico embebido que no era el documento
+              // legal que rige la relación. Ahora se abre el documento
+              // vigente: el mismo que está publicado y declarado ante Apple,
+              // empaquetado como asset para poder leerse sin conexión.
+              const _LegalDocumentButton(
+                document: LegalCatalog.referentTerms,
+                label:
+                    'Al registrarme acepto los Términos y Condiciones del '
+                    'Médico Referente',
+              ),
+              const SizedBox(height: 12),
+              const _LegalDocumentButton(
+                document: LegalCatalog.privacyPolicy,
+                label: 'Leer la Política de Privacidad',
               ),
               const SizedBox(height: 16),
               CheckboxListTile(
@@ -160,6 +137,51 @@ Al marcar la casilla de verificación, usted confirma que ha leído, entendido y
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Botón que abre un documento legal empaquetado en la app.
+///
+/// El texto del botón dice explícitamente qué se acepta y a qué documento
+/// lleva: al registrarse, el médico queda obligado por ese documento, y tiene
+/// que poder leerlo antes de marcar la casilla.
+class _LegalDocumentButton extends StatelessWidget {
+  final LegalDocument document;
+  final String label;
+
+  const _LegalDocumentButton({required this.document, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton(
+        onPressed: () =>
+            context.push('${LegalDocumentScreen.path}/${document.slug}'),
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.description_outlined, size: 20),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            const Icon(Icons.arrow_forward_ios, size: 14),
+          ],
         ),
       ),
     );

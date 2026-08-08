@@ -60,3 +60,7 @@ flutter:
     - .env
     - assets/
     - assets/svg/
+    # Documentos legales generados desde los .docx (tool/build_legal.py del
+    # dashboard). Van empaquetados para poder leerlos sin conexión: el paciente
+    # firma la autorización en el consultorio, donde puede no haber señal.
+    - assets/legal/

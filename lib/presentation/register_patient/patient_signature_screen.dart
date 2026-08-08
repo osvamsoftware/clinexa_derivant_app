@@ -1,5 +1,7 @@
+import 'package:clinexa_derivant_app/core/legal/legal_catalog.dart';
 import 'package:clinexa_derivant_app/core/theme.dart';
 import 'package:clinexa_derivant_app/domain/patient_repository.dart';
+import 'package:clinexa_derivant_app/presentation/legal/legal_document_screen.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/patients/patients_screen.dart';
 import 'package:clinexa_derivant_app/presentation/register_patient/cubit/patient_registration_cubit.dart';
@@ -120,7 +122,32 @@ class PatientSignatureScreenView extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 8),
+
+                  // El paciente tiene que poder leer lo que firma antes de
+                  // firmarlo. El documento va empaquetado en la app, así que
+                  // se abre aunque el consultorio no tenga señal.
+                  Center(
+                    child: TextButton.icon(
+                      onPressed: () => context.push(
+                        '${LegalDocumentScreen.path}/'
+                        '${LegalCatalog.patientAuthorization.slug}',
+                      ),
+                      icon: Icon(
+                        Icons.description_outlined,
+                        color: AppColors.primary40,
+                      ),
+                      label: Text(
+                        'Leer la Autorización del Paciente',
+                        style: TextStyle(
+                          color: AppColors.primary40,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
 
                   // Label "ESPACIO DE FIRMA"
                   Text(

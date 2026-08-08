@@ -4,6 +4,7 @@ import 'package:clinexa_derivant_app/presentation/specialty/specialty_repository
 import 'package:clinexa_derivant_app/domain/user_repository.dart';
 import 'package:clinexa_derivant_app/presentation/address/cubit/address_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
+import 'package:clinexa_derivant_app/presentation/legal/legal_documents_screen.dart';
 import 'package:clinexa_derivant_app/presentation/profile/cubit/edit_profile_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/address_search_box.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
@@ -194,6 +195,25 @@ class EditProfileView extends StatelessWidget {
                   onPressed: () => cubit.save(),
                 ),
                 const SizedBox(height: 24),
+
+                // Los términos y la política tienen que poder consultarse en
+                // cualquier momento, no solo al aceptarlos en el registro
+                // (guideline 5.1.1 de Apple).
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () => context.push(LegalDocumentsScreen.path),
+                    icon: const Icon(Icons.gavel_outlined),
+                    label: const Text("Documentos legales"),
+                  ),
+                ),
+                const SizedBox(height: 12),
 
                 // Logout Button
                 SizedBox(
