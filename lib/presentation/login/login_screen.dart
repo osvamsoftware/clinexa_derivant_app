@@ -5,6 +5,7 @@ import 'package:clinexa_derivant_app/core/services/validators.dart';
 import 'package:clinexa_derivant_app/core/theme.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/login/cubit/login_cubit.dart';
+import 'package:clinexa_derivant_app/presentation/login/widgets/testflight_banner.dart';
 import 'package:clinexa_derivant_app/presentation/login/wrong_role_screen.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
 import 'package:clinexa_derivant_app/core/services/notification_service.dart';
@@ -104,6 +105,12 @@ class LoginView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 24),
+
+                // Temporal: comprobación del circuito de TestFlight.
+                // Quitar antes de publicar (ver testflight_banner.dart).
+                const TestFlightBanner(),
+
                 const SizedBox(height: 24),
 
                 //logo
