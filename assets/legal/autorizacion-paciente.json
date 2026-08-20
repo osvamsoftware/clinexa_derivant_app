@@ -1,0 +1,96 @@
+{
+  "slug": "autorizacion-paciente",
+  "title": "Autorización del Paciente",
+  "summary": "Consentimiento informado del paciente para el tratamiento de sus datos personales y de salud dentro de la plataforma.",
+  "audience": "Paciente",
+  "url": "https://app.clinexapp.com/legal/autorizacion-paciente.html",
+  "intro": [],
+  "sections": [
+    {
+      "heading": "I. IDENTIFICACIÓN DEL TITULAR Y ACEPTACIÓN DE LA AUTORIZACIÓN",
+      "paragraphs": [
+        "1.1. La plataforma digital denominada comercialmente “Clinexapp” es de propiedad y titularidad exclusiva de la sociedad CLINEXAPP S.A.S., CUIT ____________, con domicilio legal en ____________________________, República Argentina.",
+        "1.2. Toda referencia realizada en la presente Autorización a “Clinexapp”, “LA PLATAFORMA” o “EL SERVICIO” deberá entenderse como referida a la sociedad CLINEXAPP S.A.S., en su carácter de titular, administradora y responsable legal de la aplicación.",
+        "1.3. El nombre “Clinexapp” constituye un nombre de fantasía y/o marca comercial utilizada por la sociedad CLINEXAPP S.A.S. para la prestación de sus servicios tecnológicos.",
+        "1.4. La presente Autorización regula el tratamiento de datos personales y datos sensibles de salud del Paciente dentro de LA PLATAFORMA, conforme a lo dispuesto por la Ley 25.326 de Protección de Datos Personales, su normativa reglamentaria y disposiciones complementarias vigentes en la República Argentina.",
+        "1.5. La aceptación de la presente Autorización mediante los mecanismos de firma digital implementados en LA PLATAFORMA implica la manifestación de voluntad libre, expresa e informada del Paciente para el tratamiento de sus datos personales conforme lo aquí establecido.",
+        "1.6. Si el Paciente no estuviera de acuerdo con alguno de los términos de la presente Autorización, deberá abstenerse de otorgarla, lo que impedirá su postulación a través de LA PLATAFORMA."
+      ]
+    },
+    {
+      "heading": "II. ALCANCE DE LA AUTORIZACIÓN",
+      "paragraphs": [
+        "2.1. El Paciente declara haber sido informado por su Médico Referente acerca del funcionamiento de Clinexapp y comprender que LA PLATAFORMA es exclusivamente una herramienta tecnológica destinada a facilitar la conexión entre:",
+        "2.1.1. el Médico Referente,\n\n2.1.2. Investigadores Médicos que conducen Estudios de Investigación, y\n\n2.1.3. pacientes que podrían reunir criterios de elegibilidad para dichos estudios.",
+        "2.2. El Paciente autoriza de manera libre, expresa e informada a CLINEXAPP S.A.S. a tratar sus datos personales y, especialmente, sus datos de salud —considerados datos sensibles— con la única finalidad de gestionar su postulación como potencial candidato a Estudios de Investigación y posibilitar su eventual contacto con Investigadores Médicos.",
+        "2.3. La presente Autorización no constituye:",
+        "2.3.1. consentimiento para participar en un Estudio de Investigación,\n\n2.3.2. aceptación de inclusión en un Estudio,\n\n2.3.3. indicación médica, ni\n\n2.3.4. garantía de diagnóstico, tratamiento o resultado sanitario alguno."
+      ]
+    },
+    {
+      "heading": "III. DATOS PERSONALES OBJETO DE TRATAMIENTO",
+      "paragraphs": [
+        "3.1. El Paciente autoriza el tratamiento de los datos estrictamente necesarios para la finalidad descripta, incluyendo, entre otros:",
+        "3.1.1. datos identificatorios,\n\n3.1.2. datos de contacto,\n\n3.1.3. datos demográficos,\n\n3.1.4. información clínica relevante, antecedentes médicos y tratamientos previos,\n\n3.1.5. criterios médicos asociados a la posible elegibilidad, y\n\n3.1.6. datos operativos vinculados a la trazabilidad del proceso de postulación.",
+        "3.2. CLINEXAPP S.A.S. aplicará el principio de minimización de datos, limitando el tratamiento a aquella información adecuada, pertinente y no excesiva en relación con la finalidad perseguida."
+      ]
+    },
+    {
+      "heading": "IV. DISOCIACIÓN DE DATOS Y MECANISMOS DE PRIVACIDAD",
+      "paragraphs": [
+        "4.1. El Paciente ha sido informado de que uno de los pilares centrales de Clinexapp es la protección de datos mediante mecanismos de disociación de información.",
+        "4.2. Al momento de su postulación, el Paciente será incorporado a LA PLATAFORMA bajo un sistema de identificación disociada que impide su reconocimiento directo por parte de los Investigadores Médicos en las etapas iniciales del proceso.",
+        "4.3. En una primera instancia, los Investigadores Médicos solo podrán visualizar información anonimizada o seudonimizada, tal como un identificador interno, rango aproximado de ubicación y datos clínicos necesarios para evaluar preliminarmente la posible elegibilidad.",
+        "4.4. Los datos de contacto del Paciente únicamente podrán ser habilitados cuando exista un interés legítimo del Investigador Médico en evaluarlo y se activen los mecanismos previstos dentro de LA PLATAFORMA, todo ello dentro de un entorno controlado, seguro y registrable."
+      ]
+    },
+    {
+      "heading": "V. COMUNICACIONES, VALIDACIÓN Y DERECHO DE BAJA",
+      "paragraphs": [
+        "5.1. El Paciente autoriza expresamente a Clinexapp a remitir comunicaciones vinculadas exclusivamente al funcionamiento de LA PLATAFORMA mediante WhatsApp, u otros medios electrónicos declarados.",
+        "5.2. Dichas comunicaciones podrán incluir:",
+        "5.2.1. copia de la presente Autorización,\n\n5.2.2. códigos de validación de identidad,\n\n5.2.3. notificaciones operativas relacionadas con la postulación, y\n\n5.2.4. un enlace que permita solicitar la baja de LA PLATAFORMA en cualquier momento.",
+        "5.3. El Paciente podrá ejercer los derechos de acceso, rectificación, actualización, confidencialidad y supresión previstos en la Ley 25.326.",
+        "5.4. La revocación de esta autorización impedirá continuar con el proceso de postulación, sin afectar la validez de los tratamientos previamente realizados.",
+        "5.5. CLINEXAPP S.A.S. podrá conservar registros mínimos necesarios para el cumplimiento de obligaciones legales, regulatorias, de seguridad informática y defensa jurídica."
+      ]
+    },
+    {
+      "heading": "VI. INFORMACIÓN SOBRE LA EVENTUAL COMPENSACIÓN ECONÓMICA DEL MÉDICO REFERENTE",
+      "paragraphs": [
+        "6.1. El Paciente declara haber sido informado de manera clara, suficiente y comprensible por el Médico Referente que, en caso de resultar efectivamente aceptado e incorporado a un Estudio de Investigación, el Médico Referente podría percibir una compensación económica canalizada exclusivamente a través de LA PLATAFORMA.",
+        "6.2. El Paciente comprende y acepta expresamente que dicha compensación:",
+        "6.2.1. no constituye una comisión por derivación de pacientes,\n\n6.2.2. no representa un incentivo para la inclusión en un Estudio de Investigación,\n\n6.2.3. no configura una contraprestación por sus datos personales ni sensibles, y\n\n6.2.4. corresponde exclusivamente a un reconocimiento por el trabajo profesional previamente realizado por el Médico Referente.",
+        "6.3. El Paciente declara que la existencia de esta eventual compensación ha sido debidamente informada con carácter previo al otorgamiento de la presente autorización y que dicha circunstancia no afecta su libertad de decisión, no condiciona su voluntad de participar en un eventual Estudio de Investigación ni altera su derecho a aceptar o rechazar cualquier propuesta médica futura.",
+        "6.4. El Paciente reconoce que la decisión de postularlo a un Estudio de Investigación responde exclusivamente al criterio profesional independiente del Médico Referente, basado en consideraciones médicas y en la posible existencia de alternativas terapéuticas, manteniéndose dicha decisión ajena a cualquier interés económico.",
+        "6.5. El Paciente comprende que Clinexapp no interviene en la relación profesional entre el Médico Referente y el Paciente, no determina compensaciones ni participa en decisiones médicas, limitándose exclusivamente a proveer una infraestructura tecnológica destinada a facilitar procesos de postulación dentro de un entorno seguro, trazable y transparente."
+      ]
+    },
+    {
+      "heading": "VII. DESLINDE EXPRESO DE RESPONSABILIDAD DE CLINEXAPP",
+      "paragraphs": [
+        "7.1. El Paciente reconoce y acepta expresamente que Clinexapp es únicamente una plataforma tecnológica de intermediación.",
+        "7.2. En consecuencia, CLINEXAPP S.A.S.:",
+        "7.2.1. no presta servicios médicos ni sanitarios,\n\n7.2.2. no realiza diagnósticos,\n\n7.2.3. no prescribe tratamientos,\n\n7.2.4. no emite opiniones médicas,\n\n7.2.5. no controla la práctica profesional de los médicos intervinientes, ni\n\n7.2.6. participa en la relación médico–paciente o investigador–paciente.",
+        "7.3. Toda evaluación clínica, decisión terapéutica, determinación de elegibilidad e inclusión en un Estudio de Investigación corresponde exclusivamente a los profesionales médicos y a las instituciones que conduzcan dichos estudios.",
+        "7.4. Clinexapp no garantiza bajo ninguna circunstancia:",
+        "7.4.1. que el Paciente sea contactado por un Investigador,\n\n7.4.2. que resulte elegible para un Estudio,\n\n7.4.3. que sea incorporado al mismo, ni\n\n7.4.4. resultado médico o sanitario alguno.",
+        "7.5. El Paciente acepta que cualquier consulta médica deberá ser canalizada exclusivamente con los profesionales tratantes, manteniendo indemne a CLINEXAPP S.A.S. frente a cualquier reclamo derivado de decisiones médicas adoptadas por terceros."
+      ]
+    },
+    {
+      "heading": "VIII. GRATUIDAD PARA EL PACIENTE",
+      "paragraphs": [
+        "8.1. El Paciente declara haber sido informado de que la utilización de Clinexapp para su postulación no implica costo alguno para él.",
+        "8.2. Asimismo, comprende que la existencia de pagos entre terceros dentro del ecosistema de LA PLATAFORMA no implica comercialización de sus datos personales ni afecta sus derechos como titular de los mismos."
+      ]
+    },
+    {
+      "heading": "IX. DECLARACIÓN FINAL",
+      "paragraphs": [
+        "9.1. El Paciente declara haber leído íntegramente la presente Autorización, comprender su alcance y otorgar su consentimiento libre, específico, informado e inequívoco para el tratamiento de sus datos personales y datos sensibles de salud conforme lo aquí establecido.",
+        "9.2. La aceptación se perfeccionará mediante los mecanismos de firma digital implementados en LA PLATAFORMA, quedando debidamente registrada junto con los datos de fecha, hora y trazabilidad correspondientes."
+      ]
+    }
+  ]
+}

@@ -8,6 +8,14 @@
       "program": "lib/main.dart"
     },
     {
+      "name": "Derivante (iPhone WiFi)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceId": "00008140-000E48560C03801C",
+      "flutterMode": "debug"
+    },
+    {
       "name": "Derivante (perfil)",
       "request": "launch",
       "type": "dart",
