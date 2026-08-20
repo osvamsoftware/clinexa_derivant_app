@@ -213,7 +213,7 @@ class PatientDetailsView extends StatelessWidget {
                   _buildInfoRow(
                     s.specialty,
                     patient.specialties.isNotEmpty
-                        ? '${patient.specialties.length} especialidades'
+                        ? s.specialtyCount(patient.specialties.length)
                         : null,
                     false,
                     theme,
@@ -222,7 +222,7 @@ class PatientDetailsView extends StatelessWidget {
                   _buildInfoRow(
                     s.homePathology,
                     patient.pathologies.isNotEmpty
-                        ? '${patient.pathologies.length} patologías'
+                        ? s.pathologyCount(patient.pathologies.length)
                         : null,
                     false,
                     theme,

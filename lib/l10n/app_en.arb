@@ -92,7 +92,7 @@
   "protocolSelectionSubtitle": "Select the protocol to which you want to add the patient and make sure it meets all the acceptance criteria.",
   "continue_text": "Continue",
   "protocolCriteriaVerificationInfo": "We will guide you through a quick verification to ensure the patient meets all necessary criteria for this protocol.",
-  "homeWelcomeBack": "Hi, WelcomeBack",
+  "homeWelcomeBack": "Welcome back",
   "homeSearchHint": "Search patients...",
   "homeSearchResults": "Search Results",
   "homePathology": "Pathology",
@@ -283,6 +283,22 @@
     "placeholders": {
       "patient_name": {
         "type": "String"
+      }
+    }
+  },
+  "specialtyCount": "{count, plural, =1{1 specialty} other{{count} specialties}}",
+  "@specialtyCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pathologyCount": "{count, plural, =1{1 pathology} other{{count} pathologies}}",
+  "@pathologyCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
       }
     }
   }

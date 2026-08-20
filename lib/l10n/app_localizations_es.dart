@@ -778,4 +778,26 @@ class SEs extends S {
   String notif_patient_accepted_body(String patient_name) {
     return 'El paciente $patient_name ha sido aceptado para evaluación y posible participación en el estudio.';
   }
+
+  @override
+  String specialtyCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count especialidades',
+      one: '1 especialidad',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String pathologyCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count patologías',
+      one: '1 patología',
+    );
+    return '$_temp0';
+  }
 }

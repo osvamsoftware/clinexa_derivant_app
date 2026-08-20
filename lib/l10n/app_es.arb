@@ -274,5 +274,21 @@
         "type": "String"
       }
     }
+  },
+  "specialtyCount": "{count, plural, =1{1 especialidad} other{{count} especialidades}}",
+  "@specialtyCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pathologyCount": "{count, plural, =1{1 patología} other{{count} patologías}}",
+  "@pathologyCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

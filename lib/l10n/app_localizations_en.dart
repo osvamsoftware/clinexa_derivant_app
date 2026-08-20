@@ -286,7 +286,7 @@ class SEn extends S {
       'We will guide you through a quick verification to ensure the patient meets all necessary criteria for this protocol.';
 
   @override
-  String get homeWelcomeBack => 'Hi, WelcomeBack';
+  String get homeWelcomeBack => 'Welcome back';
 
   @override
   String get homeSearchHint => 'Search patients...';
@@ -768,5 +768,27 @@ class SEn extends S {
   @override
   String notif_patient_accepted_body(String patient_name) {
     return 'The patient $patient_name has been accepted for evaluation and possible participation in the study';
+  }
+
+  @override
+  String specialtyCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count specialties',
+      one: '1 specialty',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String pathologyCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pathologies',
+      one: '1 pathology',
+    );
+    return '$_temp0';
   }
 }

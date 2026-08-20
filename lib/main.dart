@@ -177,13 +177,18 @@ class ClinexaApp extends StatelessWidget {
               ],
               supportedLocales: const [Locale('en'), Locale('es')],
               localeResolutionCallback: (locale, supportedLocales) {
-                if (locale == null) return const Locale('en');
+                // Español por defecto: la plataforma es de investigación
+                // clínica en Latinoamérica y sus documentos legales están en
+                // español. Antes se caía al inglés, así que un teléfono en
+                // portugués o en italiano abría la app en un idioma que su
+                // dueño probablemente no eligió.
+                if (locale == null) return const Locale('es');
                 for (final supported in supportedLocales) {
                   if (supported.languageCode == locale.languageCode) {
                     return supported;
                   }
                 }
-                return const Locale('en');
+                return const Locale('es');
               },
               routerConfig: AppRouter.router,
             ),

@@ -634,7 +634,7 @@ abstract class S {
   /// No description provided for @homeWelcomeBack.
   ///
   /// In en, this message translates to:
-  /// **'Hi, WelcomeBack'**
+  /// **'Welcome back'**
   String get homeWelcomeBack;
 
   /// No description provided for @homeSearchHint.
@@ -1524,6 +1524,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'The patient {patient_name} has been accepted for evaluation and possible participation in the study'**
   String notif_patient_accepted_body(String patient_name);
+
+  /// No description provided for @specialtyCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 specialty} other{{count} specialties}}'**
+  String specialtyCount(int count);
+
+  /// No description provided for @pathologyCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 pathology} other{{count} pathologies}}'**
+  String pathologyCount(int count);
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
