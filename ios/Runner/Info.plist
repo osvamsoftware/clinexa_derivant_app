@@ -37,10 +37,36 @@
 	     NSAllowsLocalNetworking permite solo lo que hace falta en desarrollo:
 	     hablar con un backend en la red local (http://192.168.x.x:8000).
 	     Todo lo que salga a internet sigue exigiendo HTTPS. -->
+	<!-- Depuracion inalambrica: el `flutter run` descubre el Dart VM Service
+	     del dispositivo por mDNS/Bonjour, y desde iOS 14 eso exige declarar
+	     el servicio y un texto de permiso. Sin estas dos claves la app se
+	     instala y arranca, pero se queda en blanco y el comando termina con
+	     "The Dart VM Service was not discovered after 75 seconds".
+	     El VM Service no existe en release, asi que en produccion el permiso
+	     nunca se pide. -->
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Permite que las herramientas de Flutter en tu computadora se conecten a la app para depurarla.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_dartVmService._tcp</string>
+		<string>_dartobservatory._tcp</string>
+	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
+		<!-- Excepción SOLO para depurar contra el EC2 de staging, que sirve la
+		     API por http en una IP pública: NSAllowsLocalNetworking no la cubre
+		     y iOS bloquearía todas las peticiones.
+		     QUITAR antes de compilar el .ipa para TestFlight. -->
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>18.222.50.135</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>La aplicación necesita acceso a la galería para permitir al usuario seleccionar imágenes cuando sea necesario.</string>

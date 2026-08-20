@@ -16,6 +16,7 @@ import 'package:clinexa_derivant_app/firebase_options.dart';
 import 'package:clinexa_derivant_app/core/services/notification_service.dart';
 import 'package:clinexa_derivant_app/data/repositories/notification_repository_impl.dart';
 
+import 'dart:async' show unawaited;
 import 'dart:ui' as ui;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:clinexa_derivant_app/data/models/notification_model.dart';
@@ -110,9 +111,39 @@ void main() async {
   // Notification Service Setup
   final notificationRepo = NotificationRepositoryImpl(api: api);
   final notificationService = NotificationService(repository: notificationRepo);
-  await notificationService.initListeners();
 
+  // La UI se monta ANTES de inicializar las notificaciones.
+  //
+  // initListeners() toca Firebase, muestra el diálogo de permiso del sistema
+  // y espera el token de APNs. Cualquiera de esos pasos puede tardar mucho o
+  // no resolver nunca —por ejemplo si el bundle ID de la app no coincide con
+  // el de GoogleService-Info.plist, que es justo lo que pasa hoy:
+  // com.clinexapp.conecta contra com.clinexapp.derivante—. Con el `await`
+  // delante de runApp, eso dejaba a la app sin una sola línea de interfaz:
+  // pantalla en blanco indefinida, sin ningún mensaje que lo explicara.
+  //
+  // ClinexaApp solo guarda la referencia al servicio, así que no necesita
+  // que esté inicializado para construirse.
   runApp(ClinexaApp(api: api, notificationService: notificationService));
+
+  // En segundo plano: si falla, se registra y la app sigue funcionando sin
+  // notificaciones, que es mucho mejor que no arrancar.
+  unawaited(_initNotificacionesEnSegundoPlano(notificationService));
+}
+
+/// Arranca el servicio de notificaciones sin bloquear el primer frame.
+///
+/// Los fallos se registran y se tragan a propósito: quedarse sin push es
+/// degradado, no fatal.
+Future<void> _initNotificacionesEnSegundoPlano(
+  NotificationService servicio,
+) async {
+  try {
+    await servicio.initListeners();
+  } catch (e, s) {
+    debugPrint('No se pudieron inicializar las notificaciones: $e');
+    debugPrint('$s');
+  }
 }
 
 class ClinexaApp extends StatelessWidget {
