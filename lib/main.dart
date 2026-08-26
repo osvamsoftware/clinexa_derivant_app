@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:clinexa_derivant_app/core/config/app_config.dart';
 import 'package:clinexa_derivant_app/core/config/config_error_screen.dart';
 import 'package:clinexa_derivant_app/core/api/api.dart';
@@ -111,9 +113,43 @@ void main() async {
   // Notification Service Setup
   final notificationRepo = NotificationRepositoryImpl(api: api);
   final notificationService = NotificationService(repository: notificationRepo);
-  await notificationService.initListeners();
 
+  // La UI se monta ANTES de inicializar las notificaciones.
+  //
+  // initListeners() toca Firebase, muestra el diálogo de permiso del sistema
+  // y espera el token de APNs. Cualquiera de esos pasos puede tardar mucho o
+  // no resolver nunca —por ejemplo si el bundle ID de la app no coincide con
+  // el de GoogleService-Info.plist—. Con el `await` delante de runApp, eso
+  // dejaba a la app sin una sola línea de interfaz: pantalla en blanco
+  // indefinida, sin ningún mensaje que lo explicara.
+  //
+  // Ese desajuste concreto ya está resuelto: iOS usa com.clinexapp.conecta2,
+  // igual que el plist de Firebase de iOS (Android va por su propio
+  // identificador y su propia app de Firebase). El arranque en segundo plano
+  // se conserva igual, porque protege de cualquier otro cuelgue de Firebase.
+  //
+  // ClinexaApp solo guarda la referencia al servicio, así que no necesita
+  // que esté inicializado para construirse.
   runApp(ClinexaApp(api: api, notificationService: notificationService));
+
+  // En segundo plano: si falla, se registra y la app sigue funcionando sin
+  // notificaciones, que es mucho mejor que no arrancar.
+  unawaited(_initNotificacionesEnSegundoPlano(notificationService));
+}
+
+/// Arranca el servicio de notificaciones sin bloquear el primer frame.
+///
+/// Los fallos se registran y se tragan a propósito: quedarse sin push es
+/// degradado, no fatal.
+Future<void> _initNotificacionesEnSegundoPlano(
+  NotificationService servicio,
+) async {
+  try {
+    await servicio.initListeners();
+  } catch (e, s) {
+    debugPrint('No se pudieron inicializar las notificaciones: $e');
+    debugPrint('$s');
+  }
 }
 
 /// Tema de la app. Sigue al sistema; solo en debug se puede forzar con

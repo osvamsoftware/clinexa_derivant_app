@@ -149,8 +149,13 @@ class NotificationRepositoryImpl implements NotificationRepository {
           ? 'android'
           : (Platform.isIOS ? 'ios' : 'unknown');
 
+      // iOS y Android ya no comparten identificador: 'com.clinexapp.derivante'
+      // estaba tomado en la cuenta de Apple vieja, así que iOS se registró como
+      // 'com.clinexapp.conecta2' y Android se quedó con el suyo. El valor de
+      // iOS tiene que coincidir con GoogleService-Info.plist y con el
+      // `apns-topic` del backend, o APNs rechaza cada push.
       final bundleId = Platform.isIOS
-          ? 'com.clinexapp.conecta'
+          ? 'com.clinexapp.conecta2'
           : 'com.clinexapp.derivante';
 
       log(
