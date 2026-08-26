@@ -117,10 +117,14 @@ void main() async {
   // initListeners() toca Firebase, muestra el diálogo de permiso del sistema
   // y espera el token de APNs. Cualquiera de esos pasos puede tardar mucho o
   // no resolver nunca —por ejemplo si el bundle ID de la app no coincide con
-  // el de GoogleService-Info.plist, que es justo lo que pasa hoy:
-  // com.clinexapp.conecta contra com.clinexapp.derivante—. Con el `await`
-  // delante de runApp, eso dejaba a la app sin una sola línea de interfaz:
-  // pantalla en blanco indefinida, sin ningún mensaje que lo explicara.
+  // el de GoogleService-Info.plist—. Con el `await` delante de runApp, eso
+  // dejaba a la app sin una sola línea de interfaz: pantalla en blanco
+  // indefinida, sin ningún mensaje que lo explicara.
+  //
+  // Ese desajuste concreto ya está resuelto: iOS usa com.clinexapp.conecta2,
+  // igual que el plist de Firebase de iOS (Android va por su propio
+  // identificador y su propia app de Firebase). El arranque en segundo plano
+  // se conserva igual, porque protege de cualquier otro cuelgue de Firebase.
   //
   // ClinexaApp solo guarda la referencia al servicio, así que no necesita
   // que esté inicializado para construirse.

@@ -59,10 +59,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDV6spT-psFRtjBP55pGH_27ZIlXcOp8vo',
-    appId: '1:802734756278:ios:8a6a05bfdfddec4749b117',
+    appId: '1:802734756278:ios:4e2dde320f3508a349b117',
     messagingSenderId: '802734756278',
     projectId: 'clinexapp-a4e7b',
     storageBucket: 'clinexapp-a4e7b.firebasestorage.app',
-    iosBundleId: 'com.clinexapp.derivante',
+    iosBundleId: 'com.clinexapp.conecta2',
   );
 }

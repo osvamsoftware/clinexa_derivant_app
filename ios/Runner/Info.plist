@@ -55,18 +55,6 @@
 	<dict>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
-		<!-- Excepción SOLO para depurar contra el EC2 de staging, que sirve la
-		     API por http en una IP pública: NSAllowsLocalNetworking no la cubre
-		     y iOS bloquearía todas las peticiones.
-		     QUITAR antes de compilar el .ipa para TestFlight. -->
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>18.222.50.135</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-		</dict>
 	</dict>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>La aplicación necesita acceso a la galería para permitir al usuario seleccionar imágenes cuando sea necesario.</string>

@@ -17,7 +17,7 @@
 	<key>method</key>
 	<string>app-store-connect</string>
 	<key>teamID</key>
-	<string>WL5VHZU3LV</string>
+	<string>9U7C2W3Y5U</string>
 	<!-- Los perfiles los gestiona Xcode: con "manual" la exportación falla
 	     diciendo que el perfil es Xcode managed. -->
 	<key>signingStyle</key>
