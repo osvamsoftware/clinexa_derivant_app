@@ -134,7 +134,7 @@ class ClinexaApp extends StatelessWidget {
         builder: (context) {
           return ManagerProvider(
             child: MaterialApp.router(
-              title: 'Clinexa',
+              title: 'Clinexapp',
               debugShowCheckedModeBanner: false,
               themeMode: ThemeMode.system,
               theme: AppTheme.lightTheme,

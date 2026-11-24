@@ -52,7 +52,7 @@ class AddressServiceException implements Exception {
 const _okStatuses = {'OK', 'ZERO_RESULTS'};
 
 class AddressRepositoryImpl implements AddressRepository {
-  final ApiService _api = ApiService(); // estándar Clinexa
+  final ApiService _api = ApiService(); // estándar Clinexapp
   final Api api;
   final String apiKey;
 

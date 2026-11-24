@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /// ===============================================================
-/// 🎨 Clinexa Brand Palette
+/// 🎨 Clinexapp Brand Palette
 /// ===============================================================
 class AppColors {
   // =============================================================
@@ -29,7 +29,7 @@ class AppColors {
   static const primary10 = Color(0xFF003366);
   static const primary20 = Color(0xFF004C99);
   static const primary30 = Color(0xFF0066CC);
-  static const primary40 = Color(0xFF007BFF); // principal Clinexa Blue
+  static const primary40 = Color(0xFF007BFF); // principal Clinexapp Blue
   static const primary50 = Color(0xFF339CFF);
   static const primary60 = Color(0xFF66B8FF);
   static const primary70 = Color(0xFF99D1FF);
@@ -46,7 +46,7 @@ class AppColors {
   static const secondary10 = Color(0xFF005A52);
   static const secondary20 = Color(0xFF007E72);
   static const secondary30 = Color(0xFF009E8C);
-  static const secondary40 = Color(0xFF00BFA5); // principal Clinexa Green
+  static const secondary40 = Color(0xFF00BFA5); // principal Clinexapp Green
   static const secondary50 = Color(0xFF2DD3BA);
   static const secondary60 = Color(0xFF5CE3CE);
   static const secondary70 = Color(0xFF8CF0DF);

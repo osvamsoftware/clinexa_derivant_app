@@ -449,7 +449,7 @@ class SEn extends S {
   String get provinceState => 'Province/State';
 
   @override
-  String get appName => 'Clinexa';
+  String get appName => 'Clinexapp';
 
   @override
   String get userNotAuthenticated => 'User not authenticated';

@@ -1,4 +1,4 @@
-# Clinexa — App del médico derivante
+# Clinexapp — App del médico derivante
 
 Flutter. Consume la API de `clinexa_backend`.
 

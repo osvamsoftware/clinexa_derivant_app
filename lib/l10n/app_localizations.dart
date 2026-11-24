@@ -952,7 +952,7 @@ abstract class S {
   /// No description provided for @appName.
   ///
   /// In en, this message translates to:
-  /// **'Clinexa'**
+  /// **'Clinexapp'**
   String get appName;
 
   /// No description provided for @userNotAuthenticated.

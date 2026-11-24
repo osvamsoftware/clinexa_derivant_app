@@ -76,7 +76,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           style: const TextStyle(color: AppColors.neutral20, fontSize: 15),
           decoration: InputDecoration(
             filled: true,
-            fillColor: AppColors.primary95, // Fondo azul MUY suave Clinexa
+            fillColor: AppColors.primary95, // Fondo azul MUY suave Clinexapp
             hintText: widget.hint,
             hintStyle: TextStyle(
               color: AppColors.primary60.withValues(alpha: .8),
@@ -119,7 +119,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(18),
               borderSide: const BorderSide(
-                color: AppColors.primary40, // Azul Clinexa
+                color: AppColors.primary40, // Azul Clinexapp
                 width: 1.4,
               ),
             ),

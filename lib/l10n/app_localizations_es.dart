@@ -454,7 +454,7 @@ class SEs extends S {
   String get provinceState => 'Provincia/Estado';
 
   @override
-  String get appName => 'Clinexa';
+  String get appName => 'Clinexapp';
 
   @override
   String get userNotAuthenticated => 'Usuario no autenticado';

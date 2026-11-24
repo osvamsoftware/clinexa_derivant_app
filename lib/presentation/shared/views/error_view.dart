@@ -71,7 +71,7 @@ class ErrorView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // // 🔹 Logo Clinexa
+            // // 🔹 Logo Clinexapp
             // Image.asset(paths.logoPng, height: logoSize),
             // const SizedBox(height: 24),
 

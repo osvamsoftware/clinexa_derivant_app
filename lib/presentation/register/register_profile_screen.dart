@@ -101,7 +101,7 @@ class _RegisterProfileViewState extends State<RegisterProfileView> {
                   child: Text(
                     """Términos y Condiciones de Uso
 
-Bienvenido a Clinexa. Al crear una cuenta, usted acepta cumplir y estar sujeto a los siguientes términos y condiciones de uso, que junto con nuestra política de privacidad gobiernan la relación de Clinexa con usted en relación con esta aplicación.
+Bienvenido a Clinexapp. Al crear una cuenta, usted acepta cumplir y estar sujeto a los siguientes términos y condiciones de uso, que junto con nuestra política de privacidad gobiernan la relación de Clinexapp con usted en relación con esta aplicación.
 
 1. Aceptación de los Términos
 Al acceder y utilizar esta aplicación, usted acepta estar sujeto a estos términos y condiciones y a nuestra Política de Privacidad. Si no está de acuerdo con alguna parte de estos términos, no podrá utilizar nuestros servicios.
@@ -122,7 +122,7 @@ Nos reservamos el derecho de modificar estos términos en cualquier momento. Los
 Podemos terminar o suspender su cuenta inmediatamente, sin previo aviso o responsabilidad, por cualquier motivo, incluyendo, sin limitación, si usted incumple los Términos.
 
 7. Limitación de Responsabilidad
-En ningún caso Clinexa, ni sus directores, empleados, socios, agentes, proveedores o afiliados, serán responsables por daños indirectos, incidentales, especiales, consecuentes o punitivos.
+En ningún caso Clinexapp, ni sus directores, empleados, socios, agentes, proveedores o afiliados, serán responsables por daños indirectos, incidentales, especiales, consecuentes o punitivos.
 
 8. Ley Aplicable
 Estos Términos se regirán e interpretarán de acuerdo con las leyes vigentes, sin tener en cuenta sus disposiciones sobre conflictos de leyes.
