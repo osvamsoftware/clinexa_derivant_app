@@ -46,7 +46,7 @@ class RootPage extends StatelessWidget {
               type: BottomNavigationBarType.fixed,
 
               selectedItemColor: Colors.white,
-              unselectedItemColor: Colors.grey,
+              unselectedItemColor: AppColors.neutral60,
 
               items: [
                 BottomNavigationBarItem(

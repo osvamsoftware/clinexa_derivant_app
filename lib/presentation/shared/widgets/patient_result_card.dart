@@ -38,7 +38,7 @@ class PatientResultCard extends StatelessWidget {
     } else {
       // Sin order vinculado - verificar si el paciente está activo o inactivo
       final isActive = status.toLowerCase() == 'active';
-      statusColor = isActive ? Colors.indigo : Colors.grey;
+      statusColor = isActive ? Colors.indigo : AppColors.neutral60;
     }
 
     return Card(
@@ -153,13 +153,13 @@ class PatientResultCard extends StatelessWidget {
   Color _getOrderStatusColor(String status) {
     switch (status) {
       case 'assigned':
-        return Colors.amber;
+        return AppColors.warning40;
       case 'accepted':
-        return Colors.green;
+        return AppColors.success;
       case 'rejected' || "REJECTED":
-        return Colors.red[400]!;
+        return AppColors.danger40;
       default:
-        return Colors.grey;
+        return AppColors.neutral60;
     }
   }
 

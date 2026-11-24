@@ -118,11 +118,11 @@ class _DebouncedSearchFieldState extends State<DebouncedSearchField> {
 
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(18),
-              borderSide: const BorderSide(color: Colors.red, width: 1.4),
+              borderSide: const BorderSide(color: AppColors.danger40, width: 1.4),
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(18),
-              borderSide: const BorderSide(color: Colors.red, width: 1.4),
+              borderSide: const BorderSide(color: AppColors.danger40, width: 1.4),
             ),
           ),
         ),

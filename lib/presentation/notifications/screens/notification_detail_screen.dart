@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/core/helpers/localization_helper.dart';
+import 'package:clinexa_derivant_app/core/theme.dart';
 
 class NotificationDetailScreen extends StatelessWidget {
   static const String path = '/notifications/detail';
@@ -46,7 +47,7 @@ class NotificationDetailScreen extends StatelessWidget {
               dateStr,
               style: Theme.of(
                 context,
-              ).textTheme.bodySmall?.copyWith(color: Colors.grey),
+              ).textTheme.bodySmall?.copyWith(color: AppColors.neutral60),
             ),
             const SizedBox(height: 24),
             Text(translatedBody, style: Theme.of(context).textTheme.bodyMedium),
@@ -61,7 +62,7 @@ class NotificationDetailScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
+                  color: AppColors.neutral95,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(

@@ -14,6 +14,7 @@ import 'package:clinexa_derivant_app/presentation/specialty/cubit/specialty_cubi
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:clinexa_derivant_app/core/theme.dart';
 
 class EditProfileScreen extends StatelessWidget {
   static const path = "/edit-profile";
@@ -200,8 +201,8 @@ class EditProfileView extends StatelessWidget {
                   width: double.infinity,
                   child: OutlinedButton.icon(
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      side: const BorderSide(color: Colors.red),
+                      foregroundColor: AppColors.danger40,
+                      side: const BorderSide(color: AppColors.danger40),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),

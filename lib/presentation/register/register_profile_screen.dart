@@ -3,6 +3,7 @@ import 'package:clinexa_derivant_app/presentation/login/login_screen.dart';
 import 'package:clinexa_derivant_app/presentation/register/cubit/register_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_dialogs.dart';
+import 'package:clinexa_derivant_app/core/theme.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -94,7 +95,7 @@ class _RegisterProfileViewState extends State<RegisterProfileView> {
                 height: MediaQuery.of(context).size.height * 0.5,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.withOpacity(0.5)),
+                  border: Border.all(color: AppColors.neutral60),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: SingleChildScrollView(

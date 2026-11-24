@@ -297,7 +297,7 @@ class PatientDetailsView extends StatelessWidget {
 
                   if (patient.order == null && patient.currentOrderId == null)
                     Card(
-                      color: Colors.red[400], // Red card (less intense)
+                      color: AppColors.danger40, // Red card (less intense)
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
