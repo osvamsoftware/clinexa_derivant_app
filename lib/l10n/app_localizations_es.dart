@@ -9,20 +9,20 @@ class SEs extends S {
   SEs([String locale = 'es']) : super(locale);
 
   @override
-  String get fieldRequired => 'Este campo es obligatorio.';
+  String get fieldRequired => 'Completa este campo.';
 
   @override
-  String get welcomeSubtitle => 'Compartiendo Salud';
+  String get welcomeSubtitle => 'Compartiendo salud';
 
   @override
   String get welcomeDescription =>
-      'Una plataforma digital diseñada para conectar de manera segura y transparente a Investigadores o Equipos de Centros de investigación médica con Médicos referentes, para facilitar el acceso de pacientes a protocolos de investigación clínica.';
+      'Clinexapp conecta a médicos referentes con equipos de investigación clínica, de forma segura y transparente.';
 
   @override
   String get loginHello => '¡Hola!';
 
   @override
-  String get welcomeTitle => '¡Bienvenido de Nuevo!';
+  String get welcomeTitle => 'Te damos la bienvenida';
 
   @override
   String get emailOrMobile => 'Correo Electrónico o Móvil';
@@ -34,35 +34,33 @@ class SEs extends S {
   String get forgotPasswordOld => '¿Olvidaste la Contraseña?';
 
   @override
-  String get login => 'Iniciar Sesión';
+  String get login => 'Iniciar sesión';
 
   @override
   String get or => 'o';
 
   @override
-  String get dontHaveAccount => '¿No tienes una cuenta?';
+  String get dontHaveAccount => '¿Aún no tienes cuenta?';
 
   @override
-  String get signup => 'Regístrate';
+  String get signup => 'Crear cuenta';
 
   @override
   String get invalidEmail =>
-      'Por favor, introduce una dirección de correo electrónico válida.';
+      'Ingresa un correo válido, por ejemplo nombre@ejemplo.com.';
 
   @override
   String get invalidPhone =>
-      'Por favor, introduce un número de teléfono válido (6-12 dígitos).';
+      'Ingresa un teléfono válido, de 6 a 12 dígitos y sin espacios.';
 
   @override
-  String get passwordMin => 'La contraseña debe tener al menos 8 caracteres.';
+  String get passwordMin => 'Usa al menos 8 caracteres.';
 
   @override
-  String get passwordMax =>
-      'La contraseña no puede exceder los 128 caracteres.';
+  String get passwordMax => 'Usa como máximo 128 caracteres.';
 
   @override
-  String get passwordComplexity =>
-      'La contraseña debe combinar mayúsculas, minúsculas y números.';
+  String get passwordComplexity => 'Combina mayúsculas, minúsculas y números.';
 
   @override
   String get passwordMismatch => 'Las contraseñas no coinciden.';
@@ -81,17 +79,16 @@ class SEs extends S {
   String get invalidMemberId => 'El ID de miembro debe tener 8 caracteres.';
 
   @override
-  String get invalidDni =>
-      'Por favor, introduce un número válido mayor a 6 dígitos.';
+  String get invalidDni => 'Ingresa un número válido de más de 6 dígitos.';
 
   @override
-  String get loading => 'Cargando...';
+  String get loading => 'Cargando…';
 
   @override
-  String get errorOccurred => 'Algo salió mal';
+  String get errorOccurred => 'No se pudo completar';
 
   @override
-  String get ok => 'Ok';
+  String get ok => 'Entendido';
 
   @override
   String get accept => 'Aceptar';
@@ -106,10 +103,10 @@ class SEs extends S {
   String get registerDoctor => 'Registro de Médico';
 
   @override
-  String get email => 'Correo Electrónico';
+  String get email => 'Correo electrónico';
 
   @override
-  String get medicalLicense => 'Número de Matricula Médica';
+  String get medicalLicense => 'Número de matrícula';
 
   @override
   String get specialty => 'Especialidad';
@@ -139,16 +136,17 @@ class SEs extends S {
   String get streetExample => 'Calle 123';
 
   @override
-  String get createAccount => 'Crear Tu Cuenta';
+  String get createAccount => 'Crea tu cuenta';
 
   @override
-  String get unexpectedError => 'Ocurrió un error inesperado';
+  String get unexpectedError =>
+      'Ocurrió un error inesperado. Intenta de nuevo.';
 
   @override
-  String get searchSpecialty => 'Buscar Especialidad';
+  String get searchSpecialty => 'Especialidades';
 
   @override
-  String get register_step1_title => 'Información Básica';
+  String get register_step1_title => 'Datos personales';
 
   @override
   String get register_firstName => 'Nombre';
@@ -157,13 +155,13 @@ class SEs extends S {
   String get register_lastName => 'Apellido';
 
   @override
-  String get register_email => 'Correo Electrónico';
+  String get register_email => 'Correo electrónico';
 
   @override
   String get register_password => 'Contraseña';
 
   @override
-  String get register_next => 'Siguiente Paso';
+  String get register_next => 'Continuar';
 
   @override
   String get register_basicInfo_description =>
@@ -171,43 +169,42 @@ class SEs extends S {
 
   @override
   String get register_header =>
-      'Completa tu perfil para la evaluación de pacientes que podrían verse beneficiados clínicamente por su ensayo e interactuar con Clinexapp';
+      'Completa tus datos para empezar a derivar pacientes a ensayos clínicos.';
 
   @override
-  String get specialty_required =>
-      'Por favor, selecciona al menos una especialidad.';
+  String get specialty_required => 'Agrega al menos una especialidad.';
 
   @override
   String get register_successMessage =>
-      '¡Cuenta creada con éxito. Ya puedes iniciar sesión!';
+      'Ya puedes iniciar sesión con tu correo y contraseña.';
 
   @override
-  String get error400 => 'Solicitud Incorrecta (400)';
+  String get error400 => 'Solicitud incorrecta (400)';
 
   @override
-  String get error401 => 'No Autorizado (401)';
+  String get error401 => 'Tu sesión no está autorizada (401)';
 
   @override
-  String get error403 => 'Acceso Denegado (403)';
+  String get error403 => 'Acceso denegado (403)';
 
   @override
-  String get error404 => 'Recurso No Encontrado (404)';
+  String get error404 => 'No encontramos el recurso (404)';
 
   @override
-  String get error408 => 'Tiempo de Espera Agotado (408)';
+  String get error408 => 'El servidor tardó demasiado (408)';
 
   @override
-  String get error500 => 'Error Interno del Servidor (500)';
+  String get error500 => 'Error del servidor (500)';
 
   @override
-  String get error503 => 'Servicio No Disponible (503)';
+  String get error503 => 'Servicio no disponible (503)';
 
   @override
-  String get errorUnknown => 'Error Desconocido';
+  String get errorUnknown => 'Ocurrió un error';
 
   @override
   String get errorGenericMessage =>
-      'Algo salió mal al procesar tu solicitud. Por favor, inténtalo de nuevo.';
+      'No se pudo procesar tu solicitud. Intenta de nuevo.';
 
   @override
   String get retry => 'Reintentar';
@@ -290,7 +287,7 @@ class SEs extends S {
       'Te guiaremos a través de una rápida verificación para asegurar que el paciente cumpla con todos los criterios necesarios para este protocolo.';
 
   @override
-  String get homeWelcomeBack => 'Bienvenido de Nuevo';
+  String get homeWelcomeBack => 'Hola de nuevo';
 
   @override
   String get homeSearchHint => 'Buscar pacientes...';
@@ -402,7 +399,7 @@ class SEs extends S {
   String get nextStep => 'Siguiente Paso';
 
   @override
-  String get searchSpecialtyHint => 'Buscar especialidad...';
+  String get searchSpecialtyHint => 'Busca y agrega, por ejemplo Cardiología';
 
   @override
   String get searchPathologyHint => 'Buscar patología...';
@@ -464,7 +461,7 @@ class SEs extends S {
 
   @override
   String get searchAddressPrompt =>
-      'Escribe tu dirección y selecciona de las opciones que se te dan *';
+      'Escribe la dirección y elige una sugerencia';
 
   @override
   String get paymentProcessedSuccessfully => 'Pago procesado correctamente';
@@ -484,11 +481,12 @@ class SEs extends S {
   String get errorGettingDetails => 'Error al obtener detalles';
 
   @override
-  String get selectValidAddress => 'Selecciona una dirección válida';
+  String get selectValidAddress =>
+      'Elige una dirección de la lista de sugerencias.';
 
   @override
   String get errorVerifyingUserStatus =>
-      'Error al verificar el estado del usuario';
+      'No pudimos verificar tu cuenta. Vuelve a iniciar sesión.';
 
   @override
   String get noRefreshTokenFound => 'No se encontró token de actualización';
@@ -553,13 +551,13 @@ class SEs extends S {
       '¿Estás seguro de que deseas marcar este paciente como activo?';
 
   @override
-  String get licenseType => 'Tipo de Matricula';
+  String get licenseType => 'Tipo de matrícula';
 
   @override
-  String get provincialLicense => 'Matrícula Provincial';
+  String get provincialLicense => 'Matrícula provincial';
 
   @override
-  String get nationalLicense => 'Matrícula Nacional';
+  String get nationalLicense => 'Matrícula nacional';
 
   @override
   String get phone2 => 'Teléfono adicional';
@@ -569,30 +567,30 @@ class SEs extends S {
 
   @override
   String get forgotPasswordDescription =>
-      'Ingresa tu correo electrónico y te enviaremos instrucciones para restablecer tu contraseña.';
+      'Ingresa el correo de tu cuenta y te enviaremos un enlace para crear una contraseña nueva.';
 
   @override
-  String get sendInstructions => 'Enviar instrucciones';
+  String get sendInstructions => 'Enviar enlace';
 
   @override
   String get recoveryEmailSent =>
-      'Correo de recuperación enviado. Por favor revisa tu bandeja de entrada.';
+      'Te enviamos un enlace para restablecer tu contraseña. Si no lo ves, revisa la carpeta de spam.';
 
   @override
-  String get resetPassword => 'Restablecer contraseña';
+  String get resetPassword => 'Crea una contraseña nueva';
 
   @override
-  String get newPassword => 'Nueva contraseña';
+  String get newPassword => 'Contraseña nueva';
 
   @override
-  String get confirmNewPassword => 'Confirmar nueva contraseña';
+  String get confirmNewPassword => 'Repite la contraseña nueva';
 
   @override
   String get passwordResetSuccess =>
-      'Contraseña restablecida con éxito. Ahora puedes iniciar sesión con tu nueva contraseña.';
+      'Ya puedes iniciar sesión con tu contraseña nueva.';
 
   @override
-  String get passwordsDoNotMatch => 'Las contraseñas no coinciden';
+  String get passwordsDoNotMatch => 'Las contraseñas no coinciden.';
 
   @override
   String get notificationScreenTitle => 'Notificaciones';
@@ -658,40 +656,40 @@ class SEs extends S {
   String get requiredField => 'Campo requerido';
 
   @override
-  String get errorUnauthorized =>
-      'Su sesión ha expirado. Por favor, inicie sesión nuevamente.';
+  String get errorUnauthorized => 'Tu sesión expiró. Vuelve a iniciar sesión.';
 
   @override
   String get errorLoginFailed =>
-      'No se pudo iniciar sesión. Verifique sus credenciales.';
+      'No se pudo iniciar sesión. Revisa tus datos e intenta de nuevo.';
 
   @override
   String get errorInvalidCredentials =>
-      'Credenciales inválidas. Verifique su email y contraseña.';
+      'El correo o la contraseña no son correctos.';
 
   @override
   String get errorNetwork =>
-      'Error de conexión. Verifique su conexión a internet.';
+      'No se pudo conectar con el servidor. Revisa tu conexión.';
 
   @override
-  String get errorServer => 'Error del servidor. Por favor, intente más tarde.';
+  String get errorServer =>
+      'El servidor tuvo un problema. Intenta de nuevo en unos minutos.';
 
   @override
   String get errorServiceUnavailable =>
-      'El servicio no está disponible en este momento.';
+      'El servicio no está disponible en este momento. Intenta más tarde.';
 
   @override
-  String get errorValidation => 'Los datos proporcionados no son válidos.';
+  String get errorValidation =>
+      'Algunos datos no son válidos. Revísalos e intenta de nuevo.';
 
   @override
-  String get errorNotFound => 'El recurso solicitado no fue encontrado.';
+  String get errorNotFound => 'No encontramos lo que buscas.';
 
   @override
-  String get errorForbidden => 'No tiene permisos para realizar esta acción.';
+  String get errorForbidden => 'No tienes permiso para hacer esta acción.';
 
   @override
-  String get errorGeneric =>
-      'Ha ocurrido un error. Por favor, intente nuevamente.';
+  String get errorGeneric => 'Ocurrió un error. Intenta de nuevo.';
 
   @override
   String get signature => 'Firma del Paciente';
@@ -734,10 +732,10 @@ class SEs extends S {
 
   @override
   String get wrongRoleMessageDerivante =>
-      'Esta es la app de médicos derivantes, pero las credenciales que ingresaste corresponden a un médico receptor. Descarga la app Receptor o inicia sesión con una cuenta de derivante.';
+      'Esta app es para médicos referentes, pero tu cuenta es de investigador. Descarga Clinexapp Investigador o inicia sesión con una cuenta de médico referente.';
 
   @override
-  String get wrongRoleExitButton => 'Salir';
+  String get wrongRoleExitButton => 'Volver a iniciar sesión';
 
   @override
   String get notif_patient_rejected_title => 'Paciente Rechazado';
@@ -778,4 +776,78 @@ class SEs extends S {
   String notif_patient_accepted_body(String patient_name) {
     return 'El paciente $patient_name ha sido aceptado para evaluación y posible participación en el estudio.';
   }
+
+  @override
+  String get welcomeHeadline => 'Deriva pacientes a ensayos clínicos';
+
+  @override
+  String get loginSubtitle => 'Ingresa con tu cuenta de médico referente.';
+
+  @override
+  String get emailHint => 'nombre@ejemplo.com';
+
+  @override
+  String get passwordHelper =>
+      'Mínimo 8 caracteres, con mayúsculas, minúsculas y números.';
+
+  @override
+  String get forgotPasswordTitle => 'Recupera tu contraseña';
+
+  @override
+  String get recoveryEmailSentTitle => 'Revisa tu correo';
+
+  @override
+  String get backToLogin => 'Volver a iniciar sesión';
+
+  @override
+  String get resetPasswordDescription =>
+      'Elige una contraseña que no hayas usado antes.';
+
+  @override
+  String get savePassword => 'Guardar contraseña';
+
+  @override
+  String get passwordResetSuccessTitle => 'Contraseña actualizada';
+
+  @override
+  String get registerStepProfessional => 'Datos profesionales';
+
+  @override
+  String get registerStepTerms => 'Términos';
+
+  @override
+  String get registerProfessionalSubtitle =>
+      'Tu matrícula y tus especialidades definen qué protocolos ves.';
+
+  @override
+  String get registerTermsSubtitle =>
+      'Lee los términos y acéptalos para crear tu cuenta.';
+
+  @override
+  String get termsAcceptLabel =>
+      'Leí y acepto los términos y condiciones de Clinexapp y el compromiso que asumo al crear la cuenta.';
+
+  @override
+  String get termsTitle => 'Términos y condiciones de uso';
+
+  @override
+  String get registerSuccessTitle => 'Tu cuenta está lista';
+
+  @override
+  String get selectOption => 'Selecciona una opción';
+
+  @override
+  String get selectProvince => 'Selecciona una provincia';
+
+  @override
+  String get removeItem => 'Quitar';
+
+  @override
+  String get sessionCheckTitle => 'Preparando tu cuenta';
+
+  @override
+  String get successTitle => 'Listo';
+
+  @override
+  String get myProfile => 'Mi perfil';
 }

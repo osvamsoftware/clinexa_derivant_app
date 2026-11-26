@@ -1,7 +1,6 @@
 import 'package:clinexa_derivant_app/core/constants/paths.dart';
-import 'package:clinexa_derivant_app/core/theme.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
-import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -22,55 +21,47 @@ class WrongRoleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
+    final c = context.clx;
+    final t = context.clxText;
 
     return PopScope(
       // Sin botón atrás: forzamos a que se resuelva con el botón de salida,
       // no dejando una sesión a medio cerrar por un gesto accidental.
       canPop: false,
       child: Scaffold(
-        backgroundColor: AppColors.neutral100,
+        backgroundColor: c.surface,
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
+            padding: const EdgeInsets.symmetric(horizontal: ClxSpace.s6),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset(paths.completeLogoSvg, height: 90),
-                const SizedBox(height: 40),
-                const Icon(
-                  Icons.swap_horiz_rounded,
-                  size: 64,
-                  color: AppColors.primary40,
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  s.wrongRoleTitle,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary40,
+                const SizedBox(height: ClxSpace.s8),
+                SvgPicture.asset(paths.nameLogoSvg, height: 40),
+                const Spacer(),
+                Container(
+                  width: 64,
+                  height: 64,
+                  decoration: BoxDecoration(
+                    color: c.warningSoft,
+                    borderRadius: BorderRadius.circular(ClxRadius.lg),
                   ),
+                  child: Icon(LucideIcons.arrowLeftRight, size: 30, color: c.warning),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: ClxSpace.s6),
+                Text(s.wrongRoleTitle, textAlign: TextAlign.center, style: t.h1),
+                const SizedBox(height: ClxSpace.s3),
                 Text(
                   s.wrongRoleMessageDerivante,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    color: AppColors.neutral50,
-                    height: 1.4,
-                  ),
+                  style: t.bodyMuted,
                 ),
-                const SizedBox(height: 36),
-                SizedBox(
-                  width: 200,
-                  child: CustomButton(
-                    text: s.wrongRoleExitButton,
-                    height: 48,
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
+                const Spacer(),
+                ClxButton(
+                  label: s.wrongRoleExitButton,
+                  icon: LucideIcons.logOut,
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
+                const SizedBox(height: ClxSpace.s4),
               ],
             ),
           ),

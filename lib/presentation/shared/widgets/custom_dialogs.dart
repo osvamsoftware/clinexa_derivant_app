@@ -1,13 +1,13 @@
-import 'package:clinexa_derivant_app/core/constants/paths.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
-import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
+/// Diálogos heredados, ahora con el estilo del sistema ([ClxDialog]).
+/// Se mantienen las firmas para no tocar la lógica de las pantallas.
 class CustomDialogs {
   // ============================================================
-  // 🔹 LOADING DIALOG
+  // Cargando: tarjeta pequeña, sin logos ni texto largo.
   // ============================================================
   static Future<void> loadingDialog(BuildContext context) {
     final s = S.of(context);
@@ -15,43 +15,34 @@ class CustomDialogs {
     return showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (context) => Dialog(
-        backgroundColor: Colors.transparent,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Theme.of(context).scaffoldBackgroundColor,
-          ),
-          height: 190,
-          width: 50,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      builder: (context) {
+        final c = context.clx;
+        return PopScope(
+          canPop: false,
+          child: Dialog(
+            backgroundColor: c.surfaceRaised,
+            surfaceTintColor: Colors.transparent,
+            insetPadding: const EdgeInsets.symmetric(horizontal: 96),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ClxRadius.xl)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: ClxSpace.s6, horizontal: ClxSpace.s5),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  SvgPicture.asset(paths.iconLogoSvg, height: 40),
-                  const SizedBox(width: 8),
-                  SvgPicture.asset(paths.nameLogoSvg, height: 30),
+                  const ClxLoader(size: 28),
+                  const SizedBox(height: ClxSpace.s4),
+                  Text(s.loading, style: context.clxText.bodySmStrong.copyWith(fontSize: 14)),
                 ],
               ),
-              const SizedBox.square(
-                dimension: 25,
-                child: CircularProgressIndicator.adaptive(),
-              ),
-              Text(
-                s.loading, // 🔵 traducido
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
   // ============================================================
-  // 🔹 ERROR DIALOG
+  // Error: dice qué pasó; un solo botón para seguir.
   // ============================================================
   static Future<void> errorDialog(
     BuildContext context,
@@ -63,68 +54,30 @@ class CustomDialogs {
     return showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (context) => Dialog(
-        backgroundColor: Colors.transparent,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Theme.of(context).scaffoldBackgroundColor,
+      builder: (context) => ClxDialog.body(
+        title: s.errorOccurred,
+        message: error,
+        icon: LucideIcons.circleAlert,
+        tone: ClxTone.danger,
+        actions: [
+          ClxButton(
+            label: s.ok,
+            size: ClxButtonSize.md,
+            onPressed: onTap ?? () => context.pop(),
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: IconButton(
-                    onPressed: () => context.pop(),
-                    icon: const Icon(Icons.close),
-                  ),
-                ),
-                Text(
-                  s.errorOccurred, // 🔵 traducido
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 25),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(paths.iconLogoSvg, height: 40),
-                    const SizedBox(width: 8),
-                    SvgPicture.asset(paths.nameLogoSvg, height: 30),
-                  ],
-                ),
-                Text(
-                  error,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.normal,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: onTap ?? () => context.pop(),
-                  child: Text(s.ok), // 🔵 traducido
-                ),
-                const SizedBox(height: 30),
-              ],
-            ),
-          ),
-        ),
+        ],
       ),
     );
   }
 
   // ============================================================
-  // 🔹 SUCCESS DIALOG
+  // Éxito
   // ============================================================
   static Future<void> successDialog({
     required BuildContext context,
     String? successMessage,
+    String? title,
+    String? buttonLabel,
     void Function()? onPressed,
   }) {
     final s = S.of(context);
@@ -132,53 +85,24 @@ class CustomDialogs {
     return showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (context) => Dialog(
-        backgroundColor: Colors.transparent,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Theme.of(context).scaffoldBackgroundColor,
+      builder: (context) => ClxDialog.body(
+        title: title ?? s.successTitle,
+        message: successMessage,
+        icon: LucideIcons.circleCheck,
+        tone: ClxTone.success,
+        actions: [
+          ClxButton(
+            label: buttonLabel ?? s.ok,
+            size: ClxButtonSize.md,
+            onPressed: onPressed ?? () => context.pop(),
           ),
-          height: 230,
-          width: 100,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(paths.iconLogoSvg, height: 40),
-                  const SizedBox(width: 8),
-                  SvgPicture.asset(paths.nameLogoSvg, height: 30),
-                ],
-              ),
-              const SizedBox(height: 10),
-              if (successMessage != null)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    successMessage,
-                    style: Theme.of(context).textTheme.titleMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: CustomButton(
-                  text: s.ok,
-                  onPressed: onPressed ?? () => context.pop(),
-                ),
-              ),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }
 
   // ============================================================
-  // 🔹 ACCEPT / CANCEL DIALOG
+  // Aceptar / cancelar
   // ============================================================
   static Future<void> customAcceptOrCancel({
     required BuildContext context,
@@ -189,74 +113,35 @@ class CustomDialogs {
     double height = 300,
     double width = 400,
     Widget? childWidget,
+    String? acceptLabel,
   }) {
     final s = S.of(context);
 
     return showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (context) => Dialog(
-        backgroundColor: Colors.transparent,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Theme.of(context).scaffoldBackgroundColor,
+      builder: (context) => ClxDialog.body(
+        title: title ?? s.noTitle,
+        message: bodyMessage,
+        content: childWidget,
+        actions: [
+          ClxButton(
+            label: acceptLabel ?? s.accept,
+            size: ClxButtonSize.md,
+            onPressed: onAccept ?? () => context.pop(),
           ),
-          height: height,
-          width: width,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(paths.iconLogoSvg, height: 40),
-                  const SizedBox(width: 8),
-                  SvgPicture.asset(paths.nameLogoSvg, height: 30),
-                ],
-              ),
-              Text(
-                title ?? s.noTitle, // 🔵 traducido
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 10),
-              if (bodyMessage != null)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    bodyMessage,
-                    style: const TextStyle(fontSize: 13),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              childWidget ?? const SizedBox(),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomButton(
-                    onPressed: onCancel ?? () => context.pop(),
-                    text: s.cancel,
-                    width: 130,
-                  ),
-                  const SizedBox(width: 30),
-                  CustomButton(
-                    onPressed: onAccept ?? () => context.pop(),
-                    text: s.accept,
-                    width: 130,
-                  ),
-                ],
-              ),
-            ],
+          ClxButton.secondary(
+            label: s.cancel,
+            size: ClxButtonSize.md,
+            onPressed: onCancel ?? () => context.pop(),
           ),
-        ),
+        ],
       ),
     );
   }
 
   // ============================================================
-  // 🔹 CUSTOM WIDGET DIALOG
+  // Diálogo con contenido a medida
   // ============================================================
   static Future<void> customWidgetDialog({
     required BuildContext context,
@@ -270,45 +155,17 @@ class CustomDialogs {
 
     return showDialog(
       context: context,
-      builder: (context) => Dialog(
-        backgroundColor: Colors.transparent,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Theme.of(context).scaffoldBackgroundColor,
+      builder: (context) => ClxDialog.body(
+        title: title ?? s.noTitle,
+        message: bodyMessage,
+        content: childWidget,
+        actions: [
+          ClxButton.secondary(
+            label: s.close,
+            size: ClxButtonSize.md,
+            onPressed: () => context.pop(),
           ),
-          height: height,
-          width: width,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                title ?? s.noTitle, // 🔵 traducido
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(paths.iconLogoSvg, height: 40),
-                  const SizedBox(width: 8),
-                  SvgPicture.asset(paths.nameLogoSvg, height: 30),
-                ],
-              ),
-              if (bodyMessage != null)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    bodyMessage,
-                    style: const TextStyle(fontSize: 13),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              childWidget ?? const SizedBox(),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }

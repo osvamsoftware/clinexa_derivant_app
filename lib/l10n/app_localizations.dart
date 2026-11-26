@@ -106,13 +106,13 @@ abstract class S {
   /// No description provided for @welcomeSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Sharing Health'**
+  /// **'Sharing health'**
   String get welcomeSubtitle;
 
   /// No description provided for @welcomeDescription.
   ///
   /// In en, this message translates to:
-  /// **'A digital platform designed to connect researchers or teams from medical research centers with referring physicians in a secure and transparent manner, facilitating patient access to clinical research protocols.'**
+  /// **'Clinexapp connects referring physicians with clinical research teams, securely and transparently.'**
   String get welcomeDescription;
 
   /// No description provided for @loginHello.
@@ -124,7 +124,7 @@ abstract class S {
   /// No description provided for @welcomeTitle.
   ///
   /// In en, this message translates to:
-  /// **'Welcome'**
+  /// **'Welcome back'**
   String get welcomeTitle;
 
   /// No description provided for @emailOrMobile.
@@ -148,7 +148,7 @@ abstract class S {
   /// No description provided for @login.
   ///
   /// In en, this message translates to:
-  /// **'Log In'**
+  /// **'Log in'**
   String get login;
 
   /// No description provided for @or.
@@ -160,49 +160,49 @@ abstract class S {
   /// No description provided for @dontHaveAccount.
   ///
   /// In en, this message translates to:
-  /// **'Don’t have an account?'**
+  /// **'Don\'t have an account yet?'**
   String get dontHaveAccount;
 
   /// No description provided for @signup.
   ///
   /// In en, this message translates to:
-  /// **'Sign Up'**
+  /// **'Create account'**
   String get signup;
 
   /// No description provided for @invalidEmail.
   ///
   /// In en, this message translates to:
-  /// **'Invalid email address'**
+  /// **'Enter a valid email, like name@example.com.'**
   String get invalidEmail;
 
   /// No description provided for @invalidPhone.
   ///
   /// In en, this message translates to:
-  /// **'Invalid phone number'**
+  /// **'Enter a valid phone number: 6 to 12 digits, no spaces.'**
   String get invalidPhone;
 
   /// No description provided for @passwordMin.
   ///
   /// In en, this message translates to:
-  /// **'Password must be at least 8 characters'**
+  /// **'Use at least 8 characters.'**
   String get passwordMin;
 
   /// No description provided for @passwordMax.
   ///
   /// In en, this message translates to:
-  /// **'Password must be less than 128 characters'**
+  /// **'Use 128 characters or fewer.'**
   String get passwordMax;
 
   /// No description provided for @passwordComplexity.
   ///
   /// In en, this message translates to:
-  /// **'Password must combine uppercase, lowercase and numbers'**
+  /// **'Combine uppercase, lowercase and numbers.'**
   String get passwordComplexity;
 
   /// No description provided for @passwordMismatch.
   ///
   /// In en, this message translates to:
-  /// **'Passwords do not match'**
+  /// **'Passwords don\'t match.'**
   String get passwordMismatch;
 
   /// No description provided for @invalidName.
@@ -232,13 +232,13 @@ abstract class S {
   /// No description provided for @invalidDni.
   ///
   /// In en, this message translates to:
-  /// **'Please enter a valid number with more than 6 digits.'**
+  /// **'Enter a valid number with more than 6 digits.'**
   String get invalidDni;
 
   /// No description provided for @loading.
   ///
   /// In en, this message translates to:
-  /// **'Loading...'**
+  /// **'Loading…'**
   String get loading;
 
   /// No description provided for @errorOccurred.
@@ -250,7 +250,7 @@ abstract class S {
   /// No description provided for @ok.
   ///
   /// In en, this message translates to:
-  /// **'Ok'**
+  /// **'Got it'**
   String get ok;
 
   /// No description provided for @accept.
@@ -286,7 +286,7 @@ abstract class S {
   /// No description provided for @medicalLicense.
   ///
   /// In en, this message translates to:
-  /// **'Medical License Number'**
+  /// **'License number'**
   String get medicalLicense;
 
   /// No description provided for @specialty.
@@ -346,37 +346,37 @@ abstract class S {
   /// No description provided for @createAccount.
   ///
   /// In en, this message translates to:
-  /// **'Create Account'**
+  /// **'Create your account'**
   String get createAccount;
 
   /// No description provided for @unexpectedError.
   ///
   /// In en, this message translates to:
-  /// **'An unexpected error occurred'**
+  /// **'An unexpected error occurred. Please try again.'**
   String get unexpectedError;
 
   /// No description provided for @searchSpecialty.
   ///
   /// In en, this message translates to:
-  /// **'Search specialty'**
+  /// **'Specialties'**
   String get searchSpecialty;
 
   /// No description provided for @register_step1_title.
   ///
   /// In en, this message translates to:
-  /// **'Basic Information'**
+  /// **'Personal details'**
   String get register_step1_title;
 
   /// No description provided for @register_firstName.
   ///
   /// In en, this message translates to:
-  /// **'First Name'**
+  /// **'First name'**
   String get register_firstName;
 
   /// No description provided for @register_lastName.
   ///
   /// In en, this message translates to:
-  /// **'Last Name'**
+  /// **'Last name'**
   String get register_lastName;
 
   /// No description provided for @register_email.
@@ -394,7 +394,7 @@ abstract class S {
   /// No description provided for @register_next.
   ///
   /// In en, this message translates to:
-  /// **'Next'**
+  /// **'Continue'**
   String get register_next;
 
   /// No description provided for @register_basicInfo_description.
@@ -406,25 +406,25 @@ abstract class S {
   /// No description provided for @register_header.
   ///
   /// In en, this message translates to:
-  /// **'Complete your profile to evaluate patients who could benefit clinically from your trial and interact with Clinexapp'**
+  /// **'Fill in your details to start referring patients to clinical trials.'**
   String get register_header;
 
   /// No description provided for @specialty_required.
   ///
   /// In en, this message translates to:
-  /// **'Please select at least one of your specialties.'**
+  /// **'Add at least one specialty.'**
   String get specialty_required;
 
   /// No description provided for @register_successMessage.
   ///
   /// In en, this message translates to:
-  /// **'Account created successfully. You can now log in!'**
+  /// **'You can now log in with your email and password.'**
   String get register_successMessage;
 
   /// No description provided for @error400.
   ///
   /// In en, this message translates to:
-  /// **'Bad Request (400)'**
+  /// **'Bad request (400)'**
   String get error400;
 
   /// No description provided for @error401.
@@ -436,49 +436,49 @@ abstract class S {
   /// No description provided for @error403.
   ///
   /// In en, this message translates to:
-  /// **'Access Denied (403)'**
+  /// **'Access denied (403)'**
   String get error403;
 
   /// No description provided for @error404.
   ///
   /// In en, this message translates to:
-  /// **'Resource Not Found (404)'**
+  /// **'Resource not found (404)'**
   String get error404;
 
   /// No description provided for @error408.
   ///
   /// In en, this message translates to:
-  /// **'Request Timeout (408)'**
+  /// **'Request timed out (408)'**
   String get error408;
 
   /// No description provided for @error500.
   ///
   /// In en, this message translates to:
-  /// **'Internal Server Error (500)'**
+  /// **'Server error (500)'**
   String get error500;
 
   /// No description provided for @error503.
   ///
   /// In en, this message translates to:
-  /// **'Service Unavailable (503)'**
+  /// **'Service unavailable (503)'**
   String get error503;
 
   /// No description provided for @errorUnknown.
   ///
   /// In en, this message translates to:
-  /// **'Unknown Error'**
+  /// **'Something went wrong'**
   String get errorUnknown;
 
   /// No description provided for @errorGenericMessage.
   ///
   /// In en, this message translates to:
-  /// **'Something went wrong while processing your request. Please try again.'**
+  /// **'We couldn\'t process your request. Please try again.'**
   String get errorGenericMessage;
 
   /// No description provided for @retry.
   ///
   /// In en, this message translates to:
-  /// **'Retry'**
+  /// **'Try again'**
   String get retry;
 
   /// No description provided for @patientList.
@@ -634,7 +634,7 @@ abstract class S {
   /// No description provided for @homeWelcomeBack.
   ///
   /// In en, this message translates to:
-  /// **'Hi, WelcomeBack'**
+  /// **'Welcome back'**
   String get homeWelcomeBack;
 
   /// No description provided for @homeSearchHint.
@@ -850,7 +850,7 @@ abstract class S {
   /// No description provided for @searchSpecialtyHint.
   ///
   /// In en, this message translates to:
-  /// **'Search specialty...'**
+  /// **'Search and add, e.g. Cardiology'**
   String get searchSpecialtyHint;
 
   /// No description provided for @searchPathologyHint.
@@ -970,7 +970,7 @@ abstract class S {
   /// No description provided for @searchAddressPrompt.
   ///
   /// In en, this message translates to:
-  /// **'Write your address and select from the given options *'**
+  /// **'Type the address and pick a suggestion'**
   String get searchAddressPrompt;
 
   /// No description provided for @paymentProcessedSuccessfully.
@@ -1006,13 +1006,13 @@ abstract class S {
   /// No description provided for @selectValidAddress.
   ///
   /// In en, this message translates to:
-  /// **'Select a valid address'**
+  /// **'Choose an address from the suggestions.'**
   String get selectValidAddress;
 
   /// No description provided for @errorVerifyingUserStatus.
   ///
   /// In en, this message translates to:
-  /// **'Error verifying user status'**
+  /// **'We couldn\'t verify your account. Please log in again.'**
   String get errorVerifyingUserStatus;
 
   /// No description provided for @noRefreshTokenFound.
@@ -1132,19 +1132,19 @@ abstract class S {
   /// No description provided for @licenseType.
   ///
   /// In en, this message translates to:
-  /// **'License Type'**
+  /// **'License type'**
   String get licenseType;
 
   /// No description provided for @provincialLicense.
   ///
   /// In en, this message translates to:
-  /// **'Provincial License'**
+  /// **'Provincial license'**
   String get provincialLicense;
 
   /// No description provided for @nationalLicense.
   ///
   /// In en, this message translates to:
-  /// **'National License'**
+  /// **'National license'**
   String get nationalLicense;
 
   /// No description provided for @phone2.
@@ -1156,55 +1156,55 @@ abstract class S {
   /// No description provided for @forgotPassword.
   ///
   /// In en, this message translates to:
-  /// **'Forgot Password'**
+  /// **'Forgot my password'**
   String get forgotPassword;
 
   /// No description provided for @forgotPasswordDescription.
   ///
   /// In en, this message translates to:
-  /// **'Enter your email address and we will send you instructions to reset your password.'**
+  /// **'Enter your account email and we\'ll send you a link to create a new password.'**
   String get forgotPasswordDescription;
 
   /// No description provided for @sendInstructions.
   ///
   /// In en, this message translates to:
-  /// **'Send Instructions'**
+  /// **'Send link'**
   String get sendInstructions;
 
   /// No description provided for @recoveryEmailSent.
   ///
   /// In en, this message translates to:
-  /// **'Password recovery email sent. Please check your inbox.'**
+  /// **'We sent you a link to reset your password. If you don\'t see it, check your spam folder.'**
   String get recoveryEmailSent;
 
   /// No description provided for @resetPassword.
   ///
   /// In en, this message translates to:
-  /// **'Reset Password'**
+  /// **'Create a new password'**
   String get resetPassword;
 
   /// No description provided for @newPassword.
   ///
   /// In en, this message translates to:
-  /// **'New Password'**
+  /// **'New password'**
   String get newPassword;
 
   /// No description provided for @confirmNewPassword.
   ///
   /// In en, this message translates to:
-  /// **'Confirm New Password'**
+  /// **'Repeat the new password'**
   String get confirmNewPassword;
 
   /// No description provided for @passwordResetSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Password reset successfully. You can now log in with your new password.'**
+  /// **'You can now log in with your new password.'**
   String get passwordResetSuccess;
 
   /// No description provided for @passwordsDoNotMatch.
   ///
   /// In en, this message translates to:
-  /// **'Passwords do not match'**
+  /// **'Passwords don\'t match.'**
   String get passwordsDoNotMatch;
 
   /// No description provided for @notificationScreenTitle.
@@ -1330,61 +1330,61 @@ abstract class S {
   /// No description provided for @errorUnauthorized.
   ///
   /// In en, this message translates to:
-  /// **'Your session has expired. Please log in again.'**
+  /// **'Your session expired. Please log in again.'**
   String get errorUnauthorized;
 
   /// No description provided for @errorLoginFailed.
   ///
   /// In en, this message translates to:
-  /// **'Login failed. Please check your credentials.'**
+  /// **'We couldn\'t log you in. Check your details and try again.'**
   String get errorLoginFailed;
 
   /// No description provided for @errorInvalidCredentials.
   ///
   /// In en, this message translates to:
-  /// **'Invalid credentials. Please check your email and password.'**
+  /// **'The email or password is incorrect.'**
   String get errorInvalidCredentials;
 
   /// No description provided for @errorNetwork.
   ///
   /// In en, this message translates to:
-  /// **'Connection error. Please check your internet connection.'**
+  /// **'We couldn\'t reach the server. Check your connection.'**
   String get errorNetwork;
 
   /// No description provided for @errorServer.
   ///
   /// In en, this message translates to:
-  /// **'Server error. Please try again later.'**
+  /// **'The server had a problem. Try again in a few minutes.'**
   String get errorServer;
 
   /// No description provided for @errorServiceUnavailable.
   ///
   /// In en, this message translates to:
-  /// **'The service is currently unavailable.'**
+  /// **'The service is unavailable right now. Try again later.'**
   String get errorServiceUnavailable;
 
   /// No description provided for @errorValidation.
   ///
   /// In en, this message translates to:
-  /// **'The provided data is not valid.'**
+  /// **'Some details aren\'t valid. Check them and try again.'**
   String get errorValidation;
 
   /// No description provided for @errorNotFound.
   ///
   /// In en, this message translates to:
-  /// **'The requested resource was not found.'**
+  /// **'We couldn\'t find what you\'re looking for.'**
   String get errorNotFound;
 
   /// No description provided for @errorForbidden.
   ///
   /// In en, this message translates to:
-  /// **'You do not have permission to perform this action.'**
+  /// **'You don\'t have permission to do this.'**
   String get errorForbidden;
 
   /// No description provided for @errorGeneric.
   ///
   /// In en, this message translates to:
-  /// **'An error has occurred. Please try again.'**
+  /// **'Something went wrong. Please try again.'**
   String get errorGeneric;
 
   /// No description provided for @signature.
@@ -1450,19 +1450,19 @@ abstract class S {
   /// No description provided for @wrongRoleTitle.
   ///
   /// In en, this message translates to:
-  /// **'Wrong app'**
+  /// **'You\'re in the wrong app'**
   String get wrongRoleTitle;
 
   /// No description provided for @wrongRoleMessageDerivante.
   ///
   /// In en, this message translates to:
-  /// **'This is the referring physician app, but the credentials you entered belong to a receiving physician. Download the Receptor app or sign in with a derivante account.'**
+  /// **'This app is for referring physicians, but your account belongs to a researcher. Download Clinexapp Investigador or log in with a referring physician account.'**
   String get wrongRoleMessageDerivante;
 
   /// No description provided for @wrongRoleExitButton.
   ///
   /// In en, this message translates to:
-  /// **'Log out'**
+  /// **'Back to log in'**
   String get wrongRoleExitButton;
 
   /// No description provided for @notif_patient_rejected_title.
@@ -1524,6 +1524,144 @@ abstract class S {
   /// In en, this message translates to:
   /// **'The patient {patient_name} has been accepted for evaluation and possible participation in the study'**
   String notif_patient_accepted_body(String patient_name);
+
+  /// No description provided for @welcomeHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Refer patients to clinical trials'**
+  String get welcomeHeadline;
+
+  /// No description provided for @loginSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in with your referring physician account.'**
+  String get loginSubtitle;
+
+  /// No description provided for @emailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'name@example.com'**
+  String get emailHint;
+
+  /// No description provided for @passwordHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters, with uppercase, lowercase and numbers.'**
+  String get passwordHelper;
+
+  /// No description provided for @forgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recover your password'**
+  String get forgotPasswordTitle;
+
+  /// No description provided for @recoveryEmailSentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email'**
+  String get recoveryEmailSentTitle;
+
+  /// No description provided for @backToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to log in'**
+  String get backToLogin;
+
+  /// No description provided for @resetPasswordDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a password you haven\'t used before.'**
+  String get resetPasswordDescription;
+
+  /// No description provided for @savePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Save password'**
+  String get savePassword;
+
+  /// No description provided for @passwordResetSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Password updated'**
+  String get passwordResetSuccessTitle;
+
+  /// No description provided for @registerStepProfessional.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional details'**
+  String get registerStepProfessional;
+
+  /// No description provided for @registerStepTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms'**
+  String get registerStepTerms;
+
+  /// No description provided for @registerProfessionalSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your license and specialties define which protocols you see.'**
+  String get registerProfessionalSubtitle;
+
+  /// No description provided for @registerTermsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Read and accept the terms to create your account.'**
+  String get registerTermsSubtitle;
+
+  /// No description provided for @termsAcceptLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'I have read and accept the Clinexapp terms and conditions and the commitment I make by creating this account.'**
+  String get termsAcceptLabel;
+
+  /// No description provided for @termsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms and conditions of use'**
+  String get termsTitle;
+
+  /// No description provided for @registerSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is ready'**
+  String get registerSuccessTitle;
+
+  /// No description provided for @selectOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Select an option'**
+  String get selectOption;
+
+  /// No description provided for @selectProvince.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a province'**
+  String get selectProvince;
+
+  /// No description provided for @removeItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeItem;
+
+  /// No description provided for @sessionCheckTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Getting your account ready'**
+  String get sessionCheckTitle;
+
+  /// No description provided for @successTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get successTitle;
+
+  /// No description provided for @myProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'My profile'**
+  String get myProfile;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

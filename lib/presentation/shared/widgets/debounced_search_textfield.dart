@@ -1,7 +1,11 @@
 import 'dart:async';
-import 'package:clinexa_derivant_app/core/theme.dart';
-import 'package:flutter/material.dart';
 
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+/// Campo de búsqueda que espera a que el usuario deje de escribir antes de
+/// buscar. Usa la decoración del sistema ([clxInputDecoration]).
 class DebouncedSearchField extends StatefulWidget {
   final String hintText;
   final ValueChanged<String> onSearch;
@@ -11,6 +15,7 @@ class DebouncedSearchField extends StatefulWidget {
   final TextEditingController? controller;
   final Widget? suffixIcon;
   final String? Function(String?)? validator;
+  final String? helper;
 
   const DebouncedSearchField({
     super.key,
@@ -22,6 +27,7 @@ class DebouncedSearchField extends StatefulWidget {
     this.controller,
     this.suffixIcon,
     this.validator,
+    this.helper,
   });
 
   @override
@@ -46,87 +52,27 @@ class _DebouncedSearchFieldState extends State<DebouncedSearchField> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
+    final c = context.clx;
+    final field = TextFormField(
+      controller: widget.controller,
+      onChanged: _onChanged,
+      validator: widget.validator,
+      textInputAction: TextInputAction.search,
+      style: GoogleFonts.geist(fontSize: 15, color: c.ink),
+      cursorColor: c.brandBlue,
+      decoration: clxInputDecoration(
+        context,
+        hint: widget.hintText,
+        icon: widget.icon ?? LucideIcons.search,
+        suffix: widget.suffixIcon,
+        helper: widget.helper,
+      ),
+    );
+    if (widget.label == null) return field;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // ------------------------------
-        // 🔹 LABEL SUPERIOR
-        // ------------------------------
-        if (widget.label != null)
-          Text(
-            widget.label!,
-            style: TextStyle(
-              color: isDark ? AppColors.neutral90 : AppColors.neutral10,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-
-        if (widget.label != null) const SizedBox(height: 8),
-
-        // ------------------------------
-        // 🔹 SEARCH INPUT
-        // ------------------------------
-        TextFormField(
-          controller: widget.controller,
-          onChanged: _onChanged,
-          validator: widget.validator,
-          style: TextStyle(
-            color: isDark ? AppColors.neutral95 : AppColors.neutral20,
-            fontSize: 15,
-          ),
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: isDark ? AppColors.neutral20 : AppColors.primary95,
-            hintText: widget.hintText,
-            hintStyle: TextStyle(
-              color: isDark
-                  ? AppColors.neutral60
-                  : AppColors.primary60.withValues(alpha: .8),
-              fontSize: 15,
-            ),
-
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 14,
-            ),
-
-            // 🔹 Icono de búsqueda
-            prefixIcon: Icon(
-              widget.icon ?? Icons.search_rounded,
-              color: isDark ? AppColors.neutral60 : AppColors.neutral40,
-              size: 22,
-            ),
-
-            // 🔹 Icono al final (opcional, ej: limpiar)
-            suffixIcon: widget.suffixIcon,
-
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(18),
-              borderSide: BorderSide.none,
-            ),
-
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(18),
-              borderSide: const BorderSide(
-                color: AppColors.primary40,
-                width: 1.4,
-              ),
-            ),
-
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(18),
-              borderSide: const BorderSide(color: AppColors.danger40, width: 1.4),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(18),
-              borderSide: const BorderSide(color: AppColors.danger40, width: 1.4),
-            ),
-          ),
-        ),
-      ],
+      mainAxisSize: MainAxisSize.min,
+      children: [ClxFieldLabel(widget.label!), field],
     );
   }
 }

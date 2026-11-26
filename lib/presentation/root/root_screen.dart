@@ -1,4 +1,4 @@
-import 'package:clinexa_derivant_app/core/theme.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/notifications/screens/home_screen.dart';
 import 'package:clinexa_derivant_app/presentation/patients/patients_screen.dart';
@@ -17,58 +17,14 @@ class RootPage extends StatelessWidget {
     final s = S.of(context);
 
     return Scaffold(
-      extendBody: true,
       body: child,
-
-      // 🌟 FLOATING NAV BAR
-      bottomNavigationBar: SafeArea(
-        minimum: const EdgeInsets.only(bottom: 12), // separa un poquito
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Container(
-            decoration: BoxDecoration(
-              color: AppColors.primary10,
-              borderRadius: BorderRadius.circular(30),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: BottomNavigationBar(
-              currentIndex: currentIndex,
-              onTap: (i) => _onItemTapped(i, context),
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-
-              type: BottomNavigationBarType.fixed,
-
-              selectedItemColor: Colors.white,
-              unselectedItemColor: AppColors.neutral60,
-
-              items: [
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.home_outlined),
-                  label: s.navHome,
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.people_alt_outlined),
-                  label: s.navPatients,
-                ),
-                // BottomNavigationBarItem(
-                //   icon: const Icon(Icons.description_outlined),
-                //   label: s.navProtocols,
-                // ),
-                // BottomNavigationBarItem(
-                //   icon: const Icon(Icons.chat_bubble_outline),
-                //   label: s.navMessages,
-                // ),
-              ],
-            ),
-          ),
-        ),
+      bottomNavigationBar: ClxNavBar(
+        currentIndex: currentIndex,
+        onTap: (i) => _onItemTapped(i, context),
+        items: [
+          ClxNavItem(icon: LucideIcons.house, label: s.navHome),
+          ClxNavItem(icon: LucideIcons.usersRound, label: s.navPatients),
+        ],
       ),
     );
   }

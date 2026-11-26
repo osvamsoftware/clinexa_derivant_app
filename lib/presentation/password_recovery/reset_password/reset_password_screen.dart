@@ -3,9 +3,8 @@ import 'package:clinexa_derivant_app/domain/auth_repository.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/login/login_screen.dart';
 import 'package:clinexa_derivant_app/presentation/password_recovery/reset_password/cubit/reset_password_cubit.dart';
-import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_dialogs.dart';
-import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -43,7 +42,9 @@ class ResetPasswordView extends StatelessWidget {
           // Success dialog
           CustomDialogs.successDialog(
             context: context,
+            title: s.passwordResetSuccessTitle,
             successMessage: s.passwordResetSuccess,
+            buttonLabel: s.backToLogin,
             onPressed: () {
               context.pop(); // Close dialog
               // Navigate to login clearing stack
@@ -59,36 +60,49 @@ class ResetPasswordView extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: Text(s.resetPassword)),
-        body: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: cubit.formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                CustomTextField(
-                  label: s.newPassword,
-                  controller: cubit.newPasswordController,
-                  validator: (val) => validators.password(context, val ?? ""),
-                  isPassword: true,
-                ),
-                const SizedBox(height: 16),
-                CustomTextField(
-                  label: s.confirmNewPassword,
-                  controller: cubit.confirmPasswordController,
-                  validator: (val) {
-                    if (val == null || val.isEmpty) return s.fieldRequired;
-                    if (val != cubit.newPasswordController.text) {
-                      return s.passwordsDoNotMatch;
-                    }
-                    return null;
-                  },
-                  isPassword: true,
-                ),
-                const SizedBox(height: 32),
-                CustomButton(text: s.save, onPressed: cubit.submit),
-              ],
+        appBar: const ClxAppBar(),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(ClxSpace.s6, ClxSpace.s4, ClxSpace.s6, ClxSpace.s6),
+            child: Form(
+              key: cubit.formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ClxPageHeader(
+                    title: s.resetPassword,
+                    subtitle: s.resetPasswordDescription,
+                  ),
+                  const SizedBox(height: ClxSpace.s8),
+                  ClxTextField(
+                    label: s.newPassword,
+                    helper: s.passwordHelper,
+                    icon: LucideIcons.lock,
+                    controller: cubit.newPasswordController,
+                    validator: (val) => validators.password(context, val ?? ""),
+                    isPassword: true,
+                    textInputAction: TextInputAction.next,
+                  ),
+                  const SizedBox(height: ClxSpace.s5),
+                  ClxTextField(
+                    label: s.confirmNewPassword,
+                    icon: LucideIcons.lock,
+                    controller: cubit.confirmPasswordController,
+                    validator: (val) {
+                      if (val == null || val.isEmpty) return s.fieldRequired;
+                      if (val != cubit.newPasswordController.text) {
+                        return s.passwordsDoNotMatch;
+                      }
+                      return null;
+                    },
+                    isPassword: true,
+                    textInputAction: TextInputAction.done,
+                    onSubmitted: (_) => cubit.submit(),
+                  ),
+                  const SizedBox(height: ClxSpace.s8),
+                  ClxButton(label: s.savePassword, onPressed: cubit.submit),
+                ],
+              ),
             ),
           ),
         ),

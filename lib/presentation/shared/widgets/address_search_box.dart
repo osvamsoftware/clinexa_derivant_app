@@ -1,4 +1,4 @@
-import 'package:clinexa_derivant_app/core/theme.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/address/cubit/address_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/debounced_search_textfield.dart';
@@ -10,19 +10,25 @@ class AddressSearchBox extends StatelessWidget {
   final VoidCallback? onClear;
   final String? Function(String?)? validator;
 
+  /// Rótulo visible encima del campo (opcional).
+  final String? label;
+
   const AddressSearchBox({
     super.key,
     required this.controller,
     this.onClear,
     this.validator,
+    this.label,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final c = context.clx;
     final s = S.of(context);
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         ValueListenableBuilder<TextEditingValue>(
           valueListenable: controller,
@@ -30,19 +36,15 @@ class AddressSearchBox extends StatelessWidget {
             final showClear = value.text.isNotEmpty;
             return DebouncedSearchField(
               controller: controller,
+              label: label,
               hintText: s.searchAddressPrompt,
               validator: validator,
               onSearch: context.read<AddressCubit>().search,
-              icon: Icons.location_on_outlined,
+              icon: LucideIcons.mapPin,
               suffixIcon: showClear
                   ? IconButton(
-                      icon: Icon(
-                        Icons.close,
-                        size: 20,
-                        color: isDark
-                            ? AppColors.neutral60
-                            : AppColors.neutral40,
-                      ),
+                      tooltip: s.removeItem,
+                      icon: Icon(LucideIcons.x, size: 16, color: c.inkSubtle),
                       onPressed: () {
                         controller.clear();
                         context.read<AddressCubit>().search("");
@@ -54,9 +56,6 @@ class AddressSearchBox extends StatelessWidget {
             );
           },
         ),
-
-        const SizedBox(height: 4),
-
         BlocBuilder<AddressCubit, AddressState>(
           builder: (context, state) {
             // Un fallo del servicio de direcciones se veía igual que "sin
@@ -64,30 +63,8 @@ class AddressSearchBox extends StatelessWidget {
             // forma de saber por qué.
             if (state.status == Status.error && state.errorMessage != null) {
               return Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.error_outline,
-                      size: 18,
-                      color: AppColors.danger40,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        state.errorMessage!,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: AppColors.danger40,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                padding: const EdgeInsets.only(top: ClxSpace.s2),
+                child: ClxNotice(message: state.errorMessage!, tone: ClxTone.danger),
               );
             }
 
@@ -97,43 +74,14 @@ class AddressSearchBox extends StatelessWidget {
               return const SizedBox.shrink();
             }
 
-            return Material(
-              elevation: 6,
-              borderRadius: BorderRadius.circular(16),
-              color: isDark ? AppColors.neutral20 : AppColors.primary99,
-              child: ListView.separated(
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                itemCount: state.suggestions.length > 6
-                    ? 6
-                    : state.suggestions.length,
-                separatorBuilder: (_, __) => Divider(
-                  height: 1,
-                  color: isDark ? AppColors.neutral30 : AppColors.neutral80,
-                ),
-                itemBuilder: (_, i) {
-                  final item = state.suggestions[i];
-
-                  return ListTile(
-                    leading: Icon(
-                      Icons.location_on,
-                      color: isDark ? AppColors.neutral60 : AppColors.primary40,
-                    ),
-                    title: Text(
-                      item.description,
-                      style: TextStyle(
-                        color: isDark
-                            ? AppColors.neutral90
-                            : AppColors.neutral20,
-                      ),
-                    ),
-                    onTap: () {
-                      controller.text = item.description;
-                      context.read<AddressCubit>().selectPlace(item.placeId);
-                    },
-                  );
-                },
-              ),
+            return ClxSuggestionList(
+              items: state.suggestions,
+              icon: LucideIcons.mapPin,
+              label: (item) => item.description,
+              onSelected: (item) {
+                controller.text = item.description;
+                context.read<AddressCubit>().selectPlace(item.placeId);
+              },
             );
           },
         ),

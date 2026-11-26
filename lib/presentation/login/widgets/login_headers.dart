@@ -1,7 +1,8 @@
-import 'package:clinexa_derivant_app/core/theme.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+/// Encabezado de formulario público: volver, título y descripción.
 class HeaderWidget extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -16,50 +17,21 @@ class HeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.clxText;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 🔹 Volver atrás
-        IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: AppColors.primary40,
-            size: 20,
-          ),
+        ClxIconButton(
+          icon: LucideIcons.arrowLeft,
+          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
           onPressed: () => context.pop(),
         ),
-        const SizedBox(height: 8),
-        // 🔹 Título principal
-        Center(
-          child: Text(
-            title,
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w700,
-              color: AppColors.primary40,
-            ),
-          ),
-        ),
-        const SizedBox(height: 28),
-        // 🔹 Subtítulo
-        Text(
-          subtitle,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: AppColors.primary40,
-          ),
-        ),
-        const SizedBox(height: 6),
-        // 🔹 Descripción
-        Text(
-          description,
-          style: const TextStyle(
-            fontSize: 13,
-            color: AppColors.neutral60,
-            height: 1.4,
-          ),
-        ),
+        const SizedBox(height: ClxSpace.s4),
+        Text(title.toUpperCase(), style: t.label),
+        const SizedBox(height: ClxSpace.s1),
+        Text(subtitle, style: t.h1),
+        const SizedBox(height: ClxSpace.s2),
+        Text(description, style: t.bodyMuted),
       ],
     );
   }

@@ -1,10 +1,17 @@
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:flutter/material.dart';
 
+/// Botón heredado. Ahora delega en [ClxButton] del sistema de diseño; se
+/// mantiene la firma para no romper llamadas antiguas.
+///
+/// - `opacity: true` → botón secundario.
+/// - `backgroundColor`, `textColor`, `radius`, `fontSize` y `fontWeight` se
+///   ignoran: el color y la forma los define el sistema.
+/// Para código nuevo usa [ClxButton] directamente.
 class CustomButton extends StatelessWidget {
   final String text;
-  final VoidCallback? onPressed; // 🔹 Ahora es opcional
+  final VoidCallback? onPressed;
 
-  // Opcionales
   final IconData? icon;
   final Color? backgroundColor;
   final Color? textColor;
@@ -19,7 +26,7 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
     required this.text,
-    this.onPressed, // 🔹 Puede venir null
+    this.onPressed,
     this.icon,
     this.backgroundColor,
     this.textColor,
@@ -34,64 +41,11 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color defaultBackground = backgroundColor ?? const Color(0xFF2962FF);
-
-    final Color defaultTextColor = textColor ?? Colors.white;
-
-    final Color finalBackground = opacity
-        ? defaultBackground.withValues(alpha: .3)
-        : defaultBackground;
-
-    return SizedBox(
-      height: height,
-      width: width,
-      child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed, // 🔹 Disable on loading
-        style: ElevatedButton.styleFrom(
-          backgroundColor: finalBackground,
-          disabledBackgroundColor: finalBackground.withValues(
-            alpha: 0.4,
-          ), // 🔹 Disabled
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius),
-          ),
-          elevation: 0,
-        ),
-        child: isLoading
-            ? SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(defaultTextColor),
-                ),
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (icon != null) ...[
-                    Icon(
-                      icon,
-                      color: defaultTextColor.withValues(
-                        alpha: onPressed == null ? 0.5 : 1,
-                      ),
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                  ],
-                  Text(
-                    text,
-                    style: TextStyle(
-                      color: defaultTextColor.withValues(
-                        alpha: onPressed == null ? 0.5 : 1,
-                      ),
-                      fontSize: fontSize,
-                      fontWeight: fontWeight,
-                    ),
-                  ),
-                ],
-              ),
-      ),
-    );
+    final size = height < 44 ? ClxButtonSize.sm : (height < 52 ? ClxButtonSize.md : ClxButtonSize.lg);
+    final button = opacity
+        ? ClxButton.secondary(label: text, onPressed: onPressed, icon: icon, loading: isLoading, size: size)
+        : ClxButton(label: text, onPressed: onPressed, icon: icon, loading: isLoading, size: size);
+    if (width == double.infinity) return button;
+    return SizedBox(width: width, child: button);
   }
 }

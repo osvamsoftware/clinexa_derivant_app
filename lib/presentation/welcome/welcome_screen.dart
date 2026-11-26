@@ -1,9 +1,8 @@
 import 'package:clinexa_derivant_app/core/constants/paths.dart';
-import 'package:clinexa_derivant_app/core/theme.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/login/login_screen.dart';
 import 'package:clinexa_derivant_app/presentation/register/register_personal_screen.dart';
-import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -25,56 +24,60 @@ class WelcomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
+    final c = context.clx;
+    final t = context.clxText;
+    final height = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
-      backgroundColor: AppColors.neutral100,
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // 🔹 Logo
-                SvgPicture.asset(paths.completeLogoSvg),
-
-                // 🔹 Descripción
-                Text(
-                  s.welcomeDescription,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: AppColors.neutral20,
-                    fontSize: 15.5,
-                    height: 1.4,
-                  ),
+      backgroundColor: c.surface,
+      body: Column(
+        children: [
+          // Pieza de marca: degradado del logo con el logotipo sobre placa.
+          ClxBrandHeader(
+            height: height * 0.46,
+            child: SafeArea(
+              bottom: false,
+              child: Center(
+                child: ClxLogoPlate(
+                  padding: const EdgeInsets.all(ClxSpace.s6),
+                  child: SvgPicture.asset(paths.completeLogoSvg, height: 132),
                 ),
-
-                const SizedBox(height: 32),
-                Spacer(),
-                // 🔹 Botón Log In
-                CustomButton(
-                  height: 50,
-                  width: 200,
-                  text: s.login,
-                  onPressed: () => context.push(LoginScreen.path),
-                ),
-
-                const SizedBox(height: 16),
-
-                // 🔹 Botón Sign Up
-                CustomButton(
-                  width: 200,
-                  text: s.signup,
-                  opacity: true,
-                  textColor: AppColors.primary20,
-                  onPressed: () => context.push(RegisterPersonalScreen.path),
-                ),
-
-                const Spacer(),
-              ],
+              ),
             ),
           ),
-        ),
+          Expanded(
+            child: SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(ClxSpace.s6, ClxSpace.s8, ClxSpace.s6, ClxSpace.s4),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(s.welcomeSubtitle.toUpperCase(), style: t.label.copyWith(color: c.brandTealText)),
+                    const SizedBox(height: ClxSpace.s2),
+                    Text(s.welcomeHeadline, style: t.display),
+                    const SizedBox(height: ClxSpace.s3),
+                    Text(s.welcomeDescription, style: t.bodyMuted),
+                    const Spacer(),
+                    ClxButton(
+                      key: const Key('welcome_login_button'),
+                      label: s.login,
+                      pill: true,
+                      onPressed: () => context.push(LoginScreen.path),
+                    ),
+                    const SizedBox(height: ClxSpace.s3),
+                    ClxButton.secondary(
+                      key: const Key('welcome_signup_button'),
+                      label: s.signup,
+                      pill: true,
+                      onPressed: () => context.push(RegisterPersonalScreen.path),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

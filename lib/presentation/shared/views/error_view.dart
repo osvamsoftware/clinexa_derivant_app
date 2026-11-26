@@ -1,8 +1,8 @@
-import 'package:clinexa_derivant_app/core/theme.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
-import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
+/// Vista de error a pantalla completa según el código HTTP.
 class ErrorView extends StatelessWidget {
   final int? errorCode;
   final VoidCallback? onRetry;
@@ -17,8 +17,7 @@ class ErrorView extends StatelessWidget {
     this.logoSize = 100,
   });
 
-  String _getErrorTitle(BuildContext context) {
-    final s = S.of(context);
+  String _getErrorTitle(S s) {
     switch (errorCode) {
       case 400:
         return s.error400;
@@ -43,64 +42,33 @@ class ErrorView extends StatelessWidget {
   IconData _getErrorIcon() {
     switch (errorCode) {
       case 400:
-        return Icons.warning_amber_rounded;
+        return LucideIcons.triangleAlert;
       case 401:
       case 403:
-        return Icons.lock_outline_rounded;
+        return LucideIcons.lock;
       case 404:
-        return Icons.search_off_rounded;
+        return LucideIcons.searchX;
       case 408:
-        return Icons.timer_off_rounded;
+        return LucideIcons.timerOff;
       case 500:
       case 502:
       case 503:
-        return Icons.cloud_off_rounded;
+        return LucideIcons.cloudOff;
       default:
-        return Icons.error_outline_rounded;
+        return LucideIcons.circleAlert;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // // 🔹 Logo Clinexapp
-            // Image.asset(paths.logoPng, height: logoSize),
-            // const SizedBox(height: 24),
-
-            // 🔹 Ícono principal
-            Icon(_getErrorIcon(), size: iconSize, color: AppColors.primary50),
-            const SizedBox(height: 24),
-
-            // 🔹 Título
-            Text(
-              _getErrorTitle(context),
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: colorScheme.onSurface,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 12),
-            // 🔹 Botón de acción (si se pasa callback)
-            if (onRetry != null)
-              CustomButton(
-                text: s.retry,
-                icon: Icons.refresh_rounded,
-                onPressed: onRetry ?? () {},
-                backgroundColor: colorScheme.primary,
-                textColor: colorScheme.onPrimary,
-              ),
-          ],
-        ),
-      ),
+    return ClxEmptyState(
+      title: _getErrorTitle(s),
+      message: s.errorGenericMessage,
+      icon: _getErrorIcon(),
+      tone: ClxTone.danger,
+      actionLabel: onRetry != null ? s.retry : null,
+      onAction: onRetry,
     );
   }
 }

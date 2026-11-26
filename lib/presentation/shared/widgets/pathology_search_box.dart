@@ -1,4 +1,4 @@
-import 'package:clinexa_derivant_app/core/theme.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:clinexa_derivant_app/data/models/pathology_model.dart';
 import 'package:clinexa_derivant_app/presentation/pathology/cubit/pathology_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/debounced_search_textfield.dart';
@@ -19,21 +19,17 @@ class PathologySearchBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        // 🔍 Search field
         DebouncedSearchField(
           controller: controller,
           hintText: s.searchPathologyHint,
-          icon: Icons.search,
+          icon: LucideIcons.search,
           onSearch: context.read<PathologyCubit>().searchPathologies,
         ),
-
-        const SizedBox(height: 4),
-
-        // 🔽 Sugerencias
         BlocBuilder<PathologyCubit, PathologyState>(
           builder: (context, state) {
             if (state.status == PathologyStatus.loading ||
@@ -41,44 +37,14 @@ class PathologySearchBox extends StatelessWidget {
                 state.filteredPathologies.isEmpty) {
               return const SizedBox.shrink();
             }
-
-            final suggestions = state.filteredPathologies;
-
-            return Material(
-              elevation: 6,
-              borderRadius: BorderRadius.circular(16),
-              color: isDark ? AppColors.neutral20 : AppColors.primary99,
-              child: ListView.separated(
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                itemCount: suggestions.length > 6 ? 6 : suggestions.length,
-                separatorBuilder: (_, __) => Divider(
-                  height: 1,
-                  color: isDark ? AppColors.neutral30 : AppColors.neutral80,
-                ),
-                itemBuilder: (_, index) {
-                  final pathology = suggestions[index];
-
-                  return ListTile(
-                    leading: Icon(
-                      Icons.coronavirus_outlined,
-                      color: isDark ? AppColors.neutral60 : AppColors.primary40,
-                    ),
-                    title: Text(
-                      pathology.name ?? '',
-                      style: TextStyle(
-                        color: isDark
-                            ? AppColors.neutral90
-                            : AppColors.neutral20,
-                      ),
-                    ),
-                    onTap: () {
-                      controller.text = pathology.name ?? '';
-                      onSelect(pathology);
-                    },
-                  );
-                },
-              ),
+            return ClxSuggestionList<PathologyModel>(
+              items: state.filteredPathologies,
+              icon: LucideIcons.activity,
+              label: (p) => p.name ?? '',
+              onSelected: (pathology) {
+                controller.text = pathology.name ?? '';
+                onSelect(pathology);
+              },
             );
           },
         ),

@@ -1,9 +1,8 @@
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/login/login_screen.dart';
 import 'package:clinexa_derivant_app/presentation/register/cubit/register_cubit.dart';
-import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_dialogs.dart';
-import 'package:clinexa_derivant_app/core/theme.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,7 +46,9 @@ class RegisterProfileScreen extends StatelessWidget {
         if (state.status == RegisterStatus.success) {
           CustomDialogs.successDialog(
             context: context,
+            title: s.registerSuccessTitle,
             successMessage: s.register_successMessage,
+            buttonLabel: s.login,
             onPressed: () {
               // enviar al login
               context.pushReplacement(LoginScreen.path);
@@ -74,33 +75,65 @@ class _RegisterProfileViewState extends State<RegisterProfileView> {
   Widget build(BuildContext context) {
     final cubit = context.read<RegisterCubit>();
     final s = S.of(context);
+    final c = context.clx;
+    final t = context.clxText;
     return Scaffold(
-      appBar: AppBar(title: Text(s.createAccount)),
+      appBar: const ClxAppBar(),
       body: Form(
         key: cubit.formStep3Key,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.fromLTRB(ClxSpace.s6, ClxSpace.s4, ClxSpace.s6, ClxSpace.s8),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                "Por favor acepta los términos y condiciones para continuar",
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+              ClxStepper(current: 3, total: 3, label: s.registerStepTerms),
+              const SizedBox(height: ClxSpace.s6),
+              ClxPageHeader(title: s.termsTitle, subtitle: s.registerTermsSubtitle),
+              const SizedBox(height: ClxSpace.s6),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.42,
+                decoration: BoxDecoration(
+                  color: c.surfaceRaised,
+                  border: Border.all(color: c.border),
+                  borderRadius: BorderRadius.circular(ClxRadius.lg),
+                ),
+                child: Scrollbar(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(ClxSpace.s5),
+                    child: Text(_termsText, style: t.bodySm.copyWith(color: c.ink, fontSize: 14, height: 1.5)),
+                  ),
                 ),
               ),
-              const SizedBox(height: 16),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.5,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.neutral60),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: SingleChildScrollView(
-                  child: Text(
-                    """Términos y Condiciones de Uso
+              const SizedBox(height: ClxSpace.s5),
+              ClxChoiceTile(
+                key: const Key('register_terms_checkbox'),
+                multi: true,
+                selected: _termsAccepted,
+                title: s.termsAcceptLabel,
+                onTap: () => setState(() => _termsAccepted = !_termsAccepted),
+              ),
+              const SizedBox(height: ClxSpace.s8),
+              ClxButton(
+                label: s.signup,
+                onPressed: _termsAccepted
+                    ? () {
+                        if (cubit.formStep3Key.currentState!.validate()) {
+                          cubit.submit();
+                        }
+                      }
+                    : null,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Texto legal de los términos (contenido provisto por el equipo; se muestra
+// tal cual).
+const String _termsText = """Términos y Condiciones de Uso
 
 Bienvenido a Clinexapp. Al crear una cuenta, usted acepta cumplir y estar sujeto a los siguientes términos y condiciones de uso, que junto con nuestra política de privacidad gobiernan la relación de Clinexapp con usted en relación con esta aplicación.
 
@@ -128,41 +161,4 @@ En ningún caso Clinexapp, ni sus directores, empleados, socios, agentes, provee
 8. Ley Aplicable
 Estos Términos se regirán e interpretarán de acuerdo con las leyes vigentes, sin tener en cuenta sus disposiciones sobre conflictos de leyes.
 
-Al marcar la casilla de verificación, usted confirma que ha leído, entendido y aceptado estos términos y condiciones y se compromete a cumplirlos al utilizar la aplicación.""",
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              CheckboxListTile(
-                value: _termsAccepted,
-                onChanged: (val) {
-                  setState(() {
-                    _termsAccepted = val ?? false;
-                  });
-                },
-                title: const Text(
-                  "He leído y estoy de acuerdo con los términos y condiciones de la app y mi compromiso al crear la cuenta.",
-                  style: TextStyle(fontSize: 14),
-                ),
-                controlAffinity: ListTileControlAffinity.leading,
-                contentPadding: EdgeInsets.zero,
-              ),
-              const SizedBox(height: 32),
-              CustomButton(
-                text: s.createAccount,
-                onPressed: _termsAccepted
-                    ? () {
-                        if (cubit.formStep3Key.currentState!.validate()) {
-                          cubit.submit();
-                        }
-                      }
-                    : null,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+Al marcar la casilla de verificación, usted confirma que ha leído, entendido y aceptado estos términos y condiciones y se compromete a cumplirlos al utilizar la aplicación.""";

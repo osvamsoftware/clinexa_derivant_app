@@ -1,7 +1,10 @@
-import 'package:clinexa_derivant_app/core/theme.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatefulWidget {
+/// Campo de texto heredado. Delega en [ClxTextField] (rótulo visible arriba,
+/// borde `border-strong`, foco con anillo). Para código nuevo usa
+/// [ClxTextField] directamente.
+class CustomTextField extends StatelessWidget {
   final String label;
   final String? hint;
   final bool isPassword;
@@ -14,6 +17,8 @@ class CustomTextField extends StatefulWidget {
   final int maxLines;
   final bool readOnly;
   final VoidCallback? onTap;
+  final TextAlign textAlign;
+  final int? maxLength;
 
   const CustomTextField({
     super.key,
@@ -33,112 +38,23 @@ class CustomTextField extends StatefulWidget {
     this.maxLength,
   });
 
-  final TextAlign textAlign;
-  final int? maxLength;
-
-  @override
-  State<CustomTextField> createState() => _CustomTextFieldState();
-}
-
-class _CustomTextFieldState extends State<CustomTextField> {
-  bool _obscure = true;
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // 🔹 Label superior
-        Text(
-          widget.label,
-          style: const TextStyle(
-            color: AppColors.neutral10,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-
-        const SizedBox(height: 8),
-
-        // 🔹 Campo de texto
-        TextFormField(
-          readOnly: widget.readOnly,
-          onTap: widget.onTap,
-          maxLines: widget.maxLines,
-          minLines: widget.minLines,
-          controller: widget.controller,
-          validator: widget.validator,
-          focusNode: widget.focusNode,
-          keyboardType: widget.keyboardType,
-          textAlign: widget.textAlign,
-          maxLength: widget.maxLength,
-          obscureText: widget.isPassword ? _obscure : false,
-          style: const TextStyle(color: AppColors.neutral20, fontSize: 15),
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: AppColors.primary95, // Fondo azul MUY suave Clinexapp
-            hintText: widget.hint,
-            hintStyle: TextStyle(
-              color: AppColors.primary60.withValues(alpha: .8),
-              fontSize: 15,
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 14,
-            ),
-
-            // Estilo del mensaje de error
-            errorStyle: const TextStyle(
-              color: AppColors.danger40,
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-            ),
-            errorMaxLines: 2,
-
-            // 🔹 Icono opcional
-            prefixIcon: widget.icon != null
-                ? Icon(widget.icon, color: AppColors.neutral40, size: 22)
-                : null,
-
-            // 🔹 Toggle de contraseña
-            suffixIcon: widget.isPassword
-                ? GestureDetector(
-                    onTap: () => setState(() => _obscure = !_obscure),
-                    child: Icon(
-                      _obscure ? Icons.visibility_off : Icons.visibility,
-                      color: AppColors.neutral40,
-                    ),
-                  )
-                : null,
-
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(18),
-              borderSide: BorderSide.none,
-            ),
-
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(18),
-              borderSide: const BorderSide(
-                color: AppColors.primary40, // Azul Clinexapp
-                width: 1.4,
-              ),
-            ),
-
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(18),
-              borderSide: const BorderSide(color: AppColors.danger40),
-            ),
-
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(18),
-              borderSide: const BorderSide(
-                color: AppColors.danger40,
-                width: 1.4,
-              ),
-            ),
-          ),
-        ),
-      ],
+    return ClxTextField(
+      label: label,
+      hint: hint,
+      isPassword: isPassword,
+      icon: icon,
+      controller: controller,
+      validator: validator,
+      focusNode: focusNode,
+      keyboardType: keyboardType,
+      minLines: minLines,
+      maxLines: maxLines,
+      readOnly: readOnly,
+      onTap: onTap,
+      textAlign: textAlign,
+      maxLength: maxLength,
     );
   }
 }

@@ -1,4 +1,6 @@
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:clinexa_derivant_app/domain/user_status_repository.dart';
+import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/notifications/screens/home_screen.dart';
 import 'package:clinexa_derivant_app/presentation/login/login_screen.dart';
@@ -57,7 +59,7 @@ class SessionCheckView extends StatelessWidget {
           else if (state.status == Status.error) {
             CustomDialogs.errorDialog(
               context,
-              "Error al verificar el estado del usuario",
+              S.of(context).errorVerifyingUserStatus,
               onTap: () {
                 context.read<AuthCubit>().logout();
                 context.go(LoginScreen.path);
@@ -66,7 +68,18 @@ class SessionCheckView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          return const Center(child: CircularProgressIndicator());
+          // Verificación de sesión: único caso con indicador a pantalla
+          // completa (README del sistema, "Cargando").
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const ClxLoader(),
+                const SizedBox(height: ClxSpace.s4),
+                Text(S.of(context).sessionCheckTitle, style: context.clxText.bodySm),
+              ],
+            ),
+          );
         },
       ),
     );

@@ -7,6 +7,7 @@ import 'package:clinexa_derivant_app/core/theme.dart';
 import 'package:clinexa_derivant_app/presentation/managers/manager_provider.dart';
 import 'package:clinexa_derivant_app/presentation/managers/manager_repository.dart';
 import 'package:clinexa_derivant_app/presentation/router/app_router.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
@@ -115,6 +116,20 @@ void main() async {
   runApp(ClinexaApp(api: api, notificationService: notificationService));
 }
 
+/// Tema de la app. Sigue al sistema; solo en debug se puede forzar con
+/// `--dart-define=CLX_THEME=light|dark` (lo usa el recorrido de capturas).
+ThemeMode debugThemeMode() {
+  if (kReleaseMode) return ThemeMode.system;
+  switch (const String.fromEnvironment('CLX_THEME')) {
+    case 'light':
+      return ThemeMode.light;
+    case 'dark':
+      return ThemeMode.dark;
+    default:
+      return ThemeMode.system;
+  }
+}
+
 class ClinexaApp extends StatelessWidget {
   final Api api;
   final NotificationService notificationService;
@@ -136,8 +151,9 @@ class ClinexaApp extends StatelessWidget {
             child: MaterialApp.router(
               title: 'Clinexapp',
               debugShowCheckedModeBanner: false,
-              themeMode: ThemeMode.system,
+              themeMode: debugThemeMode(),
               theme: AppTheme.lightTheme,
+              darkTheme: AppTheme.darkTheme,
               localizationsDelegates: const [
                 S.delegate,
                 GlobalMaterialLocalizations.delegate,

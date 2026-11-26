@@ -17,6 +17,7 @@ export 'package:lucide_icons_flutter/lucide_icons.dart';
 
 export '../clinexapp_tokens.dart';
 export 'clx_buttons.dart';
+export 'clx_extra_derivante.dart';
 export 'clx_feedback.dart';
 export 'clx_forms.dart';
 export 'clx_layout.dart';
