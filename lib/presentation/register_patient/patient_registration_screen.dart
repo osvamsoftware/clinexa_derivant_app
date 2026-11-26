@@ -110,7 +110,12 @@ class PatientRegistrationView extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s5, ClxSpace.s4, ClxSpace.s8),
+        padding: const EdgeInsets.fromLTRB(
+          ClxSpace.s4,
+          ClxSpace.s5,
+          ClxSpace.s4,
+          ClxSpace.s8,
+        ),
         child: Form(
           key: cubit.formKey,
           child: Column(
@@ -118,7 +123,10 @@ class PatientRegistrationView extends StatelessWidget {
             children: [
               ClxStepper(current: 1, total: 3, label: s.referralStepPatient),
               const SizedBox(height: ClxSpace.s5),
-              Text(s.patientRegistrationSubtitle, style: context.clxText.bodyMuted),
+              Text(
+                s.patientRegistrationSubtitle,
+                style: context.clxText.bodyMuted,
+              ),
               const SizedBox(height: ClxSpace.s8),
 
               // =========================
@@ -173,7 +181,11 @@ class PatientRegistrationView extends StatelessWidget {
                         }
                       },
                       validator: (val) => validators.text(context, val ?? ""),
-                      suffix: Icon(LucideIcons.calendar, size: 18, color: context.clx.inkSubtle),
+                      suffix: Icon(
+                        LucideIcons.calendar,
+                        size: 18,
+                        color: context.clx.inkSubtle,
+                      ),
                     ),
                   ),
                 ],
@@ -284,7 +296,10 @@ class PatientRegistrationView extends StatelessWidget {
               // =========================
               // INFORMACIÓN MÉDICA
               // =========================
-              _SectionTitle(title: s.medicalInfo, icon: LucideIcons.stethoscope),
+              _SectionTitle(
+                title: s.medicalInfo,
+                icon: LucideIcons.stethoscope,
+              ),
               ClxTextField(
                 label: s.notes,
                 hint: s.notesHint,

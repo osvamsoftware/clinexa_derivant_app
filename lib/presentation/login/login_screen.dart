@@ -112,7 +112,12 @@ class LoginView extends StatelessWidget {
               child: SafeArea(
                 bottom: false,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s2, ClxSpace.s4, ClxSpace.s8),
+                  padding: const EdgeInsets.fromLTRB(
+                    ClxSpace.s4,
+                    ClxSpace.s2,
+                    ClxSpace.s4,
+                    ClxSpace.s8,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -121,7 +126,9 @@ class LoginView extends StatelessWidget {
                         child: Navigator.of(context).canPop()
                             ? ClxIconButton(
                                 icon: LucideIcons.arrowLeft,
-                                tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+                                tooltip: MaterialLocalizations.of(
+                                  context,
+                                ).backButtonTooltip,
                                 filled: true,
                                 onPressed: () => context.pop(),
                               )
@@ -129,8 +136,14 @@ class LoginView extends StatelessWidget {
                       ),
                       Center(
                         child: ClxLogoPlate(
-                          padding: const EdgeInsets.symmetric(horizontal: ClxSpace.s5, vertical: ClxSpace.s4),
-                          child: SvgPicture.asset(paths.nameLogoSvg, height: 44),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: ClxSpace.s5,
+                            vertical: ClxSpace.s4,
+                          ),
+                          child: SvgPicture.asset(
+                            paths.nameLogoSvg,
+                            height: 44,
+                          ),
                         ),
                       ),
                     ],
@@ -141,9 +154,15 @@ class LoginView extends StatelessWidget {
             SafeArea(
               top: false,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(ClxSpace.s6, ClxSpace.s8, ClxSpace.s6, ClxSpace.s6),
+                padding: const EdgeInsets.fromLTRB(
+                  ClxSpace.s6,
+                  ClxSpace.s8,
+                  ClxSpace.s6,
+                  ClxSpace.s6,
+                ),
                 child: Form(
                   key: cubit.formKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: AutofillGroup(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,7 +180,8 @@ class LoginView extends StatelessWidget {
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
                           autofillHints: const [AutofillHints.email],
-                          validator: (text) => validators.email(context, text ?? ""),
+                          validator: (text) =>
+                              validators.email(context, text ?? ""),
                         ),
                         const SizedBox(height: ClxSpace.s5),
                         ClxTextField(
@@ -173,7 +193,8 @@ class LoginView extends StatelessWidget {
                           textInputAction: TextInputAction.done,
                           autofillHints: const [AutofillHints.password],
                           onSubmitted: (_) => submit(),
-                          validator: (text) => validators.password(context, text ?? ""),
+                          validator: (text) =>
+                              validators.password(context, text ?? ""),
                         ),
                         const SizedBox(height: ClxSpace.s2),
                         Align(
@@ -182,7 +203,8 @@ class LoginView extends StatelessWidget {
                             key: const Key('login_forgot_button'),
                             label: s.forgotPassword,
                             size: ClxButtonSize.sm,
-                            onPressed: () => context.push(ForgotPasswordScreen.path),
+                            onPressed: () =>
+                                context.push(ForgotPasswordScreen.path),
                           ),
                         ),
                         const SizedBox(height: ClxSpace.s6),
@@ -196,12 +218,18 @@ class LoginView extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Flexible(child: Text(s.dontHaveAccount, style: t.bodySm.copyWith(fontSize: 14))),
+                            Flexible(
+                              child: Text(
+                                s.dontHaveAccount,
+                                style: t.bodySm.copyWith(fontSize: 14),
+                              ),
+                            ),
                             ClxButton.ghost(
                               key: const Key('login_signup_button'),
                               label: s.signup,
                               size: ClxButtonSize.sm,
-                              onPressed: () => context.push(RegisterPersonalScreen.path),
+                              onPressed: () =>
+                                  context.push(RegisterPersonalScreen.path),
                             ),
                           ],
                         ),

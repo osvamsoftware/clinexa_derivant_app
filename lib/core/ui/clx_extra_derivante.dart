@@ -10,7 +10,12 @@ import 'clx_palette.dart';
 
 /// Control segmentado (dos o tres opciones excluyentes).
 class ClxSegmented<T> extends StatelessWidget {
-  const ClxSegmented({super.key, required this.segments, required this.value, required this.onChanged});
+  const ClxSegmented({
+    super.key,
+    required this.segments,
+    required this.value,
+    required this.onChanged,
+  });
 
   final List<ClxSegment<T>> segments;
   final T value;
@@ -50,7 +55,11 @@ class ClxSegment<T> {
 }
 
 class _SegmentButton<T> extends StatelessWidget {
-  const _SegmentButton({required this.segment, required this.selected, required this.onTap});
+  const _SegmentButton({
+    required this.segment,
+    required this.selected,
+    required this.onTap,
+  });
 
   final ClxSegment<T> segment;
   final bool selected;
@@ -84,7 +93,11 @@ class _SegmentButton<T> extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (segment.icon != null) ...[
-                  Icon(segment.icon, size: 16, color: selected ? c.brandBlue : fg),
+                  Icon(
+                    segment.icon,
+                    size: 16,
+                    color: selected ? c.brandBlue : fg,
+                  ),
                   const SizedBox(width: ClxSpace.s2),
                 ],
                 Flexible(
@@ -92,7 +105,11 @@ class _SegmentButton<T> extends StatelessWidget {
                     segment.label,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.geist(fontSize: 14, fontWeight: FontWeight.w600, color: fg),
+                    style: GoogleFonts.geist(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: fg,
+                    ),
                   ),
                 ),
               ],
@@ -146,19 +163,28 @@ class ClxSuggestionList<T> extends StatelessWidget {
               InkWell(
                 onTap: () => onSelected(visible[i]),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: ClxSpace.s4, vertical: ClxSpace.s3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: ClxSpace.s4,
+                    vertical: ClxSpace.s3,
+                  ),
                   child: Row(
                     children: [
                       if (icon != null) ...[
                         Icon(icon, size: 16, color: c.inkSubtle),
                         const SizedBox(width: ClxSpace.s3),
                       ],
-                      Expanded(child: Text(label(visible[i]), style: t.body.copyWith(fontSize: 14.5))),
+                      Expanded(
+                        child: Text(
+                          label(visible[i]),
+                          style: t.body.copyWith(fontSize: 14.5),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
-              if (i < visible.length - 1) Divider(height: 1, thickness: 1, color: c.border),
+              if (i < visible.length - 1)
+                Divider(height: 1, thickness: 1, color: c.border),
             ],
           ],
         ),
@@ -169,7 +195,12 @@ class ClxSuggestionList<T> extends StatelessWidget {
 
 /// Etiqueta seleccionada que se puede quitar (especialidades elegidas).
 class ClxInputChip extends StatelessWidget {
-  const ClxInputChip({super.key, required this.label, this.onRemove, this.removeTooltip = 'Quitar'});
+  const ClxInputChip({
+    super.key,
+    required this.label,
+    this.onRemove,
+    this.removeTooltip = 'Quitar',
+  });
 
   final String label;
   final VoidCallback? onRemove;
@@ -179,7 +210,12 @@ class ClxInputChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.clx;
     return Container(
-      padding: EdgeInsets.only(left: ClxSpace.s3, right: onRemove == null ? ClxSpace.s3 : ClxSpace.s1, top: 2, bottom: 2),
+      padding: EdgeInsets.only(
+        left: ClxSpace.s3,
+        right: onRemove == null ? ClxSpace.s3 : ClxSpace.s1,
+        top: 2,
+        bottom: 2,
+      ),
       decoration: BoxDecoration(
         color: c.brandBlueSoft,
         borderRadius: BorderRadius.circular(ClxRadius.pill),
@@ -194,7 +230,11 @@ class ClxInputChip extends StatelessWidget {
                 label,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.geist(fontSize: 13.5, fontWeight: FontWeight.w600, color: c.onBrandBlueSoft),
+                style: GoogleFonts.geist(
+                  fontSize: 13.5,
+                  fontWeight: FontWeight.w600,
+                  color: c.onBrandBlueSoft,
+                ),
               ),
             ),
           ),
@@ -206,7 +246,11 @@ class ClxInputChip extends StatelessWidget {
                 radius: 16,
                 child: Padding(
                   padding: const EdgeInsets.all(ClxSpace.s1),
-                  child: Icon(LucideIcons.x, size: 14, color: c.onBrandBlueSoft),
+                  child: Icon(
+                    LucideIcons.x,
+                    size: 14,
+                    color: c.onBrandBlueSoft,
+                  ),
                 ),
               ),
             ),
@@ -219,7 +263,12 @@ class ClxInputChip extends StatelessWidget {
 /// Barra de navegación inferior de las pantallas principales: fondo
 /// `surfaceRaised`, borde superior y el destino activo en `brandBlue`.
 class ClxNavBar extends StatelessWidget {
-  const ClxNavBar({super.key, required this.items, required this.currentIndex, required this.onTap});
+  const ClxNavBar({
+    super.key,
+    required this.items,
+    required this.currentIndex,
+    required this.onTap,
+  });
 
   final List<ClxNavItem> items;
   final int currentIndex;
@@ -240,7 +289,13 @@ class ClxNavBar extends StatelessWidget {
           child: Row(
             children: [
               for (var i = 0; i < items.length; i++)
-                Expanded(child: _NavButton(item: items[i], selected: i == currentIndex, onTap: () => onTap(i))),
+                Expanded(
+                  child: _NavButton(
+                    item: items[i],
+                    selected: i == currentIndex,
+                    onTap: () => onTap(i),
+                  ),
+                ),
             ],
           ),
         ),
@@ -256,7 +311,11 @@ class ClxNavItem {
 }
 
 class _NavButton extends StatelessWidget {
-  const _NavButton({required this.item, required this.selected, required this.onTap});
+  const _NavButton({
+    required this.item,
+    required this.selected,
+    required this.onTap,
+  });
 
   final ClxNavItem item;
   final bool selected;
@@ -291,7 +350,11 @@ class _NavButton extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               item.label,
-              style: GoogleFonts.geist(fontSize: 12, fontWeight: selected ? FontWeight.w600 : FontWeight.w500, color: color),
+              style: GoogleFonts.geist(
+                fontSize: 12,
+                fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+                color: color,
+              ),
             ),
           ],
         ),
@@ -321,7 +384,10 @@ class ClxLockedValue extends StatelessWidget {
           child: Text(
             text,
             textAlign: TextAlign.right,
-            style: context.clxText.bodySm.copyWith(color: c.inkMuted, fontSize: 14),
+            style: context.clxText.bodySm.copyWith(
+              color: c.inkMuted,
+              fontSize: 14,
+            ),
           ),
         ),
       ],
@@ -337,7 +403,12 @@ class ClxLockedValue extends StatelessWidget {
 /// lleva azul marino y no se recolorea: en tema oscuro necesita fondo claro
 /// para leerse, así que la placa es siempre blanca en los dos temas.
 class ClxLogoPlate extends StatelessWidget {
-  const ClxLogoPlate({super.key, required this.child, this.padding = const EdgeInsets.all(ClxSpace.s5), this.radius = ClxRadius.xl});
+  const ClxLogoPlate({
+    super.key,
+    required this.child,
+    this.padding = const EdgeInsets.all(ClxSpace.s5),
+    this.radius = ClxRadius.xl,
+  });
 
   final Widget child;
   final EdgeInsetsGeometry padding;
@@ -353,6 +424,83 @@ class ClxLogoPlate extends StatelessWidget {
         boxShadow: ClxShadow.float,
       ),
       child: child,
+    );
+  }
+}
+
+/// Casilla para textos largos (criterios de protocolo): la casilla va a la
+/// izquierda y el texto en peso normal, para que un párrafo se lea cómodo.
+class ClxCheckTile extends StatelessWidget {
+  const ClxCheckTile({
+    super.key,
+    required this.text,
+    required this.selected,
+    required this.onTap,
+    this.leadingLabel,
+  });
+
+  final String text;
+  final bool selected;
+  final VoidCallback? onTap;
+
+  /// Rótulo corto opcional antes del texto (por ejemplo, el número).
+  final String? leadingLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.clx;
+    final t = context.clxText;
+    return Semantics(
+      checked: selected,
+      child: Material(
+        color: selected ? c.brandBlueSoft : c.surfaceRaised,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(ClxRadius.md),
+          side: BorderSide(
+            color: selected ? c.brandBlue : c.border,
+            width: selected ? 1.5 : 1,
+          ),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(ClxSpace.s4),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 20,
+                  height: 20,
+                  margin: const EdgeInsets.only(top: 1),
+                  decoration: BoxDecoration(
+                    color: selected ? c.brandBlue : Colors.transparent,
+                    borderRadius: BorderRadius.circular(ClxRadius.sm),
+                    border: Border.all(
+                      color: selected ? c.brandBlue : c.borderStrong,
+                      width: 1.5,
+                    ),
+                  ),
+                  child: selected
+                      ? Icon(LucideIcons.check, size: 14, color: c.onBrand)
+                      : null,
+                ),
+                const SizedBox(width: ClxSpace.s3),
+                if (leadingLabel != null) ...[
+                  Text(
+                    leadingLabel!,
+                    style: t.data.copyWith(color: c.inkSubtle, fontSize: 13),
+                  ),
+                  const SizedBox(width: ClxSpace.s2),
+                ],
+                Expanded(
+                  child: Text(text, style: t.body.copyWith(fontSize: 14.5)),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
-import 'package:clinexa_derivant_app/data/models/protocol_model.dart' show ProtocolModel;
+import 'package:clinexa_derivant_app/data/models/protocol_model.dart'
+    show ProtocolModel;
 import 'package:clinexa_derivant_app/domain/protocol_repository.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/protocol/cubit/protocol_cubit.dart';
@@ -156,7 +157,12 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s4, ClxSpace.s4, 0),
+                padding: const EdgeInsets.fromLTRB(
+                  ClxSpace.s4,
+                  ClxSpace.s4,
+                  ClxSpace.s4,
+                  0,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -167,10 +173,19 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                     const SizedBox(height: ClxSpace.s4),
                     ClxSegmented<SearchMode>(
                       value: _searchMode,
-                      onChanged: (mode) => _onModeChanged(mode, userSpecialties),
+                      onChanged: (mode) =>
+                          _onModeChanged(mode, userSpecialties),
                       segments: [
-                        ClxSegment(value: SearchMode.category, label: s.searchByCategory, icon: LucideIcons.layers),
-                        ClxSegment(value: SearchMode.name, label: s.searchByName, icon: LucideIcons.search),
+                        ClxSegment(
+                          value: SearchMode.category,
+                          label: s.searchByCategory,
+                          icon: LucideIcons.layers,
+                        ),
+                        ClxSegment(
+                          value: SearchMode.name,
+                          label: s.searchByName,
+                          icon: LucideIcons.search,
+                        ),
                       ],
                     ),
                     const SizedBox(height: ClxSpace.s3),
@@ -196,7 +211,9 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                                   cubit.applySpecialty(newValue.id);
                                 } else {
                                   cubit.updateFilters(
-                                    useIds: userSpecialties.map((e) => e.id).toList(),
+                                    useIds: userSpecialties
+                                        .map((e) => e.id)
+                                        .toList(),
                                     pathologyIds: [],
                                   );
                                 }
@@ -208,11 +225,14 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                             child: ClxDropdown<PathologyModel>(
                               // Se recrea al cambiar de especialidad para
                               // que la patología vuelva a "Selecciona".
-                              key: ValueKey('pathology_${_selectedSpecialty?.id}'),
+                              key: ValueKey(
+                                'pathology_${_selectedSpecialty?.id}',
+                              ),
                               label: s.pathology,
                               hint: s.selectPlaceholder,
                               value: _selectedPathology,
-                              items: _selectedSpecialty?.pathologies ?? const [],
+                              items:
+                                  _selectedSpecialty?.pathologies ?? const [],
                               itemLabel: (p) => p.name ?? '',
                               onChanged: _selectedSpecialty == null
                                   ? null
@@ -223,7 +243,9 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                                       if (newValue?.id != null) {
                                         cubit.applyPathology(newValue!.id!);
                                       } else if (_selectedSpecialty != null) {
-                                        cubit.applySpecialty(_selectedSpecialty!.id);
+                                        cubit.applySpecialty(
+                                          _selectedSpecialty!.id,
+                                        );
                                       }
                                     },
                             ),
@@ -252,7 +274,12 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                         state.protocols.isEmpty) {
                       return const ClxSkeletonList(
                         count: 4,
-                        padding: EdgeInsets.fromLTRB(ClxSpace.s4, 0, ClxSpace.s4, ClxSpace.s4),
+                        padding: EdgeInsets.fromLTRB(
+                          ClxSpace.s4,
+                          0,
+                          ClxSpace.s4,
+                          ClxSpace.s4,
+                        ),
                       );
                     }
 
@@ -270,9 +297,17 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                       color: context.clx.brandBlue,
                       onRefresh: () async => cubit.loadProtocols(refresh: true),
                       child: ListView.separated(
-                        padding: const EdgeInsets.fromLTRB(ClxSpace.s4, 0, ClxSpace.s4, ClxSpace.s6),
-                        itemCount: state.protocols.length + (state.hasReachedMax ? 0 : 1),
-                        separatorBuilder: (_, __) => const SizedBox(height: ClxSpace.s3),
+                        padding: const EdgeInsets.fromLTRB(
+                          ClxSpace.s4,
+                          0,
+                          ClxSpace.s4,
+                          ClxSpace.s6,
+                        ),
+                        itemCount:
+                            state.protocols.length +
+                            (state.hasReachedMax ? 0 : 1),
+                        separatorBuilder: (_, __) =>
+                            const SizedBox(height: ClxSpace.s3),
                         itemBuilder: (context, index) {
                           if (index >= state.protocols.length) {
                             cubit.loadProtocols();
@@ -339,7 +374,11 @@ class _ProtocolCard extends StatelessWidget {
                   color: c.brandBlueSoft,
                   borderRadius: BorderRadius.circular(ClxRadius.md),
                 ),
-                child: Icon(LucideIcons.clipboardList, size: 18, color: c.onBrandBlueSoft),
+                child: Icon(
+                  LucideIcons.clipboardList,
+                  size: 18,
+                  color: c.onBrandBlueSoft,
+                ),
               ),
               const SizedBox(width: ClxSpace.s3),
               Expanded(

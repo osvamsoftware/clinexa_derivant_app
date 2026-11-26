@@ -48,13 +48,25 @@ class RegisterProfessionalView extends StatelessWidget {
       body: Form(
         key: cubit.formStep2Key,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(ClxSpace.s6, ClxSpace.s4, ClxSpace.s6, ClxSpace.s8),
+          padding: const EdgeInsets.fromLTRB(
+            ClxSpace.s6,
+            ClxSpace.s4,
+            ClxSpace.s6,
+            ClxSpace.s8,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ClxStepper(current: 2, total: 3, label: s.registerStepProfessional),
+              ClxStepper(
+                current: 2,
+                total: 3,
+                label: s.registerStepProfessional,
+              ),
               const SizedBox(height: ClxSpace.s6),
-              ClxPageHeader(title: s.registerStepProfessional, subtitle: s.registerProfessionalSubtitle),
+              ClxPageHeader(
+                title: s.registerStepProfessional,
+                subtitle: s.registerProfessionalSubtitle,
+              ),
               const SizedBox(height: ClxSpace.s8),
               BlocBuilder<RegisterCubit, RegisterState>(
                 builder: (context, state) {

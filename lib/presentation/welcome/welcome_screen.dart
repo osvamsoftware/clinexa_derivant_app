@@ -49,11 +49,19 @@ class WelcomeView extends StatelessWidget {
             child: SafeArea(
               top: false,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(ClxSpace.s6, ClxSpace.s8, ClxSpace.s6, ClxSpace.s4),
+                padding: const EdgeInsets.fromLTRB(
+                  ClxSpace.s6,
+                  ClxSpace.s8,
+                  ClxSpace.s6,
+                  ClxSpace.s4,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(s.welcomeSubtitle.toUpperCase(), style: t.label.copyWith(color: c.brandTealText)),
+                    Text(
+                      s.welcomeSubtitle.toUpperCase(),
+                      style: t.label.copyWith(color: c.brandTealText),
+                    ),
                     const SizedBox(height: ClxSpace.s2),
                     Text(s.welcomeHeadline, style: t.display),
                     const SizedBox(height: ClxSpace.s3),
@@ -70,7 +78,8 @@ class WelcomeView extends StatelessWidget {
                       key: const Key('welcome_signup_button'),
                       label: s.signup,
                       pill: true,
-                      onPressed: () => context.push(RegisterPersonalScreen.path),
+                      onPressed: () =>
+                          context.push(RegisterPersonalScreen.path),
                     ),
                   ],
                 ),

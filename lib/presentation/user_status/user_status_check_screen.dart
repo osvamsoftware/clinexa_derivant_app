@@ -76,7 +76,10 @@ class SessionCheckView extends StatelessWidget {
               children: [
                 const ClxLoader(),
                 const SizedBox(height: ClxSpace.s4),
-                Text(S.of(context).sessionCheckTitle, style: context.clxText.bodySm),
+                Text(
+                  S.of(context).sessionCheckTitle,
+                  style: context.clxText.bodySm,
+                ),
               ],
             ),
           );

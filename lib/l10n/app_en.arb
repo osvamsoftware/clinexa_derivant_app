@@ -128,7 +128,7 @@
   "stepXofY": "Step {step} of {total}",
   "nextRegister": "Continue to patient details",
   "nextStep": "Next step",
-  "searchSpecialtyHint": "Search and add, e.g. Cardiology",
+  "searchSpecialtyHint": "E.g. Cardiology",
   "searchPathologyHint": "Search pathology...",
   "notAllCriteriaMet": "To continue, confirm every criterion in this step. If your patient doesn't meet one, they can't be referred to this protocol.",
   "myPatients": "My patients",
@@ -148,7 +148,7 @@
   "appName": "Clinexapp",
   "userNotAuthenticated": "Your session isn't active. Please log in again.",
   "searchAddress": "Search address...",
-  "searchAddressPrompt": "Type the address and pick a suggestion",
+  "searchAddressPrompt": "Type and pick a suggestion",
   "paymentProcessedSuccessfully": "Payment processed successfully",
   "paymentIntentNotAvailable": "Payment intent ID or client secret not available",
   "errorSearchingAddresses": "Error searching addresses",
@@ -238,8 +238,8 @@
   "wrongRoleTitle": "You're in the wrong app",
   "wrongRoleMessageDerivante": "This app is for referring physicians, but your account belongs to a researcher. Download Clinexapp Investigador or log in with a referring physician account.",
   "wrongRoleExitButton": "Back to log in",
-  "notif_patient_rejected_title": "Patient Rejected",
-  "notif_patient_rejected_body": "The patient {patient_name} was not accepted. Note: {notes}",
+  "notif_patient_rejected_title": "Patient rejected",
+  "notif_patient_rejected_body": "{patient_name} was not accepted. Note: {notes}",
   "@notif_patient_rejected_body": {
     "placeholders": {
       "patient_name": {
@@ -250,8 +250,8 @@
       }
     }
   },
-  "notif_prospect_patient_title": "New Prospect",
-  "notif_prospect_patient_body": "A new patient has been registered as a prospect in one of your Protocols.",
+  "notif_prospect_patient_title": "New prospect",
+  "notif_prospect_patient_body": "A new patient was registered as a prospect in one of your protocols.",
   "@notif_prospect_patient_body": {
     "placeholders": {
       "patient_name": {
@@ -259,8 +259,8 @@
       }
     }
   },
-  "notif_patient_assigned_title": "Patient Assigned!",
-  "notif_patient_assigned_body": "Your patient {patient_name} has been referred and will be evaluated for possible participation in the study",
+  "notif_patient_assigned_title": "Patient referred",
+  "notif_patient_assigned_body": "Your patient {patient_name} was referred and will be evaluated for the study.",
   "@notif_patient_assigned_body": {
     "placeholders": {
       "patient_name": {
@@ -268,8 +268,8 @@
       }
     }
   },
-  "notif_patient_taken_title": "Patient Taken!",
-  "notif_patient_taken_body": "A receiving doctor has paid the initial access and took your patient {patient_name} for evaluation.",
+  "notif_patient_taken_title": "Patient in evaluation",
+  "notif_patient_taken_body": "A researcher took your patient {patient_name} for evaluation.",
   "@notif_patient_taken_body": {
     "placeholders": {
       "patient_name": {
@@ -277,8 +277,8 @@
       }
     }
   },
-  "notif_patient_accepted_title": "Patient Accepted!",
-  "notif_patient_accepted_body": "The patient {patient_name} has been accepted for evaluation and possible participation in the study",
+  "notif_patient_accepted_title": "Patient accepted",
+  "notif_patient_accepted_body": "{patient_name} was accepted for evaluation and possible participation in the study.",
   "@notif_patient_accepted_body": {
     "placeholders": {
       "patient_name": {
@@ -358,7 +358,7 @@
   "autoFilled": "Filled automatically",
   "notesHint": "History, current treatment or other useful information",
   "signatureHandOverTitle": "Hand the device to the patient",
-  "signatureInstructions": "With their signature, the patient authorizes you to share their data with the chosen protocol.",
+  "signatureInstructions": "Ask them to sign in the box below. When they're done, tap Continue.",
   "signatureAreaLabel": "Signature area",
   "signaturePlaceholder": "Sign here with your finger or a stylus",
   "clearSignature": "Clear signature",
@@ -439,5 +439,14 @@
       }
     }
   },
-  "whatsappOpenError": "We couldn't open WhatsApp. Make sure it's installed and try again."
+  "whatsappOpenError": "We couldn't open WhatsApp. Make sure it's installed and try again.",
+  "patientLabel": "Patient",
+  "resultsCount": "{count, plural, =0{No results} =1{1 result} other{{count} results}}",
+  "@resultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

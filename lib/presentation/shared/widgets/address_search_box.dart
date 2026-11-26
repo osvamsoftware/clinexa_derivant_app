@@ -64,7 +64,10 @@ class AddressSearchBox extends StatelessWidget {
             if (state.status == Status.error && state.errorMessage != null) {
               return Padding(
                 padding: const EdgeInsets.only(top: ClxSpace.s2),
-                child: ClxNotice(message: state.errorMessage!, tone: ClxTone.danger),
+                child: ClxNotice(
+                  message: state.errorMessage!,
+                  tone: ClxTone.danger,
+                ),
               );
             }
 

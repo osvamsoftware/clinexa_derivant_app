@@ -27,49 +27,51 @@ class ContactProtocolScreen extends StatelessWidget {
           label: s.contactButton,
           icon: LucideIcons.messageCircle,
           onPressed: () async {
-                  final user = context.read<AuthCubit>().state.user;
-                  if (user == null) return;
+            final user = context.read<AuthCubit>().state.user;
+            if (user == null) return;
 
-                  final message = s.contactMessage(
-                    user.firstName ?? "",
-                    user.medicalLicense ?? "",
-                    user.id ?? "",
-                  );
+            final message = s.contactMessage(
+              user.firstName ?? "",
+              user.medicalLicense ?? "",
+              user.id ?? "",
+            );
 
-                  final whatsappUrl = Uri.parse(
-                    "whatsapp://send?phone=$contactNumber&text=${Uri.encodeComponent(message)}",
-                  );
-                  final webUrl = Uri.parse(
-                    "https://wa.me/$contactNumber?text=${Uri.encodeComponent(message)}",
-                  );
+            final whatsappUrl = Uri.parse(
+              "whatsapp://send?phone=$contactNumber&text=${Uri.encodeComponent(message)}",
+            );
+            final webUrl = Uri.parse(
+              "https://wa.me/$contactNumber?text=${Uri.encodeComponent(message)}",
+            );
 
-                  try {
-                    if (await canLaunchUrl(whatsappUrl)) {
-                      await launchUrl(
-                        whatsappUrl,
-                        mode: LaunchMode.externalApplication,
-                      );
-                    } else if (await canLaunchUrl(webUrl)) {
-                      await launchUrl(
-                        webUrl,
-                        mode: LaunchMode.externalApplication,
-                      );
-                    } else {
-                      if (context.mounted) {
-                        ClxToast.error(context, s.whatsappOpenError);
-                      }
-                    }
-                  } catch (e) {
-                    debugPrint("Error launching WhatsApp: $e");
-                    if (context.mounted) {
-                      ClxToast.error(context, s.whatsappOpenError);
-                    }
-                  }
-                },
+            try {
+              if (await canLaunchUrl(whatsappUrl)) {
+                await launchUrl(
+                  whatsappUrl,
+                  mode: LaunchMode.externalApplication,
+                );
+              } else if (await canLaunchUrl(webUrl)) {
+                await launchUrl(webUrl, mode: LaunchMode.externalApplication);
+              } else {
+                if (context.mounted) {
+                  ClxToast.error(context, s.whatsappOpenError);
+                }
+              }
+            } catch (e) {
+              debugPrint("Error launching WhatsApp: $e");
+              if (context.mounted) {
+                ClxToast.error(context, s.whatsappOpenError);
+              }
+            }
+          },
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(ClxSpace.s6, ClxSpace.s8, ClxSpace.s6, ClxSpace.s8),
+        padding: const EdgeInsets.fromLTRB(
+          ClxSpace.s6,
+          ClxSpace.s8,
+          ClxSpace.s6,
+          ClxSpace.s8,
+        ),
         children: [
           Center(
             child: Container(
@@ -79,13 +81,21 @@ class ContactProtocolScreen extends StatelessWidget {
                 color: c.brandBlueSoft,
                 borderRadius: BorderRadius.circular(ClxRadius.xl),
               ),
-              child: Icon(LucideIcons.clipboardPlus, size: 32, color: c.onBrandBlueSoft),
+              child: Icon(
+                LucideIcons.clipboardPlus,
+                size: 32,
+                color: c.onBrandBlueSoft,
+              ),
             ),
           ),
           const SizedBox(height: ClxSpace.s6),
           Text(s.contactTitle, style: t.h1, textAlign: TextAlign.center),
           const SizedBox(height: ClxSpace.s3),
-          Text(s.contactDescription, style: t.bodyMuted, textAlign: TextAlign.center),
+          Text(
+            s.contactDescription,
+            style: t.bodyMuted,
+            textAlign: TextAlign.center,
+          ),
           const SizedBox(height: ClxSpace.s6),
           Center(
             child: ClxBadge(
@@ -102,7 +112,11 @@ class ContactProtocolScreen extends StatelessWidget {
               children: [
                 Text(s.contactChecklistTitle.toUpperCase(), style: t.label),
                 const SizedBox(height: ClxSpace.s3),
-                for (final item in [s.contactChecklist1, s.contactChecklist2, s.contactChecklist3])
+                for (final item in [
+                  s.contactChecklist1,
+                  s.contactChecklist2,
+                  s.contactChecklist3,
+                ])
                   Padding(
                     padding: const EdgeInsets.only(bottom: ClxSpace.s2),
                     child: Row(
@@ -110,7 +124,11 @@ class ContactProtocolScreen extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 3),
-                          child: Icon(LucideIcons.check, size: 16, color: c.success),
+                          child: Icon(
+                            LucideIcons.check,
+                            size: 16,
+                            color: c.success,
+                          ),
                         ),
                         const SizedBox(width: ClxSpace.s2),
                         Expanded(child: Text(item, style: t.body)),

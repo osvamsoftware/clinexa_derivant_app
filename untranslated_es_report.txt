@@ -2,7 +2,6 @@
   "es": [
     "recentActivity",
     "noRecentActivity",
-    "searchPatientsInvite",
-    "pathologiesCount"
+    "searchPatientsInvite"
   ]
 }

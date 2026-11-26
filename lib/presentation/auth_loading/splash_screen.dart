@@ -57,7 +57,12 @@ class _SplashViewState extends State<SplashView> {
           child: Semantics(
             label: s.loading,
             child: ClxLogoPlate(
-              padding: const EdgeInsets.fromLTRB(ClxSpace.s8, ClxSpace.s8, ClxSpace.s8, ClxSpace.s6),
+              padding: const EdgeInsets.fromLTRB(
+                ClxSpace.s8,
+                ClxSpace.s8,
+                ClxSpace.s8,
+                ClxSpace.s6,
+              ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -66,7 +71,10 @@ class _SplashViewState extends State<SplashView> {
                   const SizedBox(
                     width: 22,
                     height: 22,
-                    child: CircularProgressIndicator(strokeWidth: 2.5, color: ClxColors.brandBlue),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.5,
+                      color: ClxColors.brandBlue,
+                    ),
                   ),
                 ],
               ),

@@ -41,10 +41,24 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = height < 44 ? ClxButtonSize.sm : (height < 52 ? ClxButtonSize.md : ClxButtonSize.lg);
+    final size = height < 44
+        ? ClxButtonSize.sm
+        : (height < 52 ? ClxButtonSize.md : ClxButtonSize.lg);
     final button = opacity
-        ? ClxButton.secondary(label: text, onPressed: onPressed, icon: icon, loading: isLoading, size: size)
-        : ClxButton(label: text, onPressed: onPressed, icon: icon, loading: isLoading, size: size);
+        ? ClxButton.secondary(
+            label: text,
+            onPressed: onPressed,
+            icon: icon,
+            loading: isLoading,
+            size: size,
+          )
+        : ClxButton(
+            label: text,
+            onPressed: onPressed,
+            icon: icon,
+            loading: isLoading,
+            size: size,
+          );
     if (width == double.infinity) return button;
     return SizedBox(width: width, child: button);
   }

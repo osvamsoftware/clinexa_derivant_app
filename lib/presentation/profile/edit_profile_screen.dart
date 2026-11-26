@@ -71,7 +71,10 @@ class EditProfileView extends StatelessWidget {
     final s = S.of(context);
     final t = context.clxText;
     final user = context.read<AuthCubit>().state.user;
-    final fullName = [user?.firstName, user?.lastName].whereType<String>().join(' ');
+    final fullName = [
+      user?.firstName,
+      user?.lastName,
+    ].whereType<String>().join(' ');
 
     return BlocListener<EditProfileCubit, EditProfileState>(
       listener: (context, state) {
@@ -111,20 +114,38 @@ class EditProfileView extends StatelessWidget {
         body: Form(
           key: cubit.formKey,
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s5, ClxSpace.s4, ClxSpace.s8),
+            padding: const EdgeInsets.fromLTRB(
+              ClxSpace.s4,
+              ClxSpace.s5,
+              ClxSpace.s4,
+              ClxSpace.s8,
+            ),
             children: [
               // Encabezado con la cuenta
               Row(
                 children: [
-                  ClxAvatar(name: fullName.isEmpty ? (user?.email ?? '?') : fullName, size: 56),
+                  ClxAvatar(
+                    name: fullName.isEmpty ? (user?.email ?? '?') : fullName,
+                    size: 56,
+                  ),
                   const SizedBox(width: ClxSpace.s4),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(fullName, style: t.h2, maxLines: 1, overflow: TextOverflow.ellipsis),
+                        Text(
+                          fullName,
+                          style: t.h2,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         const SizedBox(height: 2),
-                        Text(user?.email ?? '', style: t.bodySm, maxLines: 1, overflow: TextOverflow.ellipsis),
+                        Text(
+                          user?.email ?? '',
+                          style: t.bodySm,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         if ((user?.medicalLicense ?? '').isNotEmpty) ...[
                           const SizedBox(height: ClxSpace.s2),
                           ClxBadge(
@@ -171,7 +192,10 @@ class EditProfileView extends StatelessWidget {
               ),
               const SizedBox(height: ClxSpace.s8),
 
-              _Section(title: s.specialties, subtitle: s.specialtiesProfileHint),
+              _Section(
+                title: s.specialties,
+                subtitle: s.specialtiesProfileHint,
+              ),
               DebouncedSearchField(
                 icon: LucideIcons.stethoscope,
                 onSearch: (val) => specialtyCubit.searchSpecialties(val),

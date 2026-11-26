@@ -46,7 +46,11 @@ class ConfigErrorScreen extends StatelessWidget {
                           color: c.dangerSoft,
                           borderRadius: BorderRadius.circular(ClxRadius.lg),
                         ),
-                        child: Icon(LucideIcons.settings, color: c.danger, size: 26),
+                        child: Icon(
+                          LucideIcons.settings,
+                          color: c.danger,
+                          size: 26,
+                        ),
                       ),
                       const SizedBox(height: ClxSpace.s6),
                       Text('Configuración incompleta', style: t.h1),
@@ -65,7 +69,10 @@ class ConfigErrorScreen extends StatelessWidget {
                           border: Border.all(color: c.border),
                           borderRadius: BorderRadius.circular(ClxRadius.md),
                         ),
-                        child: Text(detalle, style: t.data.copyWith(fontSize: 13, color: c.danger)),
+                        child: Text(
+                          detalle,
+                          style: t.data.copyWith(fontSize: 13, color: c.danger),
+                        ),
                       ),
                       const SizedBox(height: ClxSpace.s6),
                       Text(

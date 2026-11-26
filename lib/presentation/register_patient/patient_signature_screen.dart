@@ -28,10 +28,12 @@ class PatientSignatureScreenView extends StatefulWidget {
   const PatientSignatureScreenView({super.key});
 
   @override
-  State<PatientSignatureScreenView> createState() => _PatientSignatureScreenViewState();
+  State<PatientSignatureScreenView> createState() =>
+      _PatientSignatureScreenViewState();
 }
 
-class _PatientSignatureScreenViewState extends State<PatientSignatureScreenView> {
+class _PatientSignatureScreenViewState
+    extends State<PatientSignatureScreenView> {
   // La firma se exporta como imagen sobre fondo blanco (papel), en los dos
   // temas: el trazo va en tinta oscura para que se lea en el PDF/imagen.
   late final SignatureController _signatureController = SignatureController(
@@ -84,11 +86,20 @@ class _PatientSignatureScreenViewState extends State<PatientSignatureScreenView>
             ),
           ),
           body: Padding(
-            padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s5, ClxSpace.s4, ClxSpace.s4),
+            padding: const EdgeInsets.fromLTRB(
+              ClxSpace.s4,
+              ClxSpace.s5,
+              ClxSpace.s4,
+              ClxSpace.s4,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                ClxStepper(current: 2, total: 3, label: s.referralStepSignature),
+                ClxStepper(
+                  current: 2,
+                  total: 3,
+                  label: s.referralStepSignature,
+                ),
                 const SizedBox(height: ClxSpace.s5),
                 ClxNotice(
                   icon: LucideIcons.handHeart,
@@ -98,7 +109,12 @@ class _PatientSignatureScreenViewState extends State<PatientSignatureScreenView>
                 const SizedBox(height: ClxSpace.s6),
                 Row(
                   children: [
-                    Expanded(child: Text(s.signatureAreaLabel.toUpperCase(), style: t.label)),
+                    Expanded(
+                      child: Text(
+                        s.signatureAreaLabel.toUpperCase(),
+                        style: t.label,
+                      ),
+                    ),
                     ClxButton.ghost(
                       label: s.clearSignature,
                       icon: LucideIcons.eraser,
@@ -134,7 +150,10 @@ class _PatientSignatureScreenViewState extends State<PatientSignatureScreenView>
                             right: ClxSpace.s6,
                             bottom: ClxSpace.s12,
                             child: IgnorePointer(
-                              child: Container(height: 1, color: ClxColors.border),
+                              child: Container(
+                                height: 1,
+                                color: ClxColors.border,
+                              ),
                             ),
                           ),
                           // Indicación mientras no hay firma
@@ -151,11 +170,17 @@ class _PatientSignatureScreenViewState extends State<PatientSignatureScreenView>
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        const Icon(LucideIcons.signature, size: 32, color: ClxColors.inkSubtle),
+                                        const Icon(
+                                          LucideIcons.signature,
+                                          size: 32,
+                                          color: ClxColors.inkSubtle,
+                                        ),
                                         const SizedBox(height: ClxSpace.s3),
                                         Text(
                                           s.signaturePlaceholder,
-                                          style: t.bodySm.copyWith(color: ClxColors.inkSubtle),
+                                          style: t.bodySm.copyWith(
+                                            color: ClxColors.inkSubtle,
+                                          ),
                                           textAlign: TextAlign.center,
                                         ),
                                       ],

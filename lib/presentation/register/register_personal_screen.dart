@@ -49,15 +49,28 @@ class RegisterPersonalView extends StatelessWidget {
             appBar: const ClxAppBar(),
             body: Form(
               key: cubit.formStep1Key,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(ClxSpace.s6, ClxSpace.s4, ClxSpace.s6, ClxSpace.s8),
+                padding: const EdgeInsets.fromLTRB(
+                  ClxSpace.s6,
+                  ClxSpace.s4,
+                  ClxSpace.s6,
+                  ClxSpace.s8,
+                ),
                 child: AutofillGroup(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      ClxStepper(current: 1, total: 3, label: s.register_step1_title),
+                      ClxStepper(
+                        current: 1,
+                        total: 3,
+                        label: s.register_step1_title,
+                      ),
                       const SizedBox(height: ClxSpace.s6),
-                      ClxPageHeader(title: s.createAccount, subtitle: s.register_header),
+                      ClxPageHeader(
+                        title: s.createAccount,
+                        subtitle: s.register_header,
+                      ),
                       const SizedBox(height: ClxSpace.s8),
                       ClxTextField(
                         key: const Key('register_first_name_field'),

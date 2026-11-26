@@ -92,7 +92,12 @@ class PatientDetailsView extends StatelessWidget {
             final order = patient.order;
 
             return ListView(
-              padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s5, ClxSpace.s4, ClxSpace.s8),
+              padding: const EdgeInsets.fromLTRB(
+                ClxSpace.s4,
+                ClxSpace.s5,
+                ClxSpace.s4,
+                ClxSpace.s8,
+              ),
               children: [
                 // Encabezado del paciente
                 Row(
@@ -110,13 +115,22 @@ class PatientDetailsView extends StatelessWidget {
                             runSpacing: ClxSpace.s2,
                             children: [
                               ClxBadge(
-                                label: isActive ? s.statusActive : s.statusInactive,
-                                tone: isActive ? ClxTone.success : ClxTone.neutral,
+                                label: isActive
+                                    ? s.statusActive
+                                    : s.statusInactive,
+                                tone: isActive
+                                    ? ClxTone.success
+                                    : ClxTone.neutral,
                               ),
                               if (order != null)
                                 ClxBadge(
-                                  label: PatientResultCard.orderStatusLabel(order.status.name, s),
-                                  tone: PatientResultCard.orderStatusTone(order.status.name),
+                                  label: PatientResultCard.orderStatusLabel(
+                                    order.status.name,
+                                    s,
+                                  ),
+                                  tone: PatientResultCard.orderStatusTone(
+                                    order.status.name,
+                                  ),
                                   icon: LucideIcons.fileText,
                                 ),
                             ],
@@ -166,13 +180,31 @@ class PatientDetailsView extends StatelessWidget {
                 _InfoSection(
                   title: s.personalInfo,
                   children: [
-                    ClxKeyValue(label: s.register_firstName, value: patient.firstName),
-                    _row(s, s.register_lastName, patient.lastName, _isLastNamePartial(patient.lastName)),
-                    _row(s, s.dni, patient.dni, _isFieldHidden(patient.dni), mono: true),
-                    ClxKeyValue(label: s.gender, value: _genderLabel(s, patient.gender)),
+                    ClxKeyValue(
+                      label: s.register_firstName,
+                      value: patient.firstName,
+                    ),
+                    _row(
+                      s,
+                      s.register_lastName,
+                      patient.lastName,
+                      _isLastNamePartial(patient.lastName),
+                    ),
+                    _row(
+                      s,
+                      s.dni,
+                      patient.dni,
+                      _isFieldHidden(patient.dni),
+                      mono: true,
+                    ),
+                    ClxKeyValue(
+                      label: s.gender,
+                      value: _genderLabel(s, patient.gender),
+                    ),
                     ClxKeyValue(
                       label: s.birthDate,
-                      value: patient.birthDate?.toString().split(' ').first ?? '',
+                      value:
+                          patient.birthDate?.toString().split(' ').first ?? '',
                       mono: true,
                     ),
                   ],
@@ -182,15 +214,32 @@ class PatientDetailsView extends StatelessWidget {
                 _InfoSection(
                   title: s.contactInfo,
                   children: [
-                    _row(s, s.phone, patient.phone, _isFieldHidden(patient.phone), mono: true),
-                    _row(s, s.email, patient.email, _isFieldHidden(patient.email)),
+                    _row(
+                      s,
+                      s.phone,
+                      patient.phone,
+                      _isFieldHidden(patient.phone),
+                      mono: true,
+                    ),
+                    _row(
+                      s,
+                      s.email,
+                      patient.email,
+                      _isFieldHidden(patient.email),
+                      stacked: true,
+                    ),
                     _row(
                       s,
                       s.address,
-                      patient.address?.formattedAddress ?? patient.address?.city,
+                      patient.address?.formattedAddress ??
+                          patient.address?.city,
                       _isFieldHidden(patient.address?.formattedAddress),
+                      stacked: true,
                     ),
-                    ClxKeyValue(label: s.city, value: patient.address?.city ?? ''),
+                    ClxKeyValue(
+                      label: s.city,
+                      value: patient.address?.city ?? '',
+                    ),
                   ],
                 ),
 
@@ -198,7 +247,10 @@ class PatientDetailsView extends StatelessWidget {
                 _InfoSection(
                   title: s.medicalInfo,
                   children: [
-                    ClxKeyValue(label: s.protocol, value: patient.protocol?.name ?? ''),
+                    ClxKeyValue(
+                      label: s.protocol,
+                      value: patient.protocol?.name ?? '',
+                    ),
                     ClxKeyValue(
                       label: s.specialties,
                       value: patient.specialties.isNotEmpty
@@ -220,7 +272,10 @@ class PatientDetailsView extends StatelessWidget {
                     patient.signatureUrl!.isNotEmpty) ...[
                   const SizedBox(height: ClxSpace.s6),
                   Padding(
-                    padding: const EdgeInsets.only(left: ClxSpace.s1, bottom: ClxSpace.s2),
+                    padding: const EdgeInsets.only(
+                      left: ClxSpace.s1,
+                      bottom: ClxSpace.s2,
+                    ),
                     child: Text(s.signature.toUpperCase(), style: t.label),
                   ),
                   Container(
@@ -241,7 +296,10 @@ class PatientDetailsView extends StatelessWidget {
                           if (loadingProgress == null) return child;
                           return const Padding(
                             padding: EdgeInsets.all(ClxSpace.s4),
-                            child: ClxSkeleton(height: double.infinity, radius: ClxRadius.md),
+                            child: ClxSkeleton(
+                              height: double.infinity,
+                              radius: ClxRadius.md,
+                            ),
                           );
                         },
                         errorBuilder: (context, error, stackTrace) {
@@ -249,11 +307,17 @@ class PatientDetailsView extends StatelessWidget {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(LucideIcons.imageOff, size: 28, color: ClxColors.inkSubtle),
+                                const Icon(
+                                  LucideIcons.imageOff,
+                                  size: 28,
+                                  color: ClxColors.inkSubtle,
+                                ),
                                 const SizedBox(height: ClxSpace.s2),
                                 Text(
                                   s.errorLoadingImage,
-                                  style: t.bodySm.copyWith(color: ClxColors.inkMuted),
+                                  style: t.bodySm.copyWith(
+                                    color: ClxColors.inkMuted,
+                                  ),
                                 ),
                               ],
                             ),
@@ -277,28 +341,30 @@ class PatientDetailsView extends StatelessWidget {
                       key: const Key('patient_toggle_status'),
                       label: s.markAsInactive,
                       icon: LucideIcons.userX,
-                      onPressed: patientState.status == PatientInfoStatus.loading
+                      onPressed:
+                          patientState.status == PatientInfoStatus.loading
                           ? null
                           : () => _showConfirmationDialog(
-                                context,
-                                s,
-                                isMarkingAsActive: false,
-                                cubit: context.read<PatientInfoCubit>(),
-                              ),
+                              context,
+                              s,
+                              isMarkingAsActive: false,
+                              cubit: context.read<PatientInfoCubit>(),
+                            ),
                     )
                   else
                     ClxButton(
                       key: const Key('patient_toggle_status'),
                       label: s.markAsActive,
                       icon: LucideIcons.userCheck,
-                      onPressed: patientState.status == PatientInfoStatus.loading
+                      onPressed:
+                          patientState.status == PatientInfoStatus.loading
                           ? null
                           : () => _showConfirmationDialog(
-                                context,
-                                s,
-                                isMarkingAsActive: true,
-                                cubit: context.read<PatientInfoCubit>(),
-                              ),
+                              context,
+                              s,
+                              isMarkingAsActive: true,
+                              cubit: context.read<PatientInfoCubit>(),
+                            ),
                     ),
                   const SizedBox(height: ClxSpace.s2),
                   Text(
@@ -328,12 +394,25 @@ class PatientDetailsView extends StatelessWidget {
     }
   }
 
-  Widget _row(S s, String label, String? value, bool isHidden, {bool mono = false}) {
+  Widget _row(
+    S s,
+    String label,
+    String? value,
+    bool isHidden, {
+    bool mono = false,
+    bool stacked = false,
+  }) {
+    if (stacked && !isHidden) {
+      return _StackedValue(label: label, value: value ?? '');
+    }
     if (isHidden) {
       return ClxKeyValue(
         label: label,
         value: '',
-        valueWidget: ClxLockedValue(text: value ?? s.hiddenField, tooltip: s.payForFullData),
+        valueWidget: ClxLockedValue(
+          text: value ?? s.hiddenField,
+          tooltip: s.payForFullData,
+        ),
       );
     }
     return ClxKeyValue(label: label, value: value ?? '', mono: mono);
@@ -362,6 +441,34 @@ class PatientDetailsView extends StatelessWidget {
   }
 }
 
+/// Rótulo arriba y valor abajo, para valores largos (correo, dirección).
+class _StackedValue extends StatelessWidget {
+  const _StackedValue({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.clxText;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: ClxSpace.s2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: t.bodySm),
+          const SizedBox(height: 2),
+          Text(
+            value.isEmpty ? '—' : value,
+            style: t.bodySmStrong.copyWith(fontSize: 14),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _InfoSection extends StatelessWidget {
   const _InfoSection({required this.title, required this.children});
 
@@ -375,16 +482,23 @@ class _InfoSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: ClxSpace.s1, bottom: ClxSpace.s2),
+          padding: const EdgeInsets.only(
+            left: ClxSpace.s1,
+            bottom: ClxSpace.s2,
+          ),
           child: Text(title.toUpperCase(), style: context.clxText.label),
         ),
         ClxCard(
-          padding: const EdgeInsets.symmetric(horizontal: ClxSpace.s4, vertical: ClxSpace.s2),
+          padding: const EdgeInsets.symmetric(
+            horizontal: ClxSpace.s4,
+            vertical: ClxSpace.s2,
+          ),
           child: Column(
             children: [
               for (var i = 0; i < children.length; i++) ...[
                 children[i],
-                if (i < children.length - 1) Divider(height: 1, color: c.border),
+                if (i < children.length - 1)
+                  Divider(height: 1, color: c.border),
               ],
             ],
           ),
@@ -431,10 +545,7 @@ class _OrderCard extends StatelessWidget {
           Divider(height: ClxSpace.s5, color: c.border),
           Text(s.professionalFees, style: t.bodySm),
           const SizedBox(height: ClxSpace.s1),
-          Text(
-            "\$${(order.amount * 0.9).toStringAsFixed(2)}",
-            style: t.dataLg,
-          ),
+          Text("\$${(order.amount * 0.9).toStringAsFixed(2)}", style: t.dataLg),
           if (hasNotes) ...[
             Divider(height: ClxSpace.s6, color: c.border),
             Text(

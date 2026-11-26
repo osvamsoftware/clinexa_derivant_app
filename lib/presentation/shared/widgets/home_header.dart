@@ -27,7 +27,12 @@ class HomeHeader extends StatelessWidget {
       child: SafeArea(
         bottom: false,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s3, ClxSpace.s4, ClxSpace.s2),
+          padding: const EdgeInsets.fromLTRB(
+            ClxSpace.s4,
+            ClxSpace.s3,
+            ClxSpace.s4,
+            ClxSpace.s2,
+          ),
           child: Row(
             children: [
               ClxAvatar(name: name, size: 44),
@@ -36,8 +41,18 @@ class HomeHeader extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(s.homeWelcomeBack, style: t.bodySm, maxLines: 1, overflow: TextOverflow.ellipsis),
-                    Text(name, style: t.h2, maxLines: 1, overflow: TextOverflow.ellipsis),
+                    Text(
+                      s.homeWelcomeBack,
+                      style: t.bodySm,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      name,
+                      style: t.h2,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ],
                 ),
               ),

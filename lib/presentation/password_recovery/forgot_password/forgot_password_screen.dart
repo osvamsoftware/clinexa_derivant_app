@@ -59,9 +59,15 @@ class ForgotPasswordView extends StatelessWidget {
         appBar: const ClxAppBar(),
         body: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(ClxSpace.s6, ClxSpace.s4, ClxSpace.s6, ClxSpace.s6),
+            padding: const EdgeInsets.fromLTRB(
+              ClxSpace.s6,
+              ClxSpace.s4,
+              ClxSpace.s6,
+              ClxSpace.s6,
+            ),
             child: Form(
               key: cubit.formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

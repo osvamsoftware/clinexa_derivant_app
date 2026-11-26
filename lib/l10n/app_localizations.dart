@@ -850,7 +850,7 @@ abstract class S {
   /// No description provided for @searchSpecialtyHint.
   ///
   /// In en, this message translates to:
-  /// **'Search and add, e.g. Cardiology'**
+  /// **'E.g. Cardiology'**
   String get searchSpecialtyHint;
 
   /// No description provided for @searchPathologyHint.
@@ -970,7 +970,7 @@ abstract class S {
   /// No description provided for @searchAddressPrompt.
   ///
   /// In en, this message translates to:
-  /// **'Type the address and pick a suggestion'**
+  /// **'Type and pick a suggestion'**
   String get searchAddressPrompt;
 
   /// No description provided for @paymentProcessedSuccessfully.
@@ -1468,61 +1468,61 @@ abstract class S {
   /// No description provided for @notif_patient_rejected_title.
   ///
   /// In en, this message translates to:
-  /// **'Patient Rejected'**
+  /// **'Patient rejected'**
   String get notif_patient_rejected_title;
 
   /// No description provided for @notif_patient_rejected_body.
   ///
   /// In en, this message translates to:
-  /// **'The patient {patient_name} was not accepted. Note: {notes}'**
+  /// **'{patient_name} was not accepted. Note: {notes}'**
   String notif_patient_rejected_body(String patient_name, String notes);
 
   /// No description provided for @notif_prospect_patient_title.
   ///
   /// In en, this message translates to:
-  /// **'New Prospect'**
+  /// **'New prospect'**
   String get notif_prospect_patient_title;
 
   /// No description provided for @notif_prospect_patient_body.
   ///
   /// In en, this message translates to:
-  /// **'A new patient has been registered as a prospect in one of your Protocols.'**
+  /// **'A new patient was registered as a prospect in one of your protocols.'**
   String notif_prospect_patient_body(String patient_name);
 
   /// No description provided for @notif_patient_assigned_title.
   ///
   /// In en, this message translates to:
-  /// **'Patient Assigned!'**
+  /// **'Patient referred'**
   String get notif_patient_assigned_title;
 
   /// No description provided for @notif_patient_assigned_body.
   ///
   /// In en, this message translates to:
-  /// **'Your patient {patient_name} has been referred and will be evaluated for possible participation in the study'**
+  /// **'Your patient {patient_name} was referred and will be evaluated for the study.'**
   String notif_patient_assigned_body(String patient_name);
 
   /// No description provided for @notif_patient_taken_title.
   ///
   /// In en, this message translates to:
-  /// **'Patient Taken!'**
+  /// **'Patient in evaluation'**
   String get notif_patient_taken_title;
 
   /// No description provided for @notif_patient_taken_body.
   ///
   /// In en, this message translates to:
-  /// **'A receiving doctor has paid the initial access and took your patient {patient_name} for evaluation.'**
+  /// **'A researcher took your patient {patient_name} for evaluation.'**
   String notif_patient_taken_body(String patient_name);
 
   /// No description provided for @notif_patient_accepted_title.
   ///
   /// In en, this message translates to:
-  /// **'Patient Accepted!'**
+  /// **'Patient accepted'**
   String get notif_patient_accepted_title;
 
   /// No description provided for @notif_patient_accepted_body.
   ///
   /// In en, this message translates to:
-  /// **'The patient {patient_name} has been accepted for evaluation and possible participation in the study'**
+  /// **'{patient_name} was accepted for evaluation and possible participation in the study.'**
   String notif_patient_accepted_body(String patient_name);
 
   /// No description provided for @welcomeHeadline.
@@ -1816,7 +1816,7 @@ abstract class S {
   /// No description provided for @signatureInstructions.
   ///
   /// In en, this message translates to:
-  /// **'With their signature, the patient authorizes you to share their data with the chosen protocol.'**
+  /// **'Ask them to sign in the box below. When they\'re done, tap Continue.'**
   String get signatureInstructions;
 
   /// No description provided for @signatureAreaLabel.
@@ -2100,6 +2100,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'We couldn\'t open WhatsApp. Make sure it\'s installed and try again.'**
   String get whatsappOpenError;
+
+  /// No description provided for @patientLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient'**
+  String get patientLabel;
+
+  /// No description provided for @resultsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No results} =1{1 result} other{{count} results}}'**
+  String resultsCount(int count);
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

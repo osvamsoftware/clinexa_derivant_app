@@ -45,10 +45,18 @@ class WrongRoleScreen extends StatelessWidget {
                     color: c.warningSoft,
                     borderRadius: BorderRadius.circular(ClxRadius.lg),
                   ),
-                  child: Icon(LucideIcons.arrowLeftRight, size: 30, color: c.warning),
+                  child: Icon(
+                    LucideIcons.arrowLeftRight,
+                    size: 30,
+                    color: c.warning,
+                  ),
                 ),
                 const SizedBox(height: ClxSpace.s6),
-                Text(s.wrongRoleTitle, textAlign: TextAlign.center, style: t.h1),
+                Text(
+                  s.wrongRoleTitle,
+                  textAlign: TextAlign.center,
+                  style: t.h1,
+                ),
                 const SizedBox(height: ClxSpace.s3),
                 Text(
                   s.wrongRoleMessageDerivante,

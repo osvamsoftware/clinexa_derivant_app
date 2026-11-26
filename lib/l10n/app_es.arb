@@ -128,7 +128,7 @@
   "stepXofY": "Paso {step} de {total}",
   "nextRegister": "Continuar con los datos del paciente",
   "nextStep": "Siguiente paso",
-  "searchSpecialtyHint": "Busca y agrega, por ejemplo Cardiología",
+  "searchSpecialtyHint": "Ej.: Cardiología",
   "searchPathologyHint": "Buscar patología...",
   "notAllCriteriaMet": "Para seguir, confirma todos los criterios de este paso. Si tu paciente no cumple alguno, no puede derivarse a este protocolo.",
   "myPatients": "Mis pacientes",
@@ -148,7 +148,7 @@
   "appName": "Clinexapp",
   "userNotAuthenticated": "Tu sesión no está activa. Vuelve a iniciar sesión.",
   "searchAddress": "Buscar dirección...",
-  "searchAddressPrompt": "Escribe la dirección y elige una sugerencia",
+  "searchAddressPrompt": "Escribe y elige una sugerencia",
   "paymentProcessedSuccessfully": "Pago procesado correctamente",
   "paymentIntentNotAvailable": "Payment intent ID o client secret no disponibles",
   "errorSearchingAddresses": "Error al buscar direcciones",
@@ -227,8 +227,8 @@
   "wrongRoleTitle": "Estás en la app equivocada",
   "wrongRoleMessageDerivante": "Esta app es para médicos referentes, pero tu cuenta es de investigador. Descarga Clinexapp Investigador o inicia sesión con una cuenta de médico referente.",
   "wrongRoleExitButton": "Volver a iniciar sesión",
-  "notif_patient_rejected_title": "Paciente Rechazado",
-  "notif_patient_rejected_body": "El paciente {patient_name} no fue aceptado. Nota: {notes}",
+  "notif_patient_rejected_title": "Paciente rechazado",
+  "notif_patient_rejected_body": "{patient_name} no fue aceptado. Nota: {notes}",
   "@notif_patient_rejected_body": {
     "placeholders": {
       "patient_name": {
@@ -239,8 +239,8 @@
       }
     }
   },
-  "notif_patient_assigned_title": "¡Paciente Referido!",
-  "notif_patient_assigned_body": "Su paciente {patient_name} ha sido referido y será evaluado para la posible participación en el estudio",
+  "notif_patient_assigned_title": "Paciente derivado",
+  "notif_patient_assigned_body": "Tu paciente {patient_name} fue derivado y será evaluado para participar en el estudio.",
   "@notif_patient_assigned_body": {
     "placeholders": {
       "patient_name": {
@@ -248,8 +248,8 @@
       }
     }
   },
-  "notif_patient_taken_title": "¡Paciente Tomado!",
-  "notif_patient_taken_body": "Un médico receptor ha pagado el acceso inicial y tomó a su paciente {patient_name} para evaluación.",
+  "notif_patient_taken_title": "Paciente en evaluación",
+  "notif_patient_taken_body": "Un investigador tomó a tu paciente {patient_name} para evaluarlo.",
   "@notif_patient_taken_body": {
     "placeholders": {
       "patient_name": {
@@ -257,8 +257,8 @@
       }
     }
   },
-  "notif_patient_accepted_title": "¡Paciente Aceptado!",
-  "notif_patient_accepted_body": "El paciente {patient_name} ha sido aceptado para evaluación y posible participación en el estudio.",
+  "notif_patient_accepted_title": "Paciente aceptado",
+  "notif_patient_accepted_body": "{patient_name} fue aceptado para evaluación y posible participación en el estudio.",
   "@notif_patient_accepted_body": {
     "placeholders": {
       "patient_name": {
@@ -266,8 +266,8 @@
       }
     }
   },
-  "notif_prospect_patient_title": "Nuevo Prospecto",
-  "notif_prospect_patient_body": "Un nuevo paciente ha sido registrado como prospecto en uno de tus Protocolos.",
+  "notif_prospect_patient_title": "Nuevo prospecto",
+  "notif_prospect_patient_body": "Se registró un paciente nuevo como prospecto en uno de tus protocolos.",
   "@notif_prospect_patient_body": {
     "placeholders": {
       "patient_name": {
@@ -323,7 +323,7 @@
   "autoFilled": "Se completa solo",
   "notesHint": "Antecedentes, tratamiento actual u otra información útil",
   "signatureHandOverTitle": "Entrega el dispositivo al paciente",
-  "signatureInstructions": "Con su firma, el paciente autoriza que compartas sus datos con el protocolo elegido.",
+  "signatureInstructions": "Pídele que firme en el recuadro de abajo. Cuando termine, toca Continuar.",
   "signatureAreaLabel": "Espacio de firma",
   "signaturePlaceholder": "Firma aquí con el dedo o un lápiz óptico",
   "clearSignature": "Borrar firma",
@@ -371,5 +371,7 @@
   "contactChecklist1": "El nombre o código del protocolo.",
   "contactChecklist2": "El centro de investigación que lo lleva.",
   "contactChecklist3": "Qué quieres agregar o modificar.",
-  "whatsappOpenError": "No se pudo abrir WhatsApp. Revisa que esté instalado e intenta de nuevo."
+  "whatsappOpenError": "No se pudo abrir WhatsApp. Revisa que esté instalado e intenta de nuevo.",
+  "patientLabel": "Paciente",
+  "resultsCount": "{count, plural, =0{Sin resultados} =1{1 resultado} other{{count} resultados}}"
 }

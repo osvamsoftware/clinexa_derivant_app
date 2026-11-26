@@ -23,15 +23,23 @@ class CustomDialogs {
             backgroundColor: c.surfaceRaised,
             surfaceTintColor: Colors.transparent,
             insetPadding: const EdgeInsets.symmetric(horizontal: 96),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(ClxRadius.xl)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(ClxRadius.xl),
+            ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: ClxSpace.s6, horizontal: ClxSpace.s5),
+              padding: const EdgeInsets.symmetric(
+                vertical: ClxSpace.s6,
+                horizontal: ClxSpace.s5,
+              ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const ClxLoader(size: 28),
                   const SizedBox(height: ClxSpace.s4),
-                  Text(s.loading, style: context.clxText.bodySmStrong.copyWith(fontSize: 14)),
+                  Text(
+                    s.loading,
+                    style: context.clxText.bodySmStrong.copyWith(fontSize: 14),
+                  ),
                 ],
               ),
             ),

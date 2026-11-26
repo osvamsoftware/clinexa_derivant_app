@@ -82,13 +82,21 @@ class _RegisterProfileViewState extends State<RegisterProfileView> {
       body: Form(
         key: cubit.formStep3Key,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(ClxSpace.s6, ClxSpace.s4, ClxSpace.s6, ClxSpace.s8),
+          padding: const EdgeInsets.fromLTRB(
+            ClxSpace.s6,
+            ClxSpace.s4,
+            ClxSpace.s6,
+            ClxSpace.s8,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ClxStepper(current: 3, total: 3, label: s.registerStepTerms),
               const SizedBox(height: ClxSpace.s6),
-              ClxPageHeader(title: s.termsTitle, subtitle: s.registerTermsSubtitle),
+              ClxPageHeader(
+                title: s.termsTitle,
+                subtitle: s.registerTermsSubtitle,
+              ),
               const SizedBox(height: ClxSpace.s6),
               Container(
                 height: MediaQuery.of(context).size.height * 0.42,
@@ -100,7 +108,14 @@ class _RegisterProfileViewState extends State<RegisterProfileView> {
                 child: Scrollbar(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(ClxSpace.s5),
-                    child: Text(_termsText, style: t.bodySm.copyWith(color: c.ink, fontSize: 14, height: 1.5)),
+                    child: Text(
+                      _termsText,
+                      style: t.bodySm.copyWith(
+                        color: c.ink,
+                        fontSize: 14,
+                        height: 1.5,
+                      ),
+                    ),
                   ),
                 ),
               ),

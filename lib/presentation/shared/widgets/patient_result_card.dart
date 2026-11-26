@@ -50,10 +50,18 @@ class PatientResultCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name, style: t.h3, maxLines: 1, overflow: TextOverflow.ellipsis),
+                    Text(
+                      name,
+                      style: t.h3,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     if (protocolName != null && protocolName!.isNotEmpty) ...[
                       const SizedBox(height: 2),
-                      _MetaLine(icon: LucideIcons.clipboardList, text: protocolName!),
+                      _MetaLine(
+                        icon: LucideIcons.clipboardList,
+                        text: protocolName!,
+                      ),
                     ],
                     const SizedBox(height: 2),
                     _MetaLine(icon: LucideIcons.mapPin, text: address),
@@ -64,7 +72,11 @@ class PatientResultCard extends StatelessWidget {
                 const SizedBox(width: ClxSpace.s2),
                 Padding(
                   padding: const EdgeInsets.only(top: 2),
-                  child: Icon(LucideIcons.chevronRight, size: 18, color: c.inkSubtle),
+                  child: Icon(
+                    LucideIcons.chevronRight,
+                    size: 18,
+                    color: c.inkSubtle,
+                  ),
                 ),
               ],
             ],
@@ -133,7 +145,12 @@ class _MetaLine extends StatelessWidget {
         Icon(icon, size: 14, color: c.inkSubtle),
         const SizedBox(width: ClxSpace.s1 + 2),
         Expanded(
-          child: Text(text, style: context.clxText.bodySm, maxLines: 1, overflow: TextOverflow.ellipsis),
+          child: Text(
+            text,
+            style: context.clxText.bodySm,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );

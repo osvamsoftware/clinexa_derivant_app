@@ -400,7 +400,7 @@ class SEs extends S {
   String get nextStep => 'Siguiente paso';
 
   @override
-  String get searchSpecialtyHint => 'Busca y agrega, por ejemplo Cardiología';
+  String get searchSpecialtyHint => 'Ej.: Cardiología';
 
   @override
   String get searchPathologyHint => 'Buscar patología...';
@@ -462,8 +462,7 @@ class SEs extends S {
   String get searchAddress => 'Buscar dirección...';
 
   @override
-  String get searchAddressPrompt =>
-      'Escribe la dirección y elige una sugerencia';
+  String get searchAddressPrompt => 'Escribe y elige una sugerencia';
 
   @override
   String get paymentProcessedSuccessfully => 'Pago procesado correctamente';
@@ -747,43 +746,43 @@ class SEs extends S {
   String get wrongRoleExitButton => 'Volver a iniciar sesión';
 
   @override
-  String get notif_patient_rejected_title => 'Paciente Rechazado';
+  String get notif_patient_rejected_title => 'Paciente rechazado';
 
   @override
   String notif_patient_rejected_body(String patient_name, String notes) {
-    return 'El paciente $patient_name no fue aceptado. Nota: $notes';
+    return '$patient_name no fue aceptado. Nota: $notes';
   }
 
   @override
-  String get notif_prospect_patient_title => 'Nuevo Prospecto';
+  String get notif_prospect_patient_title => 'Nuevo prospecto';
 
   @override
   String notif_prospect_patient_body(String patient_name) {
-    return 'Un nuevo paciente ha sido registrado como prospecto en uno de tus Protocolos.';
+    return 'Se registró un paciente nuevo como prospecto en uno de tus protocolos.';
   }
 
   @override
-  String get notif_patient_assigned_title => '¡Paciente Referido!';
+  String get notif_patient_assigned_title => 'Paciente derivado';
 
   @override
   String notif_patient_assigned_body(String patient_name) {
-    return 'Su paciente $patient_name ha sido referido y será evaluado para la posible participación en el estudio';
+    return 'Tu paciente $patient_name fue derivado y será evaluado para participar en el estudio.';
   }
 
   @override
-  String get notif_patient_taken_title => '¡Paciente Tomado!';
+  String get notif_patient_taken_title => 'Paciente en evaluación';
 
   @override
   String notif_patient_taken_body(String patient_name) {
-    return 'Un médico receptor ha pagado el acceso inicial y tomó a su paciente $patient_name para evaluación.';
+    return 'Un investigador tomó a tu paciente $patient_name para evaluarlo.';
   }
 
   @override
-  String get notif_patient_accepted_title => '¡Paciente Aceptado!';
+  String get notif_patient_accepted_title => 'Paciente aceptado';
 
   @override
   String notif_patient_accepted_body(String patient_name) {
-    return 'El paciente $patient_name ha sido aceptado para evaluación y posible participación en el estudio.';
+    return '$patient_name fue aceptado para evaluación y posible participación en el estudio.';
   }
 
   @override
@@ -959,7 +958,7 @@ class SEs extends S {
 
   @override
   String get signatureInstructions =>
-      'Con su firma, el paciente autoriza que compartas sus datos con el protocolo elegido.';
+      'Pídele que firme en el recuadro de abajo. Cuando termine, toca Continuar.';
 
   @override
   String get signatureAreaLabel => 'Espacio de firma';
@@ -1125,4 +1124,19 @@ class SEs extends S {
   @override
   String get whatsappOpenError =>
       'No se pudo abrir WhatsApp. Revisa que esté instalado e intenta de nuevo.';
+
+  @override
+  String get patientLabel => 'Paciente';
+
+  @override
+  String resultsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count resultados',
+      one: '1 resultado',
+      zero: 'Sin resultados',
+    );
+    return '$_temp0';
+  }
 }

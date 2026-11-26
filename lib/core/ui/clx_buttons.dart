@@ -178,8 +178,9 @@ class ClxButton extends StatelessWidget {
           child: Container(
             height: height,
             padding: EdgeInsets.symmetric(horizontal: hPad),
-            alignment: Alignment.center,
-            child: content,
+            // widthFactor 1: sin expand, el botón mide lo que su contenido
+            // (un Container con alignment ocupaba todo el ancho disponible).
+            child: Center(widthFactor: 1, child: content),
           ),
         ),
       ),

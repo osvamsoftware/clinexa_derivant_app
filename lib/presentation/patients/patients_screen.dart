@@ -68,24 +68,35 @@ class PatientsView extends StatelessWidget {
           },
           builder: (context, state) {
             final cubit = context.read<PatientsCubit>();
-            final isLoading = (state.status == PatientsStatus.loading ||
+            final isLoading =
+                (state.status == PatientsStatus.loading ||
                     state.status == PatientsStatus.initial) &&
                 state.patients.isEmpty;
-            final hasFilters = (state.searchQuery?.isNotEmpty ?? false) ||
+            final hasFilters =
+                (state.searchQuery?.isNotEmpty ?? false) ||
                 state.selectedSpecialtyId != null;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s4, ClxSpace.s4, ClxSpace.s4),
+                  padding: const EdgeInsets.fromLTRB(
+                    ClxSpace.s4,
+                    ClxSpace.s4,
+                    ClxSpace.s4,
+                    ClxSpace.s4,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(s.myPatients, style: t.h1),
                       const SizedBox(height: ClxSpace.s1),
                       Text(
-                        isLoading ? s.loading : s.patientsCount(state.patients.length),
+                        isLoading
+                            ? s.loading
+                            : hasFilters
+                            ? s.resultsCount(state.patients.length)
+                            : s.patientsCount(state.patients.length),
                         style: t.bodySm,
                       ),
                       const SizedBox(height: ClxSpace.s4),
@@ -101,7 +112,9 @@ class PatientsView extends StatelessWidget {
                         items: [null, ...state.specialties.map((e) => e.id)],
                         itemLabel: (id) => id == null
                             ? s.allSpecialties
-                            : state.specialties.firstWhere((e) => e.id == id).name,
+                            : state.specialties
+                                  .firstWhere((e) => e.id == id)
+                                  .name,
                         onChanged: cubit.setSpecialtyId,
                       ),
                     ],
@@ -113,7 +126,12 @@ class PatientsView extends StatelessWidget {
                       if (isLoading) {
                         return const ClxSkeletonList(
                           count: 5,
-                          padding: EdgeInsets.fromLTRB(ClxSpace.s4, 0, ClxSpace.s4, ClxSpace.s4),
+                          padding: EdgeInsets.fromLTRB(
+                            ClxSpace.s4,
+                            0,
+                            ClxSpace.s4,
+                            ClxSpace.s4,
+                          ),
                         );
                       }
                       if (state.patients.isEmpty) {
@@ -137,9 +155,15 @@ class PatientsView extends StatelessWidget {
                         color: context.clx.brandBlue,
                         onRefresh: cubit.loadPatients,
                         child: ListView.separated(
-                          padding: const EdgeInsets.fromLTRB(ClxSpace.s4, 0, ClxSpace.s4, ClxSpace.s6),
+                          padding: const EdgeInsets.fromLTRB(
+                            ClxSpace.s4,
+                            0,
+                            ClxSpace.s4,
+                            ClxSpace.s6,
+                          ),
                           itemCount: state.patients.length,
-                          separatorBuilder: (_, __) => const SizedBox(height: ClxSpace.s3),
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: ClxSpace.s3),
                           itemBuilder: (context, index) {
                             final patient = state.patients[index];
 

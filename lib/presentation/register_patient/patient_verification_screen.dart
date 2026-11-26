@@ -160,11 +160,20 @@ class _PatientVerificationScreenViewState
           ),
         ],
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s5, ClxSpace.s4, ClxSpace.s8),
+          padding: const EdgeInsets.fromLTRB(
+            ClxSpace.s4,
+            ClxSpace.s5,
+            ClxSpace.s4,
+            ClxSpace.s8,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ClxStepper(current: 3, total: 3, label: s.referralStepVerification),
+              ClxStepper(
+                current: 3,
+                total: 3,
+                label: s.referralStepVerification,
+              ),
               const SizedBox(height: ClxSpace.s5),
               Text(s.whatsappVerificationSubtitle, style: t.bodyMuted),
               const SizedBox(height: ClxSpace.s6),
@@ -200,9 +209,15 @@ class _PatientVerificationScreenViewState
                       searchStyle: t.body,
                       dialogBackgroundColor: c.surfaceRaised,
                       barrierColor: c.ink.withValues(alpha: 0.4),
-                      searchDecoration: clxInputDecoration(context, hint: s.search, icon: LucideIcons.search),
+                      searchDecoration: clxInputDecoration(
+                        context,
+                        hint: s.search,
+                        icon: LucideIcons.search,
+                      ),
                       closeIcon: Icon(LucideIcons.x, color: c.ink, size: 20),
-                      padding: const EdgeInsets.symmetric(horizontal: ClxSpace.s2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: ClxSpace.s2,
+                      ),
                     ),
                   ),
                   const SizedBox(width: ClxSpace.s3),
@@ -264,9 +279,15 @@ class _PatientVerificationScreenViewState
                               maxLength: 1,
                               style: t.dataLg.copyWith(fontSize: 22),
                               cursorColor: c.brandBlue,
-                              decoration: clxInputDecoration(context, counterText: '').copyWith(
-                                contentPadding: const EdgeInsets.symmetric(vertical: 14),
-                              ),
+                              decoration:
+                                  clxInputDecoration(
+                                    context,
+                                    counterText: '',
+                                  ).copyWith(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 14,
+                                    ),
+                                  ),
                               onChanged: (value) {
                                 if (value.isNotEmpty) {
                                   // Moverse al siguiente campo
@@ -300,7 +321,9 @@ class _PatientVerificationScreenViewState
                         children: [
                           Text(s.codeNotReceived, style: t.bodySm),
                           ClxButton.ghost(
-                            label: state.canResendCode ? s.resendCode : s.resendCodeIn(timer),
+                            label: state.canResendCode
+                                ? s.resendCode
+                                : s.resendCodeIn(timer),
                             size: ClxButtonSize.sm,
                             onPressed: state.canResendCode
                                 ? () {

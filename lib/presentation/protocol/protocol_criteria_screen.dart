@@ -85,7 +85,8 @@ class ProtocolCriteriaView extends StatelessWidget {
       child: ListView.separated(
         shrinkWrap: true,
         itemCount: state.allCriteria.length,
-        separatorBuilder: (_, __) => Divider(height: ClxSpace.s5, color: context.clx.border),
+        separatorBuilder: (_, __) =>
+            Divider(height: ClxSpace.s5, color: context.clx.border),
         itemBuilder: (context, index) {
           final item = state.allCriteria[index];
           final t = context.clxText;
@@ -94,7 +95,10 @@ class ProtocolCriteriaView extends StatelessWidget {
             children: [
               SizedBox(
                 width: 28,
-                child: Text((index + 1).toString().padLeft(2, '0'), style: t.data.copyWith(color: context.clx.inkSubtle)),
+                child: Text(
+                  (index + 1).toString().padLeft(2, '0'),
+                  style: t.data.copyWith(color: context.clx.inkSubtle),
+                ),
               ),
               const SizedBox(width: ClxSpace.s2),
               Expanded(child: Text(item.text, style: t.body)),
@@ -116,9 +120,16 @@ class _CriteriaBody extends StatelessWidget {
     return BlocBuilder<ProtocolCriteriaCubit, ProtocolCriteriaState>(
       builder: (context, state) {
         final criteriaList = state.currentStepCriteria;
-        final checkedInStep = criteriaList.where((c) => state.checkedCriteriaIds.contains(c.text)).length;
+        final checkedInStep = criteriaList
+            .where((c) => state.checkedCriteriaIds.contains(c.text))
+            .length;
         return ListView(
-          padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s5, ClxSpace.s4, ClxSpace.s6),
+          padding: const EdgeInsets.fromLTRB(
+            ClxSpace.s4,
+            ClxSpace.s5,
+            ClxSpace.s4,
+            ClxSpace.s6,
+          ),
           children: [
             ClxStepper(
               current: state.currentStep,
@@ -132,25 +143,39 @@ class _CriteriaBody extends StatelessWidget {
             const SizedBox(height: ClxSpace.s6),
             Row(
               children: [
-                Expanded(child: Text(s.criteriaChecklistLabel.toUpperCase(), style: t.label)),
+                Expanded(
+                  child: Text(
+                    s.criteriaChecklistLabel.toUpperCase(),
+                    style: t.label,
+                  ),
+                ),
                 ClxBadge(
-                  label: s.criteriaCheckedCount(checkedInStep, criteriaList.length),
-                  tone: checkedInStep == criteriaList.length ? ClxTone.success : ClxTone.neutral,
+                  label: s.criteriaCheckedCount(
+                    checkedInStep,
+                    criteriaList.length,
+                  ),
+                  tone: checkedInStep == criteriaList.length
+                      ? ClxTone.success
+                      : ClxTone.neutral,
                 ),
               ],
             ),
             const SizedBox(height: ClxSpace.s3),
             for (var i = 0; i < criteriaList.length; i++) ...[
-              ClxChoiceTile(
+              ClxCheckTile(
                 key: ValueKey('criterion_$i'),
-                multi: true,
-                title: criteriaList[i].text,
-                selected: state.checkedCriteriaIds.contains(criteriaList[i].text),
+                text: criteriaList[i].text,
+                selected: state.checkedCriteriaIds.contains(
+                  criteriaList[i].text,
+                ),
                 onTap: () {
-                  context.read<ProtocolCriteriaCubit>().toggleCriteria(criteriaList[i].text);
+                  context.read<ProtocolCriteriaCubit>().toggleCriteria(
+                    criteriaList[i].text,
+                  );
                 },
               ),
-              if (i < criteriaList.length - 1) const SizedBox(height: ClxSpace.s2),
+              if (i < criteriaList.length - 1)
+                const SizedBox(height: ClxSpace.s2),
             ],
           ],
         );

@@ -15,7 +15,10 @@ class NotificationDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context).toString();
-    final dateStr = DateFormat('dd MMM yyyy · HH:mm', locale).format(notification.createdAt);
+    final dateStr = DateFormat(
+      'dd MMM yyyy · HH:mm',
+      locale,
+    ).format(notification.createdAt);
 
     final s = S.of(context);
     final c = context.clx;
@@ -42,13 +45,24 @@ class NotificationDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: ClxAppBar(title: s.notificationDetailTitle),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s6, ClxSpace.s4, ClxSpace.s8),
+        padding: const EdgeInsets.fromLTRB(
+          ClxSpace.s4,
+          ClxSpace.s6,
+          ClxSpace.s4,
+          ClxSpace.s8,
+        ),
         children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(ClxRadius.lg)),
-            child: Icon(icon, size: 24, color: fg),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: bg,
+                borderRadius: BorderRadius.circular(ClxRadius.lg),
+              ),
+              child: Icon(icon, size: 24, color: fg),
+            ),
           ),
           const SizedBox(height: ClxSpace.s4),
           Text(translatedTitle, style: t.h1),
@@ -57,7 +71,10 @@ class NotificationDetailScreen extends StatelessWidget {
             children: [
               Icon(LucideIcons.clock, size: 14, color: c.inkSubtle),
               const SizedBox(width: ClxSpace.s1 + 2),
-              Text(dateStr, style: t.data.copyWith(fontSize: 13, color: c.inkSubtle)),
+              Text(
+                dateStr,
+                style: t.data.copyWith(fontSize: 13, color: c.inkSubtle),
+              ),
             ],
           ),
           const SizedBox(height: ClxSpace.s6),
@@ -65,19 +82,26 @@ class NotificationDetailScreen extends StatelessWidget {
           if (details.isNotEmpty) ...[
             const SizedBox(height: ClxSpace.s8),
             Padding(
-              padding: const EdgeInsets.only(left: ClxSpace.s1, bottom: ClxSpace.s2),
+              padding: const EdgeInsets.only(
+                left: ClxSpace.s1,
+                bottom: ClxSpace.s2,
+              ),
               child: Text(s.notificationDetails.toUpperCase(), style: t.label),
             ),
             ClxCard(
-              padding: const EdgeInsets.symmetric(horizontal: ClxSpace.s4, vertical: ClxSpace.s2),
+              padding: const EdgeInsets.symmetric(
+                horizontal: ClxSpace.s4,
+                vertical: ClxSpace.s2,
+              ),
               child: Column(
                 children: [
                   for (var i = 0; i < details.length; i++) ...[
                     ClxKeyValue(
-                      label: _humanize(details[i].key),
+                      label: _label(s, details[i].key),
                       value: details[i].value.toString(),
                     ),
-                    if (i < details.length - 1) Divider(height: 1, color: c.border),
+                    if (i < details.length - 1)
+                      Divider(height: 1, color: c.border),
                   ],
                 ],
               ),
@@ -86,6 +110,20 @@ class NotificationDetailScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  static String _label(S s, String key) {
+    switch (key) {
+      case 'patient_name':
+      case 'patientName':
+        return s.patientLabel;
+      case 'notes':
+        return s.notes;
+      case 'protocol_name':
+      case 'protocolName':
+        return s.protocol;
+    }
+    return _humanize(key);
   }
 
   static String _humanize(String key) {

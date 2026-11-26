@@ -128,7 +128,12 @@ class _NotificationsViewState extends State<_NotificationsView> {
             onRefresh: _onRefresh,
             child: ListView.separated(
               controller: _scrollController,
-              padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s4, ClxSpace.s4, ClxSpace.s6),
+              padding: const EdgeInsets.fromLTRB(
+                ClxSpace.s4,
+                ClxSpace.s4,
+                ClxSpace.s4,
+                ClxSpace.s6,
+              ),
               itemCount:
                   state.notifications.length + (state.hasReachedMax ? 0 : 1),
               separatorBuilder: (_, __) => const SizedBox(height: ClxSpace.s3),
@@ -158,7 +163,9 @@ class _NotificationsViewState extends State<_NotificationsView> {
 (IconData, ClxTone) notificationVisual(NotificationModel n) {
   final key = '${n.typeNotification} ${n.title}'.toLowerCase();
   if (key.contains('rejected')) return (LucideIcons.circleX, ClxTone.danger);
-  if (key.contains('accepted')) return (LucideIcons.circleCheck, ClxTone.success);
+  if (key.contains('accepted')) {
+    return (LucideIcons.circleCheck, ClxTone.success);
+  }
   if (key.contains('taken')) return (LucideIcons.userCheck, ClxTone.info);
   if (key.contains('assigned')) return (LucideIcons.send, ClxTone.info);
   if (key.contains('prospect')) return (LucideIcons.userPlus, ClxTone.info);
@@ -189,7 +196,10 @@ class _NotificationCard extends StatelessWidget {
     final t = context.clxText;
     final s = S.of(context);
     final locale = Localizations.localeOf(context).toString();
-    final dateStr = DateFormat('dd MMM yyyy · HH:mm', locale).format(notification.createdAt);
+    final dateStr = DateFormat(
+      'dd MMM yyyy · HH:mm',
+      locale,
+    ).format(notification.createdAt);
 
     final translatedTitle = LocalizationHelper.translateNotificationKey(
       s,
@@ -206,7 +216,9 @@ class _NotificationCard extends StatelessWidget {
 
     return ClxCard(
       padding: const EdgeInsets.all(ClxSpace.s4),
-      borderColor: notification.isRead ? null : c.brandBlue.withValues(alpha: 0.45),
+      borderColor: notification.isRead
+          ? null
+          : c.brandBlue.withValues(alpha: 0.45),
       onTap: () {
         log(
           'Tap en notificación tipo: ${notification.typeNotification}',
@@ -220,7 +232,10 @@ class _NotificationCard extends StatelessWidget {
           Container(
             width: 36,
             height: 36,
-            decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(ClxRadius.md)),
+            decoration: BoxDecoration(
+              color: bg,
+              borderRadius: BorderRadius.circular(ClxRadius.md),
+            ),
             child: Icon(icon, size: 18, color: fg),
           ),
           const SizedBox(width: ClxSpace.s3),
@@ -252,7 +267,10 @@ class _NotificationCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: ClxSpace.s2),
-                Text(dateStr, style: t.data.copyWith(fontSize: 12, color: c.inkSubtle)),
+                Text(
+                  dateStr,
+                  style: t.data.copyWith(fontSize: 12, color: c.inkSubtle),
+                ),
               ],
             ),
           ),
