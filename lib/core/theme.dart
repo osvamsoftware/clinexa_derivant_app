@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'clinexapp_tokens.dart';
+import 'ui/clx_palette.dart';
 
 export 'clinexapp_tokens.dart';
 
@@ -151,6 +152,7 @@ class AppTheme {
         );
 
     return base.copyWith(
+      extensions: [dark ? ClxPalette.dark : ClxPalette.light],
       textTheme: text,
       scaffoldBackgroundColor: surface,
       appBarTheme: AppBarTheme(
