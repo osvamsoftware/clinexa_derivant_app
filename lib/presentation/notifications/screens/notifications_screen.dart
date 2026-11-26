@@ -1,3 +1,4 @@
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:clinexa_derivant_app/data/models/notification_model.dart';
 import 'package:clinexa_derivant_app/presentation/notifications/cubit/notifications_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/notifications/cubit/notifications_state.dart';
@@ -90,91 +91,60 @@ class _NotificationsViewState extends State<_NotificationsView> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final s = S.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Notificaciones'),
-        elevation: 0,
-        centerTitle: true,
-      ),
+      appBar: ClxAppBar(title: s.notificationScreenTitle),
       body: BlocBuilder<NotificationsCubit, NotificationsState>(
         builder: (context, state) {
           if (state.status == NotificationsStatus.initial ||
               (state.status == NotificationsStatus.loading &&
                   state.notifications.isEmpty)) {
-            return const Center(child: CircularProgressIndicator());
+            return const ClxSkeletonList(count: 6);
           }
 
           if (state.status == NotificationsStatus.failure &&
               state.notifications.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.error_outline,
-                    size: 48,
-                    color: theme.colorScheme.error,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    state.errorMessage ?? 'Error al cargar notificaciones',
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  FilledButton.tonal(
-                    onPressed: _onRefresh,
-                    child: const Text('Reintentar'),
-                  ),
-                ],
-              ),
+            return ClxEmptyState(
+              icon: LucideIcons.circleAlert,
+              tone: ClxTone.danger,
+              title: s.errorLoadingNotifications,
+              message: s.errorNetwork,
+              actionLabel: s.retry,
+              onAction: _onRefresh,
             );
           }
 
           if (state.notifications.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.notifications_off_outlined,
-                    size: 64,
-                    color: theme.colorScheme.onSurfaceVariant.withValues(
-                      alpha: 0.5,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'No tienes notificaciones',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
-              ),
+            return ClxEmptyState(
+              icon: LucideIcons.bellOff,
+              title: s.noNotificationsFound,
+              message: s.noNotificationsHint,
             );
           }
 
           return RefreshIndicator(
+            color: context.clx.brandBlue,
             onRefresh: _onRefresh,
-            child: ListView.builder(
+            child: ListView.separated(
               controller: _scrollController,
-              padding: const EdgeInsets.symmetric(vertical: 12),
+              padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s4, ClxSpace.s4, ClxSpace.s6),
               itemCount:
                   state.notifications.length + (state.hasReachedMax ? 0 : 1),
+              separatorBuilder: (_, __) => const SizedBox(height: ClxSpace.s3),
               itemBuilder: (context, index) {
                 if (index >= state.notifications.length) {
-                  return const Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: CircularProgressIndicator(),
-                    ),
+                  return const Padding(
+                    padding: EdgeInsets.all(ClxSpace.s4),
+                    child: ClxLoader(size: 22),
                   );
                 }
 
                 final notification = state.notifications[index];
-                return _NotificationCard(notification: notification);
+                return _NotificationCard(
+                  key: ValueKey('notification_card_$index'),
+                  notification: notification,
+                );
               },
             ),
           );
@@ -184,18 +154,42 @@ class _NotificationsViewState extends State<_NotificationsView> {
   }
 }
 
+/// Ícono y tono de una notificación según su tipo (un estado = un color).
+(IconData, ClxTone) notificationVisual(NotificationModel n) {
+  final key = '${n.typeNotification} ${n.title}'.toLowerCase();
+  if (key.contains('rejected')) return (LucideIcons.circleX, ClxTone.danger);
+  if (key.contains('accepted')) return (LucideIcons.circleCheck, ClxTone.success);
+  if (key.contains('taken')) return (LucideIcons.userCheck, ClxTone.info);
+  if (key.contains('assigned')) return (LucideIcons.send, ClxTone.info);
+  if (key.contains('prospect')) return (LucideIcons.userPlus, ClxTone.info);
+  return (LucideIcons.bell, ClxTone.neutral);
+}
+
+/// Colores de fondo y texto de un tono (para el cuadro del ícono).
+(Color, Color) toneColors(BuildContext context, ClxTone tone) {
+  final c = context.clx;
+  return switch (tone) {
+    ClxTone.success => (c.successSoft, c.success),
+    ClxTone.danger => (c.dangerSoft, c.danger),
+    ClxTone.warning => (c.warningSoft, c.warning),
+    ClxTone.info => (c.brandBlueSoft, c.onBrandBlueSoft),
+    ClxTone.ai => (c.accentVioletSoft, c.accentViolet),
+    ClxTone.neutral => (c.surfaceSunken, c.inkMuted),
+  };
+}
+
 class _NotificationCard extends StatelessWidget {
   final NotificationModel notification;
 
-  const _NotificationCard({required this.notification});
+  const _NotificationCard({super.key, required this.notification});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final dateStr = DateFormat(
-      'dd MMM yyyy HH:mm',
-    ).format(notification.createdAt);
+    final c = context.clx;
+    final t = context.clxText;
     final s = S.of(context);
+    final locale = Localizations.localeOf(context).toString();
+    final dateStr = DateFormat('dd MMM yyyy · HH:mm', locale).format(notification.createdAt);
 
     final translatedTitle = LocalizationHelper.translateNotificationKey(
       s,
@@ -207,94 +201,62 @@ class _NotificationCard extends StatelessWidget {
       notification.body,
       notification.data,
     );
+    final (icon, tone) = notificationVisual(notification);
+    final (bg, fg) = toneColors(context, tone);
 
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      elevation: 0,
-      color: notification.isRead
-          ? theme.colorScheme.surface
-          : theme.colorScheme.primaryContainer.withValues(alpha: 0.1),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(
-          color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
-        ),
-      ),
-      child: InkWell(
-        onTap: () {
-          log(
-            'Tap en notificación tipo: ${notification.typeNotification}',
-            name: 'NotificationsScreen',
-          );
-          context.push(NotificationDetailScreen.path, extra: notification);
-        },
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: theme.colorScheme.primaryContainer,
-                child: Icon(
-                  Icons.notifications,
-                  color: theme.colorScheme.primary,
-                  size: 20,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return ClxCard(
+      padding: const EdgeInsets.all(ClxSpace.s4),
+      borderColor: notification.isRead ? null : c.brandBlue.withValues(alpha: 0.45),
+      onTap: () {
+        log(
+          'Tap en notificación tipo: ${notification.typeNotification}',
+          name: 'NotificationsScreen',
+        );
+        context.push(NotificationDetailScreen.path, extra: notification);
+      },
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(ClxRadius.md)),
+            child: Icon(icon, size: 18, color: fg),
+          ),
+          const SizedBox(width: ClxSpace.s3),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            translatedTitle,
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        if (!notification.isRead)
-                          Container(
-                            width: 8,
-                            height: 8,
-                            margin: const EdgeInsets.only(left: 8),
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.primary,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      translatedBody,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      dateStr,
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        color: theme.colorScheme.outline,
+                    Expanded(
+                      child: Text(
+                        translatedTitle,
+                        style: notification.isRead ? t.body : t.bodyStrong,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
+                    if (!notification.isRead) ...[
+                      const SizedBox(width: ClxSpace.s2),
+                      ClxBadge(label: s.unread, tone: ClxTone.info),
+                    ],
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 2),
+                Text(
+                  translatedBody,
+                  style: t.bodySm,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: ClxSpace.s2),
+                Text(dateStr, style: t.data.copyWith(fontSize: 12, color: c.inkSubtle)),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

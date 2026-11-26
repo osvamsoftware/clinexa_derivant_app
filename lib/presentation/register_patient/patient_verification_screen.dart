@@ -1,10 +1,9 @@
-import 'package:clinexa_derivant_app/core/theme.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:clinexa_derivant_app/domain/patient_repository.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/phone_verification/cubit/phone_verification_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/register_patient/cubit/patient_registration_cubit.dart';
-import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_dialogs.dart';
 import 'package:clinexa_derivant_app/presentation/patients/patients_screen.dart';
 import 'package:country_code_picker/country_code_picker.dart';
@@ -31,7 +30,7 @@ class PatientVerificationScreen extends StatelessWidget {
   }
 }
 
-class PatientVerificationScreenView extends StatelessWidget {
+class PatientVerificationScreenView extends StatefulWidget {
   final PatientRegistrationCubit registrationCubit;
 
   const PatientVerificationScreenView({
@@ -40,21 +39,70 @@ class PatientVerificationScreenView extends StatelessWidget {
   });
 
   @override
+  State<PatientVerificationScreenView> createState() =>
+      _PatientVerificationScreenViewState();
+}
+
+class _PatientVerificationScreenViewState
+    extends State<PatientVerificationScreenView> {
+  // Controllers para los campos de código
+  final _codeControllers = List.generate(6, (_) => TextEditingController());
+  final _codeFocusNodes = List.generate(6, (_) => FocusNode());
+
+  PatientRegistrationCubit get registrationCubit => widget.registrationCubit;
+
+  @override
+  void dispose() {
+    for (final c in _codeControllers) {
+      c.dispose();
+    }
+    for (final f in _codeFocusNodes) {
+      f.dispose();
+    }
+    super.dispose();
+  }
+
+  String get _code => _codeControllers.map((c) => c.text).join();
+
+  bool _isCodeSent(PhoneVerificationState state) =>
+      state.status == PhoneVerificationStatus.codeSent ||
+      state.status == PhoneVerificationStatus.verifying;
+
+  @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    // Controllers para los campos de código
-    final codeControllers = List.generate(6, (_) => TextEditingController());
-    final codeFocusNodes = List.generate(6, (_) => FocusNode());
+    final c = context.clx;
+    final t = context.clxText;
 
     return Scaffold(
-      backgroundColor: AppColors.neutral99,
-      appBar: AppBar(
-        backgroundColor: AppColors.neutral99,
-        title: const Text(
-          'Verificación por WhatsApp',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+      appBar: ClxAppBar(title: s.whatsappVerificationTitle),
+      bottomNavigationBar: ClxBottomBar(
+        child: BlocBuilder<PhoneVerificationCubit, PhoneVerificationState>(
+          builder: (context, state) {
+            if (!_isCodeSent(state)) {
+              return ClxButton(
+                key: const Key('verification_send_code'),
+                label: s.sendCode,
+                icon: LucideIcons.messageCircle,
+                loading: state.status == PhoneVerificationStatus.sendingCode,
+                onPressed: () {
+                  context.read<PhoneVerificationCubit>().sendVerificationCode();
+                },
+              );
+            }
+            return ClxButton(
+              key: const Key('verification_verify_code'),
+              label: s.verifyAndRegister,
+              loading: state.status == PhoneVerificationStatus.verifying,
+              onPressed: () {
+                final code = _code;
+                if (code.length == 6) {
+                  context.read<PhoneVerificationCubit>().verifyCode(code);
+                }
+              },
+            );
+          },
         ),
-        centerTitle: true,
       ),
       body: MultiBlocListener(
         listeners: [
@@ -72,7 +120,7 @@ class PatientVerificationScreenView extends StatelessWidget {
                 // Mostrar error de verificación
                 CustomDialogs.errorDialog(
                   context,
-                  state.errorMessage ?? 'Error al verificar código',
+                  state.errorMessage ?? s.errorVerifyingCode,
                 );
               }
             },
@@ -88,7 +136,9 @@ class PatientVerificationScreenView extends StatelessWidget {
                 context.pop(); // Close loading
                 CustomDialogs.successDialog(
                   context: context,
-                  successMessage: 'Paciente registrado exitosamente',
+                  title: s.patientReferredTitle,
+                  successMessage: s.patientReferredMessage,
+                  buttonLabel: s.seeMyPatients,
                   onPressed: () {
                     context.pop(); // Close success dialog
                     context.pop(); // Close verification screen
@@ -103,43 +153,33 @@ class PatientVerificationScreenView extends StatelessWidget {
                 }
                 CustomDialogs.errorDialog(
                   context,
-                  state.errorMessage ?? 'Error al guardar paciente',
+                  state.errorMessage ?? s.errorSavingPatient,
                 );
               }
             },
           ),
         ],
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s5, ClxSpace.s4, ClxSpace.s8),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 8),
-
-              // Subtítulo
-              Center(
-                child: Text(
-                  'Introduce tus datos para recibir el código de acceso médico.',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppColors.neutral50,
-                    height: 1.4,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(height: 32),
+              ClxStepper(current: 3, total: 3, label: s.referralStepVerification),
+              const SizedBox(height: ClxSpace.s5),
+              Text(s.whatsappVerificationSubtitle, style: t.bodyMuted),
+              const SizedBox(height: ClxSpace.s6),
 
               // Selector de país y número de WhatsApp
+              ClxFieldLabel(s.patientWhatsapp),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Selector de país
                   Container(
-                    height: 56,
+                    height: 48,
                     decoration: BoxDecoration(
-                      color: AppColors.primary95,
-                      borderRadius: BorderRadius.circular(18),
+                      color: c.surfaceRaised,
+                      border: Border.all(color: c.borderStrong),
+                      borderRadius: BorderRadius.circular(ClxRadius.md),
                     ),
                     child: CountryCodePicker(
                       onChanged: (countryCode) {
@@ -154,195 +194,87 @@ class PatientVerificationScreenView extends StatelessWidget {
                       showCountryOnly: false,
                       showOnlyCountryWhenClosed: false,
                       alignLeft: false,
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      flagWidth: 24,
+                      textStyle: t.data.copyWith(fontSize: 15),
+                      dialogTextStyle: t.body,
+                      searchStyle: t.body,
+                      dialogBackgroundColor: c.surfaceRaised,
+                      barrierColor: c.ink.withValues(alpha: 0.4),
+                      searchDecoration: clxInputDecoration(context, hint: s.search, icon: LucideIcons.search),
+                      closeIcon: Icon(LucideIcons.x, color: c.ink, size: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: ClxSpace.s2),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: ClxSpace.s3),
 
                   // Campo de número de WhatsApp
                   Expanded(
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary95,
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      child: TextField(
-                        keyboardType: TextInputType.phone,
-                        onChanged: (value) {
-                          final cubit = context.read<PhoneVerificationCubit>();
-                          cubit.setPhoneNumber(value, cubit.state.countryCode);
-                        },
-                        decoration: InputDecoration(
-                          hintText: '55 1234 5678',
-                          hintStyle: TextStyle(color: AppColors.neutral70),
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 16,
-                          ),
-                        ),
-                      ),
+                    child: ClxTextField(
+                      key: const Key('verification_phone_field'),
+                      hint: '55 1234 5678',
+                      mono: true,
+                      keyboardType: TextInputType.phone,
+                      onChanged: (value) {
+                        final cubit = context.read<PhoneVerificationCubit>();
+                        cubit.setPhoneNumber(value, cubit.state.countryCode);
+                      },
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: ClxSpace.s5),
 
               // Aviso importante
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.primary95,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Icons.info, color: AppColors.primary40, size: 24),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Aviso importante',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primary40,
-                              fontSize: 14,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            s.whatsappVerificationNoticeDetailed,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: AppColors.neutral40,
-                              height: 1.4,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 32),
-
-              // Botón Enviar Código (solo si NO se ha enviado)
-              BlocBuilder<PhoneVerificationCubit, PhoneVerificationState>(
-                builder: (context, state) {
-                  final isCodeSent =
-                      state.status == PhoneVerificationStatus.codeSent ||
-                      state.status == PhoneVerificationStatus.verifying;
-
-                  if (isCodeSent) {
-                    return const SizedBox.shrink();
-                  }
-
-                  return Column(
-                    children: [
-                      CustomButton(
-                        text: 'Enviar Código',
-                        isLoading:
-                            state.status == PhoneVerificationStatus.sendingCode,
-                        onPressed: () {
-                          context
-                              .read<PhoneVerificationCubit>()
-                              .sendVerificationCode();
-                        },
-                      ),
-                      const SizedBox(height: 32),
-                    ],
-                  );
-                },
+              ClxNotice(
+                tone: ClxTone.warning,
+                title: s.importantNotice,
+                message: s.whatsappVerificationNoticeDetailed,
               ),
 
-              // Campos de código (SOLO SI SE ENVIÓ EL CÓDIGO)
+              // Campos de código (solo si se envió el código)
               BlocBuilder<PhoneVerificationCubit, PhoneVerificationState>(
                 builder: (context, state) {
-                  final isCodeSent =
-                      state.status == PhoneVerificationStatus.codeSent ||
-                      state.status == PhoneVerificationStatus.verifying;
+                  if (!_isCodeSent(state)) return const SizedBox.shrink();
 
-                  if (!isCodeSent) {
-                    return const SizedBox.shrink();
-                  }
+                  final timer =
+                      '${(state.resendTimer ~/ 60).toString().padLeft(2, '0')}:${(state.resendTimer % 60).toString().padLeft(2, '0')}';
 
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // Label del código
-                      Center(
-                        child: Text(
-                          'Ingrese el número de validación recibido por el paciente',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.neutral50,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: ClxSpace.s8),
+                      Text(s.verificationCodeTitle, style: t.h2),
+                      const SizedBox(height: ClxSpace.s1),
+                      Text(s.verificationCodeSubtitle, style: t.bodySm),
+                      const SizedBox(height: ClxSpace.s4),
 
                       // El código de verificación ya no se muestra en
                       // pantalla ni se consulta al servidor: solo llega por
                       // WhatsApp.
-
-                      // Campos de código (6 dígitos)
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: List.generate(6, (index) {
                           return SizedBox(
-                            width: 50,
-                            height: 60,
+                            width: 46,
                             child: TextField(
-                              controller: codeControllers[index],
-                              focusNode: codeFocusNodes[index],
+                              controller: _codeControllers[index],
+                              focusNode: _codeFocusNodes[index],
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
                               maxLength: 1,
-                              style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              decoration: InputDecoration(
-                                counterText: '',
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(
-                                    color: AppColors.primary40,
-                                    width: 2,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(
-                                    color: AppColors.neutral80,
-                                    width: 1,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(
-                                    color: AppColors.primary40,
-                                    width: 2,
-                                  ),
-                                ),
+                              style: t.dataLg.copyWith(fontSize: 22),
+                              cursorColor: c.brandBlue,
+                              decoration: clxInputDecoration(context, counterText: '').copyWith(
+                                contentPadding: const EdgeInsets.symmetric(vertical: 14),
                               ),
                               onChanged: (value) {
                                 if (value.isNotEmpty) {
                                   // Moverse al siguiente campo
                                   if (index < 5) {
-                                    codeFocusNodes[index + 1].requestFocus();
+                                    _codeFocusNodes[index + 1].requestFocus();
                                   } else {
                                     // Último campo, verificar código completo
-                                    final code = codeControllers
-                                        .map((c) => c.text)
-                                        .join();
+                                    final code = _code;
                                     if (code.length == 6) {
                                       context
                                           .read<PhoneVerificationCubit>()
@@ -352,7 +284,7 @@ class PatientVerificationScreenView extends StatelessWidget {
                                 } else {
                                   // Campo borrado, regresar al anterior
                                   if (index > 0) {
-                                    codeFocusNodes[index - 1].requestFocus();
+                                    _codeFocusNodes[index - 1].requestFocus();
                                   }
                                 }
                               },
@@ -360,68 +292,30 @@ class PatientVerificationScreenView extends StatelessWidget {
                           );
                         }),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: ClxSpace.s4),
 
-                      // Reintentar
-                      Center(
-                        child: Text.rich(
-                          TextSpan(
-                            text: '¿No recibiste el código? ',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: AppColors.neutral60,
-                            ),
-                            children: [
-                              WidgetSpan(
-                                child: GestureDetector(
-                                  onTap: state.canResendCode
-                                      ? () {
-                                          context
-                                              .read<PhoneVerificationCubit>()
-                                              .sendVerificationCode();
-                                        }
-                                      : null,
-                                  child: Text(
-                                    state.canResendCode
-                                        ? 'Reintentar ahora'
-                                        : 'Reintentar en ${(state.resendTimer ~/ 60).toString().padLeft(2, '0')}:${(state.resendTimer % 60).toString().padLeft(2, '0')}',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: state.canResendCode
-                                          ? AppColors.primary40
-                                          : AppColors.neutral60,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                      // Reenviar
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(s.codeNotReceived, style: t.bodySm),
+                          ClxButton.ghost(
+                            label: state.canResendCode ? s.resendCode : s.resendCodeIn(timer),
+                            size: ClxButtonSize.sm,
+                            onPressed: state.canResendCode
+                                ? () {
+                                    context
+                                        .read<PhoneVerificationCubit>()
+                                        .sendVerificationCode();
+                                  }
+                                : null,
                           ),
-                        ),
-                      ),
-                      const SizedBox(height: 48),
-
-                      // Botón "Verificar y Continuar"
-                      CustomButton(
-                        text: 'Verificar y Continuar',
-                        isLoading:
-                            state.status == PhoneVerificationStatus.verifying,
-                        onPressed: () {
-                          final code = codeControllers
-                              .map((c) => c.text)
-                              .join();
-                          if (code.length == 6) {
-                            context.read<PhoneVerificationCubit>().verifyCode(
-                              code,
-                            );
-                          }
-                        },
+                        ],
                       ),
                     ],
                   );
                 },
               ),
-              const SizedBox(height: 24),
             ],
           ),
         ),

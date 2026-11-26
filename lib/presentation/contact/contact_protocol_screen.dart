@@ -1,9 +1,8 @@
-import 'package:clinexa_derivant_app/core/theme.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactProtocolScreen extends StatelessWidget {
@@ -18,142 +17,16 @@ class ContactProtocolScreen extends StatelessWidget {
     // Placeholder number - User to provide actual number
     const contactNumber = "5491112345678";
 
+    final c = context.clx;
+    final t = context.clxText;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(s.contactInfo),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => context.pop(),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          children: [
-            const Spacer(flex: 2),
-            // Icon
-            Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                color: AppColors.primary90, // Light purple background
-                shape: BoxShape.circle,
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  // Decorative dots
-                  Positioned(
-                    top: 30,
-                    right: 30,
-                    child: Container(
-                      width: 12,
-                      height: 12,
-                      decoration: const BoxDecoration(
-                        color: AppColors.primary60, // Darker purple dot
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 40,
-                    left: 30,
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary60.withValues(alpha: 0.3),
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-
-                  // Main Icon
-                  Container(
-                    width: 100,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary40, // Deep purple
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const Icon(
-                      Icons.medical_services_rounded,
-                      color: Colors.white,
-                      size: 40,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 32),
-
-            // Title
-            Text(
-              s.contactTitle,
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.black, // Or neutral10
-              ),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 16),
-
-            // Description
-            Text(
-              s.contactDescription,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyLarge?.copyWith(color: AppColors.neutral40),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 24),
-
-            // Schedule Pill
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppColors.primary95,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    Icons.access_time_filled,
-                    size: 16,
-                    color: AppColors.primary40,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    s.contactSchedule,
-                    style: const TextStyle(
-                      color: AppColors.primary40,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const Spacer(flex: 3),
-
-            // CTA Button
-            SizedBox(
-              width: double.infinity,
-              height: 56,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary40,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 0,
-                ),
-                onPressed: () async {
+      appBar: ClxAppBar(title: s.contactSubtitle),
+      bottomNavigationBar: ClxBottomBar(
+        child: ClxButton(
+          label: s.contactButton,
+          icon: LucideIcons.messageCircle,
+          onPressed: () async {
                   final user = context.read<AuthCubit>().state.user;
                   if (user == null) return;
 
@@ -183,44 +56,71 @@ class ContactProtocolScreen extends StatelessWidget {
                       );
                     } else {
                       if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              // Using a generic error message or you could add to l10n
-                              'No se pudo abrir WhatsApp',
-                            ),
-                          ),
-                        );
+                        ClxToast.error(context, s.whatsappOpenError);
                       }
                     }
                   } catch (e) {
                     debugPrint("Error launching WhatsApp: $e");
                     if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Error al abrir WhatsApp: $e')),
-                      );
+                      ClxToast.error(context, s.whatsappOpenError);
                     }
                   }
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      s.contactButton,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    const Icon(Icons.send_rounded, size: 20),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-          ],
         ),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(ClxSpace.s6, ClxSpace.s8, ClxSpace.s6, ClxSpace.s8),
+        children: [
+          Center(
+            child: Container(
+              width: 72,
+              height: 72,
+              decoration: BoxDecoration(
+                color: c.brandBlueSoft,
+                borderRadius: BorderRadius.circular(ClxRadius.xl),
+              ),
+              child: Icon(LucideIcons.clipboardPlus, size: 32, color: c.onBrandBlueSoft),
+            ),
+          ),
+          const SizedBox(height: ClxSpace.s6),
+          Text(s.contactTitle, style: t.h1, textAlign: TextAlign.center),
+          const SizedBox(height: ClxSpace.s3),
+          Text(s.contactDescription, style: t.bodyMuted, textAlign: TextAlign.center),
+          const SizedBox(height: ClxSpace.s6),
+          Center(
+            child: ClxBadge(
+              label: s.contactSchedule,
+              tone: ClxTone.info,
+              icon: LucideIcons.clock,
+            ),
+          ),
+          const SizedBox(height: ClxSpace.s8),
+          ClxCard(
+            padding: const EdgeInsets.all(ClxSpace.s4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(s.contactChecklistTitle.toUpperCase(), style: t.label),
+                const SizedBox(height: ClxSpace.s3),
+                for (final item in [s.contactChecklist1, s.contactChecklist2, s.contactChecklist3])
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: ClxSpace.s2),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 3),
+                          child: Icon(LucideIcons.check, size: 16, color: c.success),
+                        ),
+                        const SizedBox(width: ClxSpace.s2),
+                        Expanded(child: Text(item, style: t.body)),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

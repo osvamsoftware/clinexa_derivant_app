@@ -1,4 +1,5 @@
-import 'package:clinexa_derivant_app/core/theme.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
+import 'package:clinexa_derivant_app/presentation/notifications/screens/home_screen.dart';
 import 'package:clinexa_derivant_app/domain/patient_repository.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
@@ -22,7 +23,13 @@ class PatientsScreen extends StatelessWidget {
     final s = S.of(context);
 
     if (user == null) {
-      return Scaffold(body: Center(child: Text(s.userNotAuthenticated)));
+      return Scaffold(
+        body: ClxEmptyState(
+          icon: LucideIcons.lock,
+          title: s.userNotAuthenticated,
+          tone: ClxTone.danger,
+        ),
+      );
     }
 
     return BlocProvider(
@@ -45,157 +52,139 @@ class PatientsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
+    final t = context.clxText;
 
     return Scaffold(
-      appBar: AppBar(title: Text(s.myPatients)),
-      body: BlocConsumer<PatientsCubit, PatientsState>(
-        listener: (context, state) {
-          if (state.status == PatientsStatus.failure) {
-            CustomDialogs.errorDialog(
-              context,
-              state.errorMessage ?? s.errorOccurred,
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state.status == PatientsStatus.loading &&
-              state.patients.isEmpty) {
-            // Only show full loading indicator if no patients are loaded yet and loading
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: SafeArea(
+        bottom: false,
+        child: BlocConsumer<PatientsCubit, PatientsState>(
+          listener: (context, state) {
+            if (state.status == PatientsStatus.failure) {
+              CustomDialogs.errorDialog(
+                context,
+                state.errorMessage ?? s.errorOccurred,
+              );
+            }
+          },
+          builder: (context, state) {
+            final cubit = context.read<PatientsCubit>();
+            final isLoading = (state.status == PatientsStatus.loading ||
+                    state.status == PatientsStatus.initial) &&
+                state.patients.isEmpty;
+            final hasFilters = (state.searchQuery?.isNotEmpty ?? false) ||
+                state.selectedSpecialtyId != null;
 
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    // Search Bar
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: s.search, // Or "Search by name"
-                        prefixIcon: const Icon(Icons.search),
-                        border: const OutlineInputBorder(),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s4, ClxSpace.s4, ClxSpace.s4),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(s.myPatients, style: t.h1),
+                      const SizedBox(height: ClxSpace.s1),
+                      Text(
+                        isLoading ? s.loading : s.patientsCount(state.patients.length),
+                        style: t.bodySm,
                       ),
-                      onChanged: (value) {
-                        context.read<PatientsCubit>().setSearchQuery(value);
-                      },
-                    ),
-                    const SizedBox(height: 12),
-                    // Specialty Dropdown
-                    DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        labelText: s.specialty, // Or "Select Specialty"
-                        border: const OutlineInputBorder(),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
+                      const SizedBox(height: ClxSpace.s4),
+                      ClxSearchField(
+                        key: const Key('patients_search_field'),
+                        hint: s.searchPatientsHint,
+                        onChanged: cubit.setSearchQuery,
                       ),
-                      initialValue: state.selectedSpecialtyId,
-                      items: [
-                        DropdownMenuItem<String>(
-                          value: null,
-                          child: Text(s.all), // Or "All Specialties"
-                        ),
-                        ...state.specialties.map((specialty) {
-                          return DropdownMenuItem<String>(
-                            value: specialty.id,
-                            child: Text(specialty.name),
-                          );
-                        }),
-                      ],
-                      onChanged: (value) {
-                        context.read<PatientsCubit>().setSpecialtyId(value);
-                      },
-                    ),
-                  ],
+                      const SizedBox(height: ClxSpace.s3),
+                      ClxDropdown<String?>(
+                        icon: LucideIcons.stethoscope,
+                        value: state.selectedSpecialtyId,
+                        items: [null, ...state.specialties.map((e) => e.id)],
+                        itemLabel: (id) => id == null
+                            ? s.allSpecialties
+                            : state.specialties.firstWhere((e) => e.id == id).name,
+                        onChanged: cubit.setSpecialtyId,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                child: state.patients.isEmpty
-                    ? Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(32.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.person_add_outlined,
-                                size: 64,
-                                color: AppColors.neutral80,
-                              ),
-                              const SizedBox(height: 16),
-                              Text(
-                                s.noPatientsFound,
-                                style: Theme.of(context).textTheme.titleMedium
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.neutral40,
-                                    ),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 12),
-                              Text(
-                                s.noPatientsPromotion,
-                                style: Theme.of(context).textTheme.bodyMedium
-                                    ?.copyWith(color: AppColors.neutral50),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
+                Expanded(
+                  child: Builder(
+                    builder: (context) {
+                      if (isLoading) {
+                        return const ClxSkeletonList(
+                          count: 5,
+                          padding: EdgeInsets.fromLTRB(ClxSpace.s4, 0, ClxSpace.s4, ClxSpace.s4),
+                        );
+                      }
+                      if (state.patients.isEmpty) {
+                        return SingleChildScrollView(
+                          child: hasFilters
+                              ? ClxEmptyState(
+                                  icon: LucideIcons.searchX,
+                                  title: s.noResults,
+                                  message: s.noPatientsResultsHint,
+                                )
+                              : ClxEmptyState(
+                                  icon: LucideIcons.userPlus,
+                                  title: s.noPatientsFound,
+                                  message: s.noPatientsPromotion,
+                                  actionLabel: s.referPatientAction,
+                                  onAction: () => context.go(HomeScreen.path),
+                                ),
+                        );
+                      }
+                      return RefreshIndicator(
+                        color: context.clx.brandBlue,
+                        onRefresh: cubit.loadPatients,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.fromLTRB(ClxSpace.s4, 0, ClxSpace.s4, ClxSpace.s6),
+                          itemCount: state.patients.length,
+                          separatorBuilder: (_, __) => const SizedBox(height: ClxSpace.s3),
+                          itemBuilder: (context, index) {
+                            final patient = state.patients[index];
+
+                            // Access address formatted string from AddressModel
+                            final addressStr =
+                                patient.address?.formattedAddress ??
+                                patient.address?.city ??
+                                s.noAddress;
+
+                            return PatientResultCard(
+                              key: ValueKey('patient_card_$index'),
+                              name: patient.fullName,
+                              protocolName: patient.protocol?.name,
+                              address: addressStr,
+                              pathology: patient.pathologies.isNotEmpty
+                                  ? "${patient.pathologies.length} pathologies"
+                                  : "-",
+                              notes: patient.notes ?? '--',
+                              status: patient.status.toUpperCase(),
+                              hasActiveOrder: patient.order != null,
+                              orderStatus:
+                                  patient.order?.status.name ??
+                                  patient.status.toUpperCase(),
+                              onTap: () async {
+                                await context.push(
+                                  '/patient-details',
+                                  extra: patient,
+                                );
+
+                                // Si hubo cambios, recargar la lista
+                                if (context.mounted) {
+                                  context.read<PatientsCubit>().loadPatients();
+                                }
+                              },
+                            );
+                          },
                         ),
-                      )
-                    : ListView.separated(
-                        padding: const EdgeInsets.only(
-                          left: 16,
-                          right: 16,
-                          top: 8,
-                          bottom:
-                              100, // Espacio para no ser tapado por el bottombar/FAB
-                        ),
-                        itemCount: state.patients.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 12),
-                        itemBuilder: (context, index) {
-                          final patient = state.patients[index];
-
-                          // Access address formatted string from AddressModel
-                          final addressStr =
-                              patient.address?.formattedAddress ??
-                              patient.address?.city ??
-                              s.noAddress;
-
-                          return PatientResultCard(
-                            name: patient.fullName,
-                            protocolName: patient.protocol?.name,
-                            address: addressStr,
-                            pathology: patient.pathologies.isNotEmpty
-                                ? "${patient.pathologies.length} pathologies"
-                                : "-",
-                            notes: patient.notes ?? '--',
-                            status: patient.status.toUpperCase(),
-                            hasActiveOrder: patient.order != null,
-                            orderStatus:
-                                patient.order?.status.name ??
-                                patient.status.toUpperCase(),
-                            onTap: () async {
-                              await context.push(
-                                '/patient-details',
-                                extra: patient,
-                              );
-
-                              // Si hubo cambios, recargar la lista
-                              if (context.mounted) {
-                                context.read<PatientsCubit>().loadPatients();
-                              }
-                            },
-                          );
-                        },
-                      ),
-              ),
-            ],
-          );
-        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

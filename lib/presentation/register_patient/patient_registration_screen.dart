@@ -1,12 +1,10 @@
 import 'package:clinexa_derivant_app/core/services/validators.dart';
-import 'package:clinexa_derivant_app/core/theme.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
 import 'package:clinexa_derivant_app/domain/patient_repository.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
 
 import 'package:clinexa_derivant_app/presentation/register_patient/cubit/patient_registration_cubit.dart';
-import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_dialogs.dart';
-import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clinexa_derivant_app/domain/address_repository.dart';
@@ -63,7 +61,7 @@ class PatientRegistrationScreen extends StatelessWidget {
                 context.pop(); // Close loading
                 CustomDialogs.successDialog(
                   context: context,
-                  successMessage: S.of(context).register_successMessage,
+                  successMessage: S.of(context).patientCreatedSuccessfully,
                   onPressed: () {
                     context.pop(); // Close success dialog
                     context.goNamed(PatientsScreen.path);
@@ -92,55 +90,75 @@ class PatientRegistrationView extends StatelessWidget {
   Widget build(BuildContext context) {
     final s = S.of(context);
     final cubit = context.read<PatientRegistrationCubit>();
+    const gap = SizedBox(height: ClxSpace.s5);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          s.registerPatient,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+      appBar: ClxAppBar(title: s.registerPatient),
+      bottomNavigationBar: ClxBottomBar(
+        child: BlocBuilder<PatientRegistrationCubit, PatientRegistrationState>(
+          builder: (context, state) {
+            return ClxButton(
+              key: const Key('patient_registration_submit'),
+              label: s.continueToSignature,
+              trailingIcon: LucideIcons.arrowRight,
+              loading: state.status == PatientRegistrationStatus.loading,
+              onPressed: () {
+                cubit.completeForm();
+              },
+            );
+          },
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s5, ClxSpace.s4, ClxSpace.s8),
         child: Form(
           key: cubit.formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // =========================
-              // PERSONAL INFO
-              // =========================
-              _SectionTitle(title: s.personalInfo),
-              const SizedBox(height: 16),
+              ClxStepper(current: 1, total: 3, label: s.referralStepPatient),
+              const SizedBox(height: ClxSpace.s5),
+              Text(s.patientRegistrationSubtitle, style: context.clxText.bodyMuted),
+              const SizedBox(height: ClxSpace.s8),
 
-              CustomTextField(
-                label: '${s.register_firstName} *',
+              // =========================
+              // DATOS PERSONALES
+              // =========================
+              _SectionTitle(title: s.personalInfo, icon: LucideIcons.user),
+              ClxTextField(
+                label: s.register_firstName,
                 controller: cubit.firstNameController,
+                textCapitalization: TextCapitalization.words,
+                textInputAction: TextInputAction.next,
                 validator: (val) => validators.text(context, val ?? ""),
               ),
-              const SizedBox(height: 16),
-
-              CustomTextField(
-                label: '${s.register_lastName} *',
+              gap,
+              ClxTextField(
+                label: s.register_lastName,
                 controller: cubit.lastNameController,
+                textCapitalization: TextCapitalization.words,
+                textInputAction: TextInputAction.next,
                 validator: (val) => validators.text(context, val ?? ""),
               ),
-              const SizedBox(height: 16),
-
+              gap,
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: CustomTextField(
-                      label: '${s.dni} *',
+                    child: ClxTextField(
+                      label: s.dni,
+                      mono: true,
                       controller: cubit.dniController,
                       keyboardType: TextInputType.number,
                       validator: (val) => validators.dni(context, val ?? ""),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: ClxSpace.s3),
                   Expanded(
-                    child: CustomTextField(
-                      label: '${s.birthDate} *',
+                    child: ClxTextField(
+                      label: s.birthDate,
+                      hint: s.datePlaceholder,
+                      mono: true,
                       controller: cubit.birthDateController,
                       readOnly: true,
                       onTap: () async {
@@ -155,128 +173,105 @@ class PatientRegistrationView extends StatelessWidget {
                         }
                       },
                       validator: (val) => validators.text(context, val ?? ""),
-                      icon: Icons.calendar_today,
+                      suffix: Icon(LucideIcons.calendar, size: 18, color: context.clx.inkSubtle),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
-
-              // Gender Dropdown
-              Text(
-                '${s.gender} *',
-                style: const TextStyle(
-                  color: AppColors.neutral10,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 8),
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: AppColors.primary95,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 14,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(18),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-                items: [
-                  DropdownMenuItem(value: "Male", child: Text(s.male)),
-                  DropdownMenuItem(value: "Female", child: Text(s.female)),
-                  DropdownMenuItem(value: "Other", child: Text(s.other)),
-                ],
+              gap,
+              ClxDropdown<String>(
+                label: s.gender,
+                hint: s.selectOption,
+                value: cubit.gender,
+                items: const ["Male", "Female", "Other"],
+                itemLabel: (v) => switch (v) {
+                  "Male" => s.male,
+                  "Female" => s.female,
+                  _ => s.other,
+                },
                 onChanged: cubit.setGender,
                 validator: (val) => val == null ? s.fieldRequired : null,
               ),
 
-              const SizedBox(height: 32),
+              const SizedBox(height: ClxSpace.s8),
 
               // =========================
-              // CONTACT INFO
+              // CONTACTO
               // =========================
-              _SectionTitle(title: s.contactInfo),
-              const SizedBox(height: 16),
-
-              CustomTextField(
-                label: '${s.phone} *',
+              _SectionTitle(title: s.contactInfo, icon: LucideIcons.phone),
+              ClxTextField(
+                label: s.phone,
+                icon: LucideIcons.phone,
                 controller: cubit.phoneController,
                 keyboardType: TextInputType.phone,
                 validator: (val) => validators.phone(context, val ?? ""),
               ),
-
-              CustomTextField(
-                label: '${s.phone2} *',
+              gap,
+              ClxTextField(
+                label: s.phone2,
+                icon: LucideIcons.phone,
                 controller: cubit.phone2Controller,
                 keyboardType: TextInputType.phone,
                 validator: (val) => validators.phone(context, val ?? ""),
               ),
-              const SizedBox(height: 16),
-
-              CustomTextField(
-                label: '${s.register_email} *',
+              gap,
+              ClxTextField(
+                label: s.register_email,
+                hint: s.emailHint,
+                icon: LucideIcons.mail,
                 controller: cubit.emailController,
                 keyboardType: TextInputType.emailAddress,
                 validator: (val) => validators.email(context, val ?? ""),
               ),
-              const SizedBox(height: 16),
-
-              // Address Search - Replaced CustomTextField
-              Text(
-                s.searchAddressPrompt,
-                style: const TextStyle(
-                  color: AppColors.neutral10,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 8),
+              gap,
               AddressSearchBox(
+                label: s.address,
                 controller: cubit.addressController,
                 onClear: cubit.clearAddress,
               ),
-              const SizedBox(height: 16),
-
+              gap,
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: CustomTextField(
-                      label: '${s.city} *',
+                    child: ClxTextField(
+                      label: s.city,
+                      hint: s.autoFilled,
                       controller: cubit.cityController,
-                      readOnly: true, // Make read-only as it comes from API
+                      readOnly: true, // Viene de la dirección elegida
                       validator: (val) => validators.text(context, val ?? ""),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: ClxSpace.s3),
                   Expanded(
-                    child: CustomTextField(
-                      label: '${s.country} *',
+                    child: ClxTextField(
+                      label: s.country,
+                      hint: s.autoFilled,
                       controller: cubit.countryController,
-                      readOnly: true, // Make read-only
+                      readOnly: true,
                       validator: (val) => validators.text(context, val ?? ""),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
-              // State and Zip Code (Automatically populated)
+              gap,
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: CustomTextField(
-                      label: '${s.provinceState} *',
+                    child: ClxTextField(
+                      label: s.provinceState,
+                      hint: s.autoFilled,
                       controller: cubit.stateController,
                       readOnly: true,
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: ClxSpace.s3),
                   Expanded(
-                    child: CustomTextField(
-                      label: '${s.postalCode} *',
+                    child: ClxTextField(
+                      label: s.postalCode,
+                      hint: s.autoFilled,
+                      mono: true,
                       controller: cubit.postalCodeController,
                       readOnly: true,
                     ),
@@ -284,37 +279,21 @@ class PatientRegistrationView extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 32),
+              const SizedBox(height: ClxSpace.s8),
 
               // =========================
-              // MEDICAL INFO (Notes)
+              // INFORMACIÓN MÉDICA
               // =========================
-              _SectionTitle(title: s.medicalInfo),
-              const SizedBox(height: 16),
-
-              CustomTextField(
+              _SectionTitle(title: s.medicalInfo, icon: LucideIcons.stethoscope),
+              ClxTextField(
                 label: s.notes,
+                hint: s.notesHint,
+                optional: true,
                 controller: cubit.notesController,
                 minLines: 3,
                 maxLines: 5,
+                textCapitalization: TextCapitalization.sentences,
               ),
-
-              const SizedBox(height: 48),
-
-              // Submit Button
-              BlocBuilder<PatientRegistrationCubit, PatientRegistrationState>(
-                builder: (context, state) {
-                  return CustomButton(
-                    text: "Registrar Paciente",
-                    isLoading:
-                        state.status == PatientRegistrationStatus.loading,
-                    onPressed: () {
-                      cubit.completeForm();
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 32),
             ],
           ),
         ),
@@ -325,23 +304,21 @@ class PatientRegistrationView extends StatelessWidget {
 
 class _SectionTitle extends StatelessWidget {
   final String title;
-  const _SectionTitle({required this.title});
+  final IconData icon;
+  const _SectionTitle({required this.title, required this.icon});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: AppColors.primary40,
-          ),
-        ),
-        const Divider(),
-      ],
+    final c = context.clx;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: ClxSpace.s4),
+      child: Row(
+        children: [
+          Icon(icon, size: 18, color: c.brandBlue),
+          const SizedBox(width: ClxSpace.s2),
+          Text(title, style: context.clxText.h2),
+        ],
+      ),
     );
   }
 }

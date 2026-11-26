@@ -231,10 +231,10 @@ class SEs extends S {
   String get selectPathology => 'Seleccionar patología';
 
   @override
-  String get searchByName => 'Buscar por nombre...';
+  String get searchByName => 'Por nombre';
 
   @override
-  String get noProtocolsFound => 'No se encontraron protocolos';
+  String get noProtocolsFound => 'No encontramos protocolos';
 
   @override
   String get loadingSpecialties => 'Cargando especialidades...';
@@ -243,7 +243,7 @@ class SEs extends S {
   String get loadingPathologies => 'Cargando patologías...';
 
   @override
-  String get protocolDetails => 'Detalles del Protocolo';
+  String get protocolDetails => 'Verificar criterios';
 
   @override
   String get patientCriteria => 'Requisitos del Paciente (Criterios)';
@@ -261,7 +261,8 @@ class SEs extends S {
   String get protocolRemovedSuccessfully => 'Protocolo eliminado con éxito';
 
   @override
-  String get errorLoadingProtocols => 'Error al cargar protocolos';
+  String get errorLoadingProtocols =>
+      'No se pudieron cargar los protocolos. Desliza hacia abajo para reintentar.';
 
   @override
   String get seeMore => 'Ver más';
@@ -277,14 +278,14 @@ class SEs extends S {
 
   @override
   String get protocolSelectionSubtitle =>
-      'Seleccione el protocolo al que usted considera referir a un paciente, y verifique que reúne los criterios requeridos';
+      'Elige un protocolo y verifica que tu paciente cumpla los criterios.';
 
   @override
   String get continue_text => 'Continuar';
 
   @override
   String get protocolCriteriaVerificationInfo =>
-      'Te guiaremos a través de una rápida verificación para asegurar que el paciente cumpla con todos los criterios necesarios para este protocolo.';
+      'Marca los criterios que cumple tu paciente. Para derivarlo debe cumplirlos todos.';
 
   @override
   String get homeWelcomeBack => 'Hola de nuevo';
@@ -296,7 +297,7 @@ class SEs extends S {
   String get homeSearchResults => 'Resultados de Búsqueda';
 
   @override
-  String get homePathology => 'Patología';
+  String get homePathology => 'Patologías';
 
   @override
   String get homeSpecialty => 'Especialidad';
@@ -335,7 +336,7 @@ class SEs extends S {
   String get viewMyProtocols => 'Mis protocolos';
 
   @override
-  String get registerPatient => 'Registrar Paciente';
+  String get registerPatient => 'Datos del paciente';
 
   @override
   String get dni => 'DNI';
@@ -344,7 +345,7 @@ class SEs extends S {
   String get gender => 'Género';
 
   @override
-  String get birthDate => 'Fecha de Nacimiento';
+  String get birthDate => 'Fecha de nacimiento';
 
   @override
   String get phone => 'Teléfono';
@@ -353,13 +354,13 @@ class SEs extends S {
   String get notes => 'Notas';
 
   @override
-  String get personalInfo => 'Información Personal';
+  String get personalInfo => 'Datos personales';
 
   @override
-  String get contactInfo => 'Información de Contacto';
+  String get contactInfo => 'Contacto';
 
   @override
-  String get medicalInfo => 'Información Médica';
+  String get medicalInfo => 'Información médica';
 
   @override
   String get male => 'Masculino';
@@ -374,10 +375,10 @@ class SEs extends S {
   String get save => 'Guardar';
 
   @override
-  String get criteriaNotMet => 'Criterios no cumplidos';
+  String get criteriaNotMet => 'Faltan criterios por confirmar';
 
   @override
-  String get showAll => 'Mostrar Todo';
+  String get showAll => 'Ver todos';
 
   @override
   String allCriteriaFor(Object name) {
@@ -393,10 +394,10 @@ class SEs extends S {
   }
 
   @override
-  String get nextRegister => 'Siguiente / Registrar';
+  String get nextRegister => 'Continuar con los datos del paciente';
 
   @override
-  String get nextStep => 'Siguiente Paso';
+  String get nextStep => 'Siguiente paso';
 
   @override
   String get searchSpecialtyHint => 'Busca y agrega, por ejemplo Cardiología';
@@ -406,16 +407,16 @@ class SEs extends S {
 
   @override
   String get notAllCriteriaMet =>
-      'No se cumplieron todos los criterios para este protocolo.';
+      'Para seguir, confirma todos los criterios de este paso. Si tu paciente no cumple alguno, no puede derivarse a este protocolo.';
 
   @override
-  String get myPatients => 'Mis Pacientes';
+  String get myPatients => 'Mis pacientes';
 
   @override
-  String get noPatientsFound => 'No se encontraron pacientes';
+  String get noPatientsFound => 'Aún no tienes pacientes';
 
   @override
-  String get patientCreatedSuccessfully => 'Paciente creado con éxito';
+  String get patientCreatedSuccessfully => 'El paciente quedó registrado.';
 
   @override
   String get search => 'Buscar';
@@ -424,13 +425,13 @@ class SEs extends S {
   String get all => 'Todos';
 
   @override
-  String get payForFullData => 'Pagar para ver datos completos';
+  String get payForFullData => 'Dato protegido';
 
   @override
-  String get hiddenField => 'Campo oculto';
+  String get hiddenField => 'Oculto';
 
   @override
-  String get orderStatusAssigned => 'Asignado';
+  String get orderStatusAssigned => 'En evaluación';
 
   @override
   String get orderStatusAccepted => 'Aceptado';
@@ -439,22 +440,23 @@ class SEs extends S {
   String get orderStatusRejected => 'Rechazado';
 
   @override
-  String get patientDetails => 'Detalles del Paciente';
+  String get patientDetails => 'Ficha del paciente';
 
   @override
-  String get partialData => 'Datos Parciales';
+  String get partialData => 'Datos parciales';
 
   @override
   String get protocol => 'Protocolo';
 
   @override
-  String get provinceState => 'Provincia/Estado';
+  String get provinceState => 'Provincia o estado';
 
   @override
   String get appName => 'Clinexapp';
 
   @override
-  String get userNotAuthenticated => 'Usuario no autenticado';
+  String get userNotAuthenticated =>
+      'Tu sesión no está activa. Vuelve a iniciar sesión.';
 
   @override
   String get searchAddress => 'Buscar dirección...';
@@ -495,7 +497,7 @@ class SEs extends S {
   String get noAddress => 'Sin dirección';
 
   @override
-  String get postalCode => 'Código Postal';
+  String get postalCode => 'Código postal';
 
   @override
   String get status => 'Estado';
@@ -507,48 +509,48 @@ class SEs extends S {
   String get statusInactive => 'Inactivo';
 
   @override
-  String get markAsInactive => 'Marcar como Inactivo';
+  String get markAsInactive => 'Marcar como inactivo';
 
   @override
-  String get confirmAction => 'Confirmar Acción';
+  String get confirmAction => 'Confirma la acción';
 
   @override
   String get confirmMarkAsInactive =>
-      '¿Estás seguro de que deseas marcar este paciente como inactivo? Esta acción puede revertirse más tarde.';
+      'El paciente dejará de estar disponible para los protocolos. Puedes volver a activarlo cuando quieras.';
 
   @override
   String get confirm => 'Confirmar';
 
   @override
-  String get noOrderLinked => 'Sin orden vinculada';
+  String get noOrderLinked => 'Aún sin orden';
 
   @override
-  String get activeOrder => 'Orden Activa';
+  String get activeOrder => 'Orden activa';
 
   @override
-  String get orderId => 'ID de Orden';
+  String get orderId => 'ID de orden';
 
   @override
   String get orderStatus => 'Estado de la Orden';
 
   @override
   String get professionalFees =>
-      'Honorarios profesionales por el tiempo dedicado a la evaluación del paciente';
+      'Honorarios profesionales por la evaluación del paciente';
 
   @override
   String get whatsappVerificationNoticeDetailed =>
-      'AVISO IMPORTANTE: El médico debe informarle al paciente que debe tener conexión a internet y acceso a su WhatsApp.';
+      'Avisa al paciente que necesita conexión a internet y acceso a su WhatsApp para recibirlo.';
 
   @override
   String get noPatientsPromotion =>
-      'Recomendamos agregar pacientes para subirlos a la plataforma y tener oportunidad de ingresarlos en un protocolo de investigación.';
+      'Deriva a tu primer paciente a un protocolo de investigación desde Inicio.';
 
   @override
-  String get markAsActive => 'Marcar como Activo';
+  String get markAsActive => 'Marcar como activo';
 
   @override
   String get confirmMarkAsActive =>
-      '¿Estás seguro de que deseas marcar este paciente como activo?';
+      'El paciente volverá a estar disponible para los protocolos.';
 
   @override
   String get licenseType => 'Tipo de matrícula';
@@ -596,13 +598,14 @@ class SEs extends S {
   String get notificationScreenTitle => 'Notificaciones';
 
   @override
-  String get noNotificationsFound => 'No se encontraron notificaciones';
+  String get noNotificationsFound => 'No tienes notificaciones';
 
   @override
   String get notificationMarkedAsRead => 'Notificación marcada como leída';
 
   @override
-  String get errorLoadingNotifications => 'Error al cargar notificaciones';
+  String get errorLoadingNotifications =>
+      'No se pudieron cargar las notificaciones';
 
   @override
   String get cantFindProtocol => '¿No encuentras tu protocolo? ';
@@ -611,31 +614,31 @@ class SEs extends S {
   String get contactUsHere => 'Contáctanos aquí';
 
   @override
-  String get contactTitle => 'Conexión con Protocolos';
+  String get contactTitle => 'Solicita un protocolo nuevo';
 
   @override
   String get contactSubtitle => 'Contacto';
 
   @override
   String get contactDescription =>
-      'Está a punto de contactar con el departamento de gestión. Por favor, asegúrese de tener a mano los protocolos que desea añadir o modificar.';
+      'Escribe al equipo de gestión de Clinexapp por WhatsApp para pedir el alta o la modificación de un protocolo.';
 
   @override
-  String get contactSchedule => 'Horario de atención: 08:00 - 18:00';
+  String get contactSchedule => 'Horario de atención: 08:00 a 18:00';
 
   @override
-  String get contactButton => 'Contactar ahora';
+  String get contactButton => 'Escribir por WhatsApp';
 
   @override
-  String contactMessage(Object id, Object license, Object name) {
-    return 'Soy el médico $name de matrícula $license y ID de usuario $id, me gustaria solicitar el alta de un nuevo protocolo en la app';
+  String contactMessage(String name, String license, String id) {
+    return 'Soy el médico $name, con matrícula $license e ID de usuario $id. Quiero solicitar el alta de un nuevo protocolo en la app.';
   }
 
   @override
   String get editProfile => 'Editar Perfil';
 
   @override
-  String get personalInformation => 'Información Personal';
+  String get personalInformation => 'Datos personales';
 
   @override
   String get firstName => 'Nombre';
@@ -647,13 +650,13 @@ class SEs extends S {
   String get specialties => 'Especialidades';
 
   @override
-  String get saveChanges => 'Guardar Cambios';
+  String get saveChanges => 'Guardar cambios';
 
   @override
-  String get profileUpdatedSuccess => 'Perfil actualizado correctamente';
+  String get profileUpdatedSuccess => 'Guardamos tus cambios.';
 
   @override
-  String get requiredField => 'Campo requerido';
+  String get requiredField => 'Completa este campo.';
 
   @override
   String get errorUnauthorized => 'Tu sesión expiró. Vuelve a iniciar sesión.';
@@ -692,10 +695,10 @@ class SEs extends S {
   String get errorGeneric => 'Ocurrió un error. Intenta de nuevo.';
 
   @override
-  String get signature => 'Firma del Paciente';
+  String get signature => 'Firma del paciente';
 
   @override
-  String get errorLoadingImage => 'Error al cargar la imagen de la firma';
+  String get errorLoadingImage => 'No se pudo cargar la firma';
 
   @override
   String get paymentBonusPending =>
@@ -720,7 +723,13 @@ class SEs extends S {
 
   @override
   String pathologiesCount(int count) {
-    return '$count pathologies';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count patologías',
+      one: '1 patología',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -850,4 +859,270 @@ class SEs extends S {
 
   @override
   String get myProfile => 'Mi perfil';
+
+  @override
+  String get homeProtocolsTitle => 'Protocolos disponibles';
+
+  @override
+  String get searchByCategory => 'Por especialidad';
+
+  @override
+  String get searchProtocolHint => 'Busca por nombre del protocolo';
+
+  @override
+  String get selectPlaceholder => 'Selecciona';
+
+  @override
+  String criteriaCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count criterios',
+      one: '1 criterio',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noProtocolsHint =>
+      'Prueba con otra especialidad, patología o nombre.';
+
+  @override
+  String patientsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pacientes registrados',
+      one: '1 paciente registrado',
+      zero: 'Sin pacientes registrados',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get searchPatientsHint => 'Busca por nombre';
+
+  @override
+  String get allSpecialties => 'Todas las especialidades';
+
+  @override
+  String get noResults => 'Sin resultados';
+
+  @override
+  String get noPatientsResultsHint => 'Prueba con otro nombre o especialidad.';
+
+  @override
+  String get referPatientAction => 'Ver protocolos';
+
+  @override
+  String get allCriteriaTitle => 'Todos los criterios';
+
+  @override
+  String get criteriaStepLabel => 'Criterios';
+
+  @override
+  String get criteriaChecklistLabel => 'Confirma cada criterio';
+
+  @override
+  String criteriaCheckedCount(int checked, int total) {
+    return '$checked de $total';
+  }
+
+  @override
+  String get referralStepPatient => 'Datos del paciente';
+
+  @override
+  String get referralStepSignature => 'Firma';
+
+  @override
+  String get referralStepVerification => 'Verificación';
+
+  @override
+  String get patientRegistrationSubtitle =>
+      'Completa los datos del paciente que vas a derivar. Los usaremos solo para este protocolo.';
+
+  @override
+  String get continueToSignature => 'Continuar a la firma';
+
+  @override
+  String get datePlaceholder => 'AAAA-MM-DD';
+
+  @override
+  String get autoFilled => 'Se completa solo';
+
+  @override
+  String get notesHint =>
+      'Antecedentes, tratamiento actual u otra información útil';
+
+  @override
+  String get signatureHandOverTitle => 'Entrega el dispositivo al paciente';
+
+  @override
+  String get signatureInstructions =>
+      'Con su firma, el paciente autoriza que compartas sus datos con el protocolo elegido.';
+
+  @override
+  String get signatureAreaLabel => 'Espacio de firma';
+
+  @override
+  String get signaturePlaceholder => 'Firma aquí con el dedo o un lápiz óptico';
+
+  @override
+  String get clearSignature => 'Borrar firma';
+
+  @override
+  String get signatureRequired => 'Pide al paciente que firme para continuar.';
+
+  @override
+  String get continueToVerification => 'Continuar a la verificación';
+
+  @override
+  String get whatsappVerificationTitle => 'Verificación por WhatsApp';
+
+  @override
+  String get whatsappVerificationSubtitle =>
+      'Enviaremos un código por WhatsApp al paciente para confirmar su número.';
+
+  @override
+  String get patientWhatsapp => 'WhatsApp del paciente';
+
+  @override
+  String get importantNotice => 'Antes de enviar el código';
+
+  @override
+  String get sendCode => 'Enviar código';
+
+  @override
+  String get verificationCodeTitle => 'Código de verificación';
+
+  @override
+  String get verificationCodeSubtitle =>
+      'Ingresa el código de 6 dígitos que recibió el paciente.';
+
+  @override
+  String get codeNotReceived => '¿No llegó el código?';
+
+  @override
+  String get resendCode => 'Reenviar código';
+
+  @override
+  String resendCodeIn(String time) {
+    return 'Reenviar en $time';
+  }
+
+  @override
+  String get verifyAndRegister => 'Verificar y derivar paciente';
+
+  @override
+  String get errorVerifyingCode =>
+      'No se pudo verificar el código. Revísalo e intenta de nuevo.';
+
+  @override
+  String get errorSavingPatient =>
+      'No se pudo registrar al paciente. Intenta de nuevo.';
+
+  @override
+  String get patientReferredTitle => 'Paciente derivado';
+
+  @override
+  String get patientReferredMessage =>
+      'Lo verás en Mis pacientes con su estado actualizado.';
+
+  @override
+  String get seeMyPatients => 'Ver mis pacientes';
+
+  @override
+  String get partialDataMessage =>
+      'Algunos datos están ocultos por privacidad.';
+
+  @override
+  String get noOrderLinkedMessage =>
+      'Cuando un investigador tome a tu paciente, aquí verás el estado de la orden y tus honorarios.';
+
+  @override
+  String get rejectionReason => 'Motivo del rechazo';
+
+  @override
+  String get acceptanceNotes => 'Notas de aceptación';
+
+  @override
+  String specialtiesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count especialidades',
+      one: '1 especialidad',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get markAsInactiveTitle => '¿Marcar como inactivo?';
+
+  @override
+  String get markAsActiveTitle => '¿Marcar como activo?';
+
+  @override
+  String get markAsInactiveHelper =>
+      'Puedes cambiarlo mientras ningún investigador haya tomado al paciente.';
+
+  @override
+  String get markAsActiveHelper =>
+      'Puedes cambiarlo mientras ningún investigador haya tomado al paciente.';
+
+  @override
+  String get notificationDetailTitle => 'Notificación';
+
+  @override
+  String get notificationDetails => 'Detalles';
+
+  @override
+  String get noNotificationsHint =>
+      'Aquí te avisaremos cuando un investigador evalúe a tus pacientes.';
+
+  @override
+  String get unread => 'Nueva';
+
+  @override
+  String get specialtiesProfileHint => 'Definen qué protocolos ves en Inicio.';
+
+  @override
+  String get profileUpdatedTitle => 'Perfil actualizado';
+
+  @override
+  String licenseBadge(String license) {
+    return 'Matrícula $license';
+  }
+
+  @override
+  String get accountSection => 'Cuenta';
+
+  @override
+  String get logout => 'Cerrar sesión';
+
+  @override
+  String get logoutSubtitle => 'Sales de Clinexapp en este dispositivo.';
+
+  @override
+  String get logoutConfirmTitle => '¿Cerrar sesión?';
+
+  @override
+  String get logoutConfirmMessage =>
+      'Para volver a entrar necesitarás tu correo y contraseña.';
+
+  @override
+  String get contactChecklistTitle => 'Ten a mano';
+
+  @override
+  String get contactChecklist1 => 'El nombre o código del protocolo.';
+
+  @override
+  String get contactChecklist2 => 'El centro de investigación que lo lleva.';
+
+  @override
+  String get contactChecklist3 => 'Qué quieres agregar o modificar.';
+
+  @override
+  String get whatsappOpenError =>
+      'No se pudo abrir WhatsApp. Revisa que esté instalado e intenta de nuevo.';
 }

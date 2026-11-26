@@ -514,7 +514,7 @@ abstract class S {
   /// No description provided for @pathology.
   ///
   /// In en, this message translates to:
-  /// **'Pathology'**
+  /// **'Condition'**
   String get pathology;
 
   /// No description provided for @selectPathology.
@@ -526,7 +526,7 @@ abstract class S {
   /// No description provided for @searchByName.
   ///
   /// In en, this message translates to:
-  /// **'Search by name...'**
+  /// **'By name'**
   String get searchByName;
 
   /// No description provided for @noProtocolsFound.
@@ -550,7 +550,7 @@ abstract class S {
   /// No description provided for @protocolDetails.
   ///
   /// In en, this message translates to:
-  /// **'Protocol Details'**
+  /// **'Check criteria'**
   String get protocolDetails;
 
   /// No description provided for @patientCriteria.
@@ -586,7 +586,7 @@ abstract class S {
   /// No description provided for @errorLoadingProtocols.
   ///
   /// In en, this message translates to:
-  /// **'Error loading protocols'**
+  /// **'We couldn\'t load the protocols. Pull down to try again.'**
   String get errorLoadingProtocols;
 
   /// No description provided for @seeMore.
@@ -616,7 +616,7 @@ abstract class S {
   /// No description provided for @protocolSelectionSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Select the protocol to which you want to add the patient and make sure it meets all the acceptance criteria.'**
+  /// **'Choose a protocol and check that your patient meets the criteria.'**
   String get protocolSelectionSubtitle;
 
   /// No description provided for @continue_text.
@@ -628,7 +628,7 @@ abstract class S {
   /// No description provided for @protocolCriteriaVerificationInfo.
   ///
   /// In en, this message translates to:
-  /// **'We will guide you through a quick verification to ensure the patient meets all necessary criteria for this protocol.'**
+  /// **'Check the criteria your patient meets. All of them are required to refer the patient.'**
   String get protocolCriteriaVerificationInfo;
 
   /// No description provided for @homeWelcomeBack.
@@ -652,7 +652,7 @@ abstract class S {
   /// No description provided for @homePathology.
   ///
   /// In en, this message translates to:
-  /// **'Pathology'**
+  /// **'Conditions'**
   String get homePathology;
 
   /// No description provided for @homeSpecialty.
@@ -730,7 +730,7 @@ abstract class S {
   /// No description provided for @registerPatient.
   ///
   /// In en, this message translates to:
-  /// **'Register Patient'**
+  /// **'Patient details'**
   String get registerPatient;
 
   /// No description provided for @dni.
@@ -748,7 +748,7 @@ abstract class S {
   /// No description provided for @birthDate.
   ///
   /// In en, this message translates to:
-  /// **'Birth Date'**
+  /// **'Date of birth'**
   String get birthDate;
 
   /// No description provided for @phone.
@@ -766,19 +766,19 @@ abstract class S {
   /// No description provided for @personalInfo.
   ///
   /// In en, this message translates to:
-  /// **'Personal Information'**
+  /// **'Personal details'**
   String get personalInfo;
 
   /// No description provided for @contactInfo.
   ///
   /// In en, this message translates to:
-  /// **'Contact Information'**
+  /// **'Contact'**
   String get contactInfo;
 
   /// No description provided for @medicalInfo.
   ///
   /// In en, this message translates to:
-  /// **'Medical Information'**
+  /// **'Medical information'**
   String get medicalInfo;
 
   /// No description provided for @male.
@@ -808,13 +808,13 @@ abstract class S {
   /// No description provided for @criteriaNotMet.
   ///
   /// In en, this message translates to:
-  /// **'Criteria not met'**
+  /// **'Some criteria are unchecked'**
   String get criteriaNotMet;
 
   /// No description provided for @showAll.
   ///
   /// In en, this message translates to:
-  /// **'Show All'**
+  /// **'See all'**
   String get showAll;
 
   /// No description provided for @allCriteriaFor.
@@ -838,13 +838,13 @@ abstract class S {
   /// No description provided for @nextRegister.
   ///
   /// In en, this message translates to:
-  /// **'Next / Register'**
+  /// **'Continue to patient details'**
   String get nextRegister;
 
   /// No description provided for @nextStep.
   ///
   /// In en, this message translates to:
-  /// **'Next Step'**
+  /// **'Next step'**
   String get nextStep;
 
   /// No description provided for @searchSpecialtyHint.
@@ -862,25 +862,25 @@ abstract class S {
   /// No description provided for @notAllCriteriaMet.
   ///
   /// In en, this message translates to:
-  /// **'Not all criteria met for this protocol.'**
+  /// **'To continue, confirm every criterion in this step. If your patient doesn\'t meet one, they can\'t be referred to this protocol.'**
   String get notAllCriteriaMet;
 
   /// No description provided for @myPatients.
   ///
   /// In en, this message translates to:
-  /// **'My Patients'**
+  /// **'My patients'**
   String get myPatients;
 
   /// No description provided for @noPatientsFound.
   ///
   /// In en, this message translates to:
-  /// **'No patients found'**
+  /// **'You don\'t have patients yet'**
   String get noPatientsFound;
 
   /// No description provided for @patientCreatedSuccessfully.
   ///
   /// In en, this message translates to:
-  /// **'Patient created successfully'**
+  /// **'The patient was registered.'**
   String get patientCreatedSuccessfully;
 
   /// No description provided for @search.
@@ -898,19 +898,19 @@ abstract class S {
   /// No description provided for @payForFullData.
   ///
   /// In en, this message translates to:
-  /// **'Pay to see full data'**
+  /// **'Protected detail'**
   String get payForFullData;
 
   /// No description provided for @hiddenField.
   ///
   /// In en, this message translates to:
-  /// **'Hidden field'**
+  /// **'Hidden'**
   String get hiddenField;
 
   /// No description provided for @orderStatusAssigned.
   ///
   /// In en, this message translates to:
-  /// **'Assigned'**
+  /// **'In evaluation'**
   String get orderStatusAssigned;
 
   /// No description provided for @orderStatusAccepted.
@@ -928,13 +928,13 @@ abstract class S {
   /// No description provided for @patientDetails.
   ///
   /// In en, this message translates to:
-  /// **'Patient Details'**
+  /// **'Patient record'**
   String get patientDetails;
 
   /// No description provided for @partialData.
   ///
   /// In en, this message translates to:
-  /// **'Partial Data'**
+  /// **'Partial data'**
   String get partialData;
 
   /// No description provided for @protocol.
@@ -946,7 +946,7 @@ abstract class S {
   /// No description provided for @provinceState.
   ///
   /// In en, this message translates to:
-  /// **'Province/State'**
+  /// **'Province or state'**
   String get provinceState;
 
   /// No description provided for @appName.
@@ -958,7 +958,7 @@ abstract class S {
   /// No description provided for @userNotAuthenticated.
   ///
   /// In en, this message translates to:
-  /// **'User not authenticated'**
+  /// **'Your session isn\'t active. Please log in again.'**
   String get userNotAuthenticated;
 
   /// No description provided for @searchAddress.
@@ -1030,7 +1030,7 @@ abstract class S {
   /// No description provided for @postalCode.
   ///
   /// In en, this message translates to:
-  /// **'Postal Code'**
+  /// **'Postal code'**
   String get postalCode;
 
   /// No description provided for @status.
@@ -1054,19 +1054,19 @@ abstract class S {
   /// No description provided for @markAsInactive.
   ///
   /// In en, this message translates to:
-  /// **'Mark as Inactive'**
+  /// **'Mark as inactive'**
   String get markAsInactive;
 
   /// No description provided for @confirmAction.
   ///
   /// In en, this message translates to:
-  /// **'Confirm Action'**
+  /// **'Confirm action'**
   String get confirmAction;
 
   /// No description provided for @confirmMarkAsInactive.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to mark this patient as inactive? This action can be reversed later.'**
+  /// **'The patient will no longer be available for protocols. You can reactivate them anytime.'**
   String get confirmMarkAsInactive;
 
   /// No description provided for @confirm.
@@ -1078,13 +1078,13 @@ abstract class S {
   /// No description provided for @noOrderLinked.
   ///
   /// In en, this message translates to:
-  /// **'No order linked'**
+  /// **'No order yet'**
   String get noOrderLinked;
 
   /// No description provided for @activeOrder.
   ///
   /// In en, this message translates to:
-  /// **'Active Order'**
+  /// **'Active order'**
   String get activeOrder;
 
   /// No description provided for @orderId.
@@ -1102,31 +1102,31 @@ abstract class S {
   /// No description provided for @professionalFees.
   ///
   /// In en, this message translates to:
-  /// **'Professional fees for the time dedicated to patient evaluation'**
+  /// **'Professional fees for evaluating the patient'**
   String get professionalFees;
 
   /// No description provided for @whatsappVerificationNoticeDetailed.
   ///
   /// In en, this message translates to:
-  /// **'IMPORTANT NOTICE: The doctor must inform the patient that they must have an internet connection and access to their WhatsApp.'**
+  /// **'Let the patient know they need an internet connection and access to their WhatsApp to receive it.'**
   String get whatsappVerificationNoticeDetailed;
 
   /// No description provided for @noPatientsPromotion.
   ///
   /// In en, this message translates to:
-  /// **'We recommend adding patients to upload them to the platform and have an opportunity to enter them into a research protocol.'**
+  /// **'Refer your first patient to a research protocol from Home.'**
   String get noPatientsPromotion;
 
   /// No description provided for @markAsActive.
   ///
   /// In en, this message translates to:
-  /// **'Mark as Active'**
+  /// **'Mark as active'**
   String get markAsActive;
 
   /// No description provided for @confirmMarkAsActive.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to mark this patient as active?'**
+  /// **'The patient will be available for protocols again.'**
   String get confirmMarkAsActive;
 
   /// No description provided for @licenseType.
@@ -1150,7 +1150,7 @@ abstract class S {
   /// No description provided for @phone2.
   ///
   /// In en, this message translates to:
-  /// **'Phone 2'**
+  /// **'Additional phone'**
   String get phone2;
 
   /// No description provided for @forgotPassword.
@@ -1216,7 +1216,7 @@ abstract class S {
   /// No description provided for @noNotificationsFound.
   ///
   /// In en, this message translates to:
-  /// **'No notifications found'**
+  /// **'You have no notifications'**
   String get noNotificationsFound;
 
   /// No description provided for @notificationMarkedAsRead.
@@ -1228,7 +1228,7 @@ abstract class S {
   /// No description provided for @errorLoadingNotifications.
   ///
   /// In en, this message translates to:
-  /// **'Error loading notifications'**
+  /// **'We couldn\'t load your notifications'**
   String get errorLoadingNotifications;
 
   /// No description provided for @cantFindProtocol.
@@ -1246,7 +1246,7 @@ abstract class S {
   /// No description provided for @contactTitle.
   ///
   /// In en, this message translates to:
-  /// **'Protocol Connection'**
+  /// **'Request a new protocol'**
   String get contactTitle;
 
   /// No description provided for @contactSubtitle.
@@ -1258,26 +1258,26 @@ abstract class S {
   /// No description provided for @contactDescription.
   ///
   /// In en, this message translates to:
-  /// **'You are about to contact the management department. Please make sure you have the protocols you want to add or modify at hand.'**
+  /// **'Message the Clinexapp management team on WhatsApp to request adding or changing a protocol.'**
   String get contactDescription;
 
   /// No description provided for @contactSchedule.
   ///
   /// In en, this message translates to:
-  /// **'Business hours: 08:00 - 18:00'**
+  /// **'Opening hours: 08:00 to 18:00'**
   String get contactSchedule;
 
   /// No description provided for @contactButton.
   ///
   /// In en, this message translates to:
-  /// **'Contact now'**
+  /// **'Message on WhatsApp'**
   String get contactButton;
 
   /// No description provided for @contactMessage.
   ///
   /// In en, this message translates to:
-  /// **'I am doctor {name} with license {license} and user ID {id}, I would like to request the registration of a new protocol in the app'**
-  String contactMessage(Object id, Object license, Object name);
+  /// **'I am doctor {name}, license {license}, user ID {id}. I\'d like to request a new protocol in the app.'**
+  String contactMessage(String name, String license, String id);
 
   /// No description provided for @editProfile.
   ///
@@ -1288,19 +1288,19 @@ abstract class S {
   /// No description provided for @personalInformation.
   ///
   /// In en, this message translates to:
-  /// **'Personal Information'**
+  /// **'Personal details'**
   String get personalInformation;
 
   /// No description provided for @firstName.
   ///
   /// In en, this message translates to:
-  /// **'First Name'**
+  /// **'First name'**
   String get firstName;
 
   /// No description provided for @lastName.
   ///
   /// In en, this message translates to:
-  /// **'Last Name'**
+  /// **'Last name'**
   String get lastName;
 
   /// No description provided for @specialties.
@@ -1312,19 +1312,19 @@ abstract class S {
   /// No description provided for @saveChanges.
   ///
   /// In en, this message translates to:
-  /// **'Save Changes'**
+  /// **'Save changes'**
   String get saveChanges;
 
   /// No description provided for @profileUpdatedSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Profile updated successfully'**
+  /// **'We saved your changes.'**
   String get profileUpdatedSuccess;
 
   /// No description provided for @requiredField.
   ///
   /// In en, this message translates to:
-  /// **'Required field'**
+  /// **'This field is required.'**
   String get requiredField;
 
   /// No description provided for @errorUnauthorized.
@@ -1390,13 +1390,13 @@ abstract class S {
   /// No description provided for @signature.
   ///
   /// In en, this message translates to:
-  /// **'Patient Signature'**
+  /// **'Patient signature'**
   String get signature;
 
   /// No description provided for @errorLoadingImage.
   ///
   /// In en, this message translates to:
-  /// **'Error loading signature image'**
+  /// **'We couldn\'t load the signature'**
   String get errorLoadingImage;
 
   /// No description provided for @paymentBonusPending.
@@ -1438,7 +1438,7 @@ abstract class S {
   /// No description provided for @pathologiesCount.
   ///
   /// In en, this message translates to:
-  /// **'{count} pathologies'**
+  /// **'{count, plural, =1{1 condition} other{{count} conditions}}'**
   String pathologiesCount(int count);
 
   /// No description provided for @errorRoleReceptor.
@@ -1662,6 +1662,444 @@ abstract class S {
   /// In en, this message translates to:
   /// **'My profile'**
   String get myProfile;
+
+  /// No description provided for @homeProtocolsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Available protocols'**
+  String get homeProtocolsTitle;
+
+  /// No description provided for @searchByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'By specialty'**
+  String get searchByCategory;
+
+  /// No description provided for @searchProtocolHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by protocol name'**
+  String get searchProtocolHint;
+
+  /// No description provided for @selectPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get selectPlaceholder;
+
+  /// No description provided for @criteriaCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 criterion} other{{count} criteria}}'**
+  String criteriaCount(int count);
+
+  /// No description provided for @noProtocolsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Try another specialty, condition or name.'**
+  String get noProtocolsHint;
+
+  /// No description provided for @patientsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No patients yet} =1{1 patient} other{{count} patients}}'**
+  String patientsCount(int count);
+
+  /// No description provided for @searchPatientsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name'**
+  String get searchPatientsHint;
+
+  /// No description provided for @allSpecialties.
+  ///
+  /// In en, this message translates to:
+  /// **'All specialties'**
+  String get allSpecialties;
+
+  /// No description provided for @noResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results'**
+  String get noResults;
+
+  /// No description provided for @noPatientsResultsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Try another name or specialty.'**
+  String get noPatientsResultsHint;
+
+  /// No description provided for @referPatientAction.
+  ///
+  /// In en, this message translates to:
+  /// **'See protocols'**
+  String get referPatientAction;
+
+  /// No description provided for @allCriteriaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All criteria'**
+  String get allCriteriaTitle;
+
+  /// No description provided for @criteriaStepLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Criteria'**
+  String get criteriaStepLabel;
+
+  /// No description provided for @criteriaChecklistLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm each criterion'**
+  String get criteriaChecklistLabel;
+
+  /// No description provided for @criteriaCheckedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{checked} of {total}'**
+  String criteriaCheckedCount(int checked, int total);
+
+  /// No description provided for @referralStepPatient.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient details'**
+  String get referralStepPatient;
+
+  /// No description provided for @referralStepSignature.
+  ///
+  /// In en, this message translates to:
+  /// **'Signature'**
+  String get referralStepSignature;
+
+  /// No description provided for @referralStepVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification'**
+  String get referralStepVerification;
+
+  /// No description provided for @patientRegistrationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the details of the patient you\'re referring. We\'ll only use them for this protocol.'**
+  String get patientRegistrationSubtitle;
+
+  /// No description provided for @continueToSignature.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to signature'**
+  String get continueToSignature;
+
+  /// No description provided for @datePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'YYYY-MM-DD'**
+  String get datePlaceholder;
+
+  /// No description provided for @autoFilled.
+  ///
+  /// In en, this message translates to:
+  /// **'Filled automatically'**
+  String get autoFilled;
+
+  /// No description provided for @notesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'History, current treatment or other useful information'**
+  String get notesHint;
+
+  /// No description provided for @signatureHandOverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand the device to the patient'**
+  String get signatureHandOverTitle;
+
+  /// No description provided for @signatureInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'With their signature, the patient authorizes you to share their data with the chosen protocol.'**
+  String get signatureInstructions;
+
+  /// No description provided for @signatureAreaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Signature area'**
+  String get signatureAreaLabel;
+
+  /// No description provided for @signaturePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign here with your finger or a stylus'**
+  String get signaturePlaceholder;
+
+  /// No description provided for @clearSignature.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear signature'**
+  String get clearSignature;
+
+  /// No description provided for @signatureRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask the patient to sign to continue.'**
+  String get signatureRequired;
+
+  /// No description provided for @continueToVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to verification'**
+  String get continueToVerification;
+
+  /// No description provided for @whatsappVerificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp verification'**
+  String get whatsappVerificationTitle;
+
+  /// No description provided for @whatsappVerificationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll send the patient a WhatsApp code to confirm their number.'**
+  String get whatsappVerificationSubtitle;
+
+  /// No description provided for @patientWhatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient\'s WhatsApp'**
+  String get patientWhatsapp;
+
+  /// No description provided for @importantNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Before sending the code'**
+  String get importantNotice;
+
+  /// No description provided for @sendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code'**
+  String get sendCode;
+
+  /// No description provided for @verificationCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code'**
+  String get verificationCodeTitle;
+
+  /// No description provided for @verificationCodeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 6-digit code the patient received.'**
+  String get verificationCodeSubtitle;
+
+  /// No description provided for @codeNotReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Didn\'t get the code?'**
+  String get codeNotReceived;
+
+  /// No description provided for @resendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code'**
+  String get resendCode;
+
+  /// No description provided for @resendCodeIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in {time}'**
+  String resendCodeIn(String time);
+
+  /// No description provided for @verifyAndRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify and refer patient'**
+  String get verifyAndRegister;
+
+  /// No description provided for @errorVerifyingCode.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t verify the code. Check it and try again.'**
+  String get errorVerifyingCode;
+
+  /// No description provided for @errorSavingPatient.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t register the patient. Please try again.'**
+  String get errorSavingPatient;
+
+  /// No description provided for @patientReferredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient referred'**
+  String get patientReferredTitle;
+
+  /// No description provided for @patientReferredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll see them in My patients with their current status.'**
+  String get patientReferredMessage;
+
+  /// No description provided for @seeMyPatients.
+  ///
+  /// In en, this message translates to:
+  /// **'See my patients'**
+  String get seeMyPatients;
+
+  /// No description provided for @partialDataMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Some details are hidden for privacy.'**
+  String get partialDataMessage;
+
+  /// No description provided for @noOrderLinkedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'When a researcher takes your patient, you\'ll see the order status and your fees here.'**
+  String get noOrderLinkedMessage;
+
+  /// No description provided for @rejectionReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason for rejection'**
+  String get rejectionReason;
+
+  /// No description provided for @acceptanceNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Acceptance notes'**
+  String get acceptanceNotes;
+
+  /// No description provided for @specialtiesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 specialty} other{{count} specialties}}'**
+  String specialtiesCount(int count);
+
+  /// No description provided for @markAsInactiveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as inactive?'**
+  String get markAsInactiveTitle;
+
+  /// No description provided for @markAsActiveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as active?'**
+  String get markAsActiveTitle;
+
+  /// No description provided for @markAsInactiveHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'You can change this until a researcher takes the patient.'**
+  String get markAsInactiveHelper;
+
+  /// No description provided for @markAsActiveHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'You can change this until a researcher takes the patient.'**
+  String get markAsActiveHelper;
+
+  /// No description provided for @notificationDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification'**
+  String get notificationDetailTitle;
+
+  /// No description provided for @notificationDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get notificationDetails;
+
+  /// No description provided for @noNotificationsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll let you know here when a researcher evaluates your patients.'**
+  String get noNotificationsHint;
+
+  /// No description provided for @unread.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get unread;
+
+  /// No description provided for @specialtiesProfileHint.
+  ///
+  /// In en, this message translates to:
+  /// **'They define which protocols you see on Home.'**
+  String get specialtiesProfileHint;
+
+  /// No description provided for @profileUpdatedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated'**
+  String get profileUpdatedTitle;
+
+  /// No description provided for @licenseBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'License {license}'**
+  String licenseBadge(String license);
+
+  /// No description provided for @accountSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountSection;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logout;
+
+  /// No description provided for @logoutSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out of Clinexapp on this device.'**
+  String get logoutSubtitle;
+
+  /// No description provided for @logoutConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out?'**
+  String get logoutConfirmTitle;
+
+  /// No description provided for @logoutConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll need your email and password to log back in.'**
+  String get logoutConfirmMessage;
+
+  /// No description provided for @contactChecklistTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Have at hand'**
+  String get contactChecklistTitle;
+
+  /// No description provided for @contactChecklist1.
+  ///
+  /// In en, this message translates to:
+  /// **'The protocol name or code.'**
+  String get contactChecklist1;
+
+  /// No description provided for @contactChecklist2.
+  ///
+  /// In en, this message translates to:
+  /// **'The research site running it.'**
+  String get contactChecklist2;
+
+  /// No description provided for @contactChecklist3.
+  ///
+  /// In en, this message translates to:
+  /// **'What you want to add or change.'**
+  String get contactChecklist3;
+
+  /// No description provided for @whatsappOpenError.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t open WhatsApp. Make sure it\'s installed and try again.'**
+  String get whatsappOpenError;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

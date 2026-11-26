@@ -6,15 +6,15 @@ import 'package:clinexa_derivant_app/presentation/address/cubit/address_cubit.da
 import 'package:clinexa_derivant_app/presentation/auth_loading/cubit/auth_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/profile/cubit/edit_profile_cubit.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/address_search_box.dart';
-import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_button.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_dialogs.dart';
-import 'package:clinexa_derivant_app/presentation/shared/widgets/custom_textfield.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/debounced_search_textfield.dart';
 import 'package:clinexa_derivant_app/presentation/specialty/cubit/specialty_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:clinexa_derivant_app/core/theme.dart';
+import 'package:clinexa_derivant_app/core/ui/clx_ui.dart';
+import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
+import 'package:clinexa_derivant_app/presentation/login/login_screen.dart';
 
 class EditProfileScreen extends StatelessWidget {
   static const path = "/edit-profile";
@@ -49,10 +49,29 @@ class EditProfileScreen extends StatelessWidget {
 class EditProfileView extends StatelessWidget {
   const EditProfileView({super.key});
 
+  Future<void> _confirmLogout(BuildContext context) async {
+    final s = S.of(context);
+    final ok = await ClxDialog.confirm(
+      context,
+      title: s.logoutConfirmTitle,
+      message: s.logoutConfirmMessage,
+      confirmLabel: s.logout,
+      cancelLabel: s.cancel,
+      icon: LucideIcons.logOut,
+    );
+    if (!ok || !context.mounted) return;
+    context.read<AuthCubit>().logout();
+    context.go(LoginScreen.path);
+  }
+
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<EditProfileCubit>();
     final specialtyCubit = context.read<SpecialtyCubit>();
+    final s = S.of(context);
+    final t = context.clxText;
+    final user = context.read<AuthCubit>().state.user;
+    final fullName = [user?.firstName, user?.lastName].whereType<String>().join(' ');
 
     return BlocListener<EditProfileCubit, EditProfileState>(
       listener: (context, state) {
@@ -65,7 +84,8 @@ class EditProfileView extends StatelessWidget {
           context.pop(); // Close loading
           CustomDialogs.successDialog(
             context: context,
-            successMessage: "Perfil actualizado correctamente",
+            title: s.profileUpdatedTitle,
+            successMessage: s.profileUpdatedSuccess,
             onPressed: () {
               context.pop(); // Close dialog
               context.pop(); // Go back to profile
@@ -75,155 +95,163 @@ class EditProfileView extends StatelessWidget {
           context.pop(); // Close loading
           CustomDialogs.errorDialog(
             context,
-            state.errorMessage ?? "Error desconocido",
+            state.errorMessage ?? s.unexpectedError,
           );
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text("Editar Perfil")),
+        appBar: ClxAppBar(title: s.myProfile),
+        bottomNavigationBar: ClxBottomBar(
+          child: ClxButton(
+            key: const Key('profile_save_button'),
+            label: s.saveChanges,
+            onPressed: () => cubit.save(),
+          ),
+        ),
         body: Form(
           key: cubit.formKey,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Información Personal",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                CustomTextField(
-                  label: "Nombre",
-                  controller: cubit.firstNameController,
-                  validator: (v) =>
-                      (v == null || v.isEmpty) ? "Campo requerido" : null,
-                ),
-                const SizedBox(height: 16),
-                CustomTextField(
-                  label: "Apellido",
-                  controller: cubit.lastNameController,
-                  validator: (v) =>
-                      (v == null || v.isEmpty) ? "Campo requerido" : null,
-                ),
-                const SizedBox(height: 32),
-
-                const Text(
-                  "Dirección",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-
-                BlocListener<AddressCubit, AddressState>(
-                  listener: (context, state) {
-                    if (state.selectedAddress != null) {
-                      cubit.setAddress(state.selectedAddress!);
-                    }
-                  },
-                  child: AddressSearchBox(
-                    controller: cubit.addressController,
-                    onClear: cubit.clearAddress,
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(ClxSpace.s4, ClxSpace.s5, ClxSpace.s4, ClxSpace.s8),
+            children: [
+              // Encabezado con la cuenta
+              Row(
+                children: [
+                  ClxAvatar(name: fullName.isEmpty ? (user?.email ?? '?') : fullName, size: 56),
+                  const SizedBox(width: ClxSpace.s4),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(fullName, style: t.h2, maxLines: 1, overflow: TextOverflow.ellipsis),
+                        const SizedBox(height: 2),
+                        Text(user?.email ?? '', style: t.bodySm, maxLines: 1, overflow: TextOverflow.ellipsis),
+                        if ((user?.medicalLicense ?? '').isNotEmpty) ...[
+                          const SizedBox(height: ClxSpace.s2),
+                          ClxBadge(
+                            label: s.licenseBadge(user!.medicalLicense!),
+                            icon: LucideIcons.idCard,
+                          ),
+                        ],
+                      ],
+                    ),
                   ),
-                ),
+                ],
+              ),
+              const SizedBox(height: ClxSpace.s8),
 
-                const SizedBox(height: 32),
-                const Text(
-                  "Especialidades",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                DebouncedSearchField(
-                  label: "Buscar especialidad",
-                  onSearch: (val) => specialtyCubit.searchSpecialties(val),
-                  hintText: "Ej. Cardiología",
-                  controller: cubit.specialtyController,
-                ),
-                const SizedBox(height: 8),
+              _Section(title: s.personalInformation),
+              ClxTextField(
+                label: s.firstName,
+                controller: cubit.firstNameController,
+                textCapitalization: TextCapitalization.words,
+                validator: (v) =>
+                    (v == null || v.isEmpty) ? s.fieldRequired : null,
+              ),
+              const SizedBox(height: ClxSpace.s5),
+              ClxTextField(
+                label: s.lastName,
+                controller: cubit.lastNameController,
+                textCapitalization: TextCapitalization.words,
+                validator: (v) =>
+                    (v == null || v.isEmpty) ? s.fieldRequired : null,
+              ),
+              const SizedBox(height: ClxSpace.s8),
 
-                // Search Results List
-                BlocBuilder<SpecialtyCubit, SpecialtyState>(
-                  builder: (context, state) {
-                    if (state.filteredSpecialties.isEmpty) {
-                      return const SizedBox.shrink();
-                    }
-
-                    return Card(
-                      elevation: 4,
-                      child: Container(
-                        constraints: const BoxConstraints(maxHeight: 200),
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          itemCount: state.filteredSpecialties.length,
-                          separatorBuilder: (_, __) => const Divider(height: 1),
-                          itemBuilder: (_, index) {
-                            final item = state.filteredSpecialties[index];
-                            return ListTile(
-                              title: Text(item.name),
-                              onTap: () {
-                                cubit.addSpecialty(item);
-                                specialtyCubit.clearSearch();
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  },
+              _Section(title: s.address),
+              BlocListener<AddressCubit, AddressState>(
+                listener: (context, state) {
+                  if (state.selectedAddress != null) {
+                    cubit.setAddress(state.selectedAddress!);
+                  }
+                },
+                child: AddressSearchBox(
+                  controller: cubit.addressController,
+                  onClear: cubit.clearAddress,
                 ),
+              ),
+              const SizedBox(height: ClxSpace.s8),
 
-                const SizedBox(height: 16),
-                // Selected Specialties Chips
-                BlocBuilder<EditProfileCubit, EditProfileState>(
-                  builder: (context, state) {
-                    return Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: state.specialties.map((s) {
-                        return Chip(
-                          label: Text(s.name),
-                          deleteIcon: const Icon(Icons.close, size: 18),
-                          onDeleted: () => cubit.removeSpecialty(s),
+              _Section(title: s.specialties, subtitle: s.specialtiesProfileHint),
+              DebouncedSearchField(
+                icon: LucideIcons.stethoscope,
+                onSearch: (val) => specialtyCubit.searchSpecialties(val),
+                hintText: s.searchSpecialtyHint,
+                controller: cubit.specialtyController,
+              ),
+
+              // Resultados de búsqueda
+              BlocBuilder<SpecialtyCubit, SpecialtyState>(
+                builder: (context, state) {
+                  if (state.filteredSpecialties.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
+                  return ClxSuggestionList(
+                    items: state.filteredSpecialties,
+                    icon: LucideIcons.stethoscope,
+                    label: (item) => item.name,
+                    onSelected: (item) {
+                      cubit.addSpecialty(item);
+                      specialtyCubit.clearSearch();
+                    },
+                  );
+                },
+              ),
+
+              // Especialidades elegidas
+              BlocBuilder<EditProfileCubit, EditProfileState>(
+                builder: (context, state) {
+                  if (state.specialties.isEmpty) return const SizedBox.shrink();
+                  return Padding(
+                    padding: const EdgeInsets.only(top: ClxSpace.s3),
+                    child: Wrap(
+                      spacing: ClxSpace.s2,
+                      runSpacing: ClxSpace.s2,
+                      children: state.specialties.map((sp) {
+                        return ClxInputChip(
+                          label: sp.name,
+                          removeTooltip: s.removeItem,
+                          onRemove: () => cubit.removeSpecialty(sp),
                         );
                       }).toList(),
-                    );
-                  },
-                ),
-
-                const SizedBox(height: 48),
-                CustomButton(
-                  text: "Guardar Cambios",
-                  onPressed: () => cubit.save(),
-                ),
-                const SizedBox(height: 24),
-
-                // Logout Button
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton.icon(
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.danger40,
-                      side: const BorderSide(color: AppColors.danger40),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
                     ),
-                    onPressed: () {
-                      context.read<AuthCubit>().logout();
-                      context.go(
-                        '/login',
-                      ); // Using hardcoded path or LoginScreen.path if imported
-                    },
-                    icon: const Icon(Icons.logout),
-                    label: const Text("Cerrar Sesión"),
+                  );
+                },
+              ),
+
+              const SizedBox(height: ClxSpace.s8),
+              _Section(title: s.accountSection),
+              ClxListGroup(
+                children: [
+                  ClxListTile(
+                    key: const Key('profile_logout_tile'),
+                    title: s.logout,
+                    subtitle: s.logoutSubtitle,
+                    icon: LucideIcons.logOut,
+                    destructive: true,
+                    showChevron: false,
+                    onTap: () => _confirmLogout(context),
                   ),
-                ),
-                const SizedBox(height: 24),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Section extends StatelessWidget {
+  const _Section({required this.title, this.subtitle});
+
+  final String title;
+  final String? subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: ClxSpace.s4),
+      child: ClxSectionHeader(title: title, subtitle: subtitle),
     );
   }
 }
