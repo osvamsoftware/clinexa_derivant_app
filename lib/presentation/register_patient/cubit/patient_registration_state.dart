@@ -18,7 +18,12 @@ class PatientRegistrationState extends Equatable {
   final Uint8List? signatureBytes;
   final String? signatureUrl;
 
+  /// Sube cuando cambian la fecha de nacimiento, el sexo o las notas desde
+  /// fuera del teclado (dictado o IA), para redibujar esos campos.
+  final int formRevision;
+
   const PatientRegistrationState({
+    this.formRevision = 0,
     this.status = PatientRegistrationStatus.initial,
     this.errorMessage,
     this.selectedAddress,
@@ -33,8 +38,10 @@ class PatientRegistrationState extends Equatable {
     bool clearSelectedAddress = false,
     Uint8List? signatureBytes,
     String? signatureUrl,
+    int? formRevision,
   }) {
     return PatientRegistrationState(
+      formRevision: formRevision ?? this.formRevision,
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
       selectedAddress: clearSelectedAddress
@@ -52,5 +59,6 @@ class PatientRegistrationState extends Equatable {
     selectedAddress,
     signatureBytes,
     signatureUrl,
+    formRevision,
   ];
 }

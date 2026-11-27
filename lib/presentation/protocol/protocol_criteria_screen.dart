@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:clinexa_derivant_app/l10n/app_localizations.dart';
+import 'package:clinexa_derivant_app/presentation/ai/screens/protocol_assistant_screen.dart';
+import 'package:clinexa_derivant_app/presentation/ai/widgets/ai_common.dart';
 
 class ProtocolCriteriaScreen extends StatelessWidget {
   static const path = '/protocol-criteria';
@@ -61,6 +63,30 @@ class ProtocolCriteriaView extends StatelessWidget {
         appBar: ClxAppBar(
           title: s.protocolDetails,
           actions: [
+            // IA-09: dudas sobre este protocolo.
+            AiGate(
+              child: Builder(
+                builder: (context) {
+                  final protocol = context
+                      .read<ProtocolCriteriaCubit>()
+                      .state
+                      .protocol;
+                  return ClxAiIconButton(
+                    key: const Key('criteria_ai_assistant_button'),
+                    icon: LucideIcons.botMessageSquare,
+                    tooltip: s.aiAssistantTitle,
+                    size: 40,
+                    onPressed: () => context.push(
+                      ProtocolAssistantScreen.path,
+                      extra: AssistantArgs(
+                        protocolId: protocol.id ?? '',
+                        protocolName: protocol.name,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
             ClxButton.ghost(
               key: const Key('show_all_criteria_button'),
               label: s.showAll,

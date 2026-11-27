@@ -68,11 +68,15 @@ class AiCase extends Equatable {
   bool get isEmpty =>
       age == null && sex == null && pathologies.isEmpty && notes.trim().isEmpty;
 
+  /// Topes del contrato: notas hasta 4000 caracteres, 20 patologías.
+  static const maxNotes = 4000;
+  static const maxPathologies = 20;
+
   Map<String, dynamic> toMap() => {
     'age': age,
     'sex': sex,
-    'pathologies': pathologies,
-    'notes': notes,
+    'pathologies': pathologies.take(maxPathologies).toList(),
+    'notes': notes.length > maxNotes ? notes.substring(0, maxNotes) : notes,
   };
 
   @override

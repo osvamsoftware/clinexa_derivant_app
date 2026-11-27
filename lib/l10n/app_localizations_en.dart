@@ -1132,4 +1132,449 @@ class SEn extends S {
     );
     return '$_temp0';
   }
+
+  @override
+  String get aiGenericError => 'The AI didn\'t respond. Please try again.';
+
+  @override
+  String get aiNoConnection =>
+      'Can\'t reach the AI. Check your connection and try again.';
+
+  @override
+  String get aiRetry => 'Try again';
+
+  @override
+  String get aiDisclaimer => 'AI suggestion. Review it: the decision is yours.';
+
+  @override
+  String get aiSuggestedTag => 'AI suggestion';
+
+  @override
+  String get aiThinkingTitle => 'The AI is working';
+
+  @override
+  String get aiFitLabel => 'fit';
+
+  @override
+  String get aiNotProvided => 'Not provided';
+
+  @override
+  String get aiAdd => 'Add';
+
+  @override
+  String get aiRemove => 'Remove';
+
+  @override
+  String get aiFieldAge => 'Age';
+
+  @override
+  String get aiFieldSex => 'Sex';
+
+  @override
+  String get aiFieldPathologies => 'Conditions';
+
+  @override
+  String get aiFieldNotes => 'Clinical notes';
+
+  @override
+  String aiAgeYears(int age) {
+    return '$age years';
+  }
+
+  @override
+  String get aiEligibilityTitle => 'AI pre-screening';
+
+  @override
+  String get aiEligibilityIntro =>
+      'The AI compares the case (age, sex, conditions and clinical notes) with the protocol criteria. You can correct each result.';
+
+  @override
+  String get aiEligibilityCaseLabel => 'Data being evaluated';
+
+  @override
+  String get aiEligibilityPathologies => 'Case conditions (AI only)';
+
+  @override
+  String get aiEligibilityPathologyHint => 'E.g. Type 2 diabetes';
+
+  @override
+  String get aiEligibilityNotesFromForm =>
+      'The clinical notes from the form are also used. Name, ID and contact details are never sent.';
+
+  @override
+  String get aiEligibilityEvaluate => 'Evaluate with AI';
+
+  @override
+  String get aiEligibilityReevaluate => 'Evaluate again';
+
+  @override
+  String get aiEligibilityEvaluating => 'Evaluating…';
+
+  @override
+  String get aiEligibilityThinking1 => 'Reading the criteria…';
+
+  @override
+  String get aiEligibilityThinking2 => 'Comparing with the case…';
+
+  @override
+  String get aiEligibilityThinking3 => 'Looking for evidence…';
+
+  @override
+  String get aiEligibilityThinking4 => 'Calculating the fit…';
+
+  @override
+  String get aiEligibilityEmptyCase =>
+      'Fill in the date of birth, sex or clinical notes so the AI has something to evaluate.';
+
+  @override
+  String get aiStatusMeets => 'Meets';
+
+  @override
+  String get aiStatusFails => 'Doesn\'t meet';
+
+  @override
+  String get aiStatusMissing => 'Missing data';
+
+  @override
+  String get aiCriterionInclusion => 'Inclusion';
+
+  @override
+  String get aiCriterionExclusion => 'Exclusion';
+
+  @override
+  String get aiCorrectedByYou => 'Corrected by you';
+
+  @override
+  String get aiEligibilityFailsWarningTitle => 'Some criteria are not met';
+
+  @override
+  String get aiEligibilityFailsWarning =>
+      'Review them before sending. You can still continue: the decision is yours and the investigator\'s.';
+
+  @override
+  String aiEligibilityMissingCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count missing data points',
+      one: '1 missing data point',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiEligibilityCorrectHint =>
+      'Review each criterion and tap another status if the AI got it wrong.';
+
+  @override
+  String get aiEligibilityAttachNote =>
+      'When you register the patient, the evaluation and your corrections are saved with the referral.';
+
+  @override
+  String get aiSuggestEntryTitle =>
+      'Describe your case and I\'ll suggest protocols';
+
+  @override
+  String get aiSuggestEntrySubtitle =>
+      'Type or dictate it: the AI searches the active protocols.';
+
+  @override
+  String get aiSuggestEntryAction => 'Describe case';
+
+  @override
+  String get aiSuggestTitle => 'Suggest protocols';
+
+  @override
+  String get aiSuggestFieldLabel => 'Clinical case';
+
+  @override
+  String get aiSuggestFieldHint =>
+      'E.g. 58-year-old woman, T2D, HbA1c 8.2, on metformin';
+
+  @override
+  String get aiSuggestPrivacy =>
+      'Don\'t include the patient\'s name, ID or contact details.';
+
+  @override
+  String get aiSuggestAction => 'Suggest protocols';
+
+  @override
+  String get aiSuggestLoading => 'Searching…';
+
+  @override
+  String get aiSuggestThinking1 => 'Reading the case…';
+
+  @override
+  String get aiSuggestThinking2 => 'Reviewing active protocols…';
+
+  @override
+  String get aiSuggestThinking3 => 'Sorting by fit…';
+
+  @override
+  String get aiSuggestResultsTitle => 'Suggested protocols';
+
+  @override
+  String get aiSuggestEmpty =>
+      'No active protocol fits this case. Try adding more detail.';
+
+  @override
+  String get aiSuggestOpen => 'See criteria and refer';
+
+  @override
+  String get aiSuggestOpenError =>
+      'Couldn\'t open the protocol. Please try again.';
+
+  @override
+  String get aiReadStudy => 'Read study with AI';
+
+  @override
+  String get aiReadStudyTitle => 'Read a study';
+
+  @override
+  String get aiReadStudySubtitle =>
+      'Take a photo or choose an image or PDF of the study. The AI reads the values so you can review them before adding them.';
+
+  @override
+  String get aiReadStudyCamera => 'Take photo';
+
+  @override
+  String get aiReadStudyGallery => 'Gallery';
+
+  @override
+  String get aiReadStudyPdf => 'PDF';
+
+  @override
+  String get aiReadStudyPrivacy =>
+      'The image isn\'t stored: it\'s only used to read the values. JPG, PNG or PDF up to 8 MB.';
+
+  @override
+  String get aiReadStudyThinking1 => 'Uploading the study…';
+
+  @override
+  String get aiReadStudyThinking2 => 'Reading the values…';
+
+  @override
+  String get aiReadStudyThinking3 => 'Organizing the results…';
+
+  @override
+  String get aiReadStudyFindings => 'Values found';
+
+  @override
+  String get aiReadStudyNotesPreview => 'Will be added to the notes';
+
+  @override
+  String get aiReadStudyAdd => 'Add to notes';
+
+  @override
+  String get aiReadStudyAdded =>
+      'Added to the clinical notes. Review it before continuing.';
+
+  @override
+  String get aiReadStudyAnother => 'Read another study';
+
+  @override
+  String get aiReadStudyNoFindings =>
+      'No values were found in the study. Try a sharper photo.';
+
+  @override
+  String get aiFileTooLarge =>
+      'The file is larger than 8 MB. Choose a smaller one.';
+
+  @override
+  String get aiFileUnsupported => 'Unsupported format. Use JPG, PNG or PDF.';
+
+  @override
+  String get aiPickError =>
+      'Couldn\'t open the file. Check the permissions and try again.';
+
+  @override
+  String get aiDictate => 'Dictate';
+
+  @override
+  String get aiDictationTitle => 'Dictate clinical data';
+
+  @override
+  String get aiDictationCaseTitle => 'Dictate the case';
+
+  @override
+  String get aiDictationHint =>
+      'Say the age, sex, conditions and anything relevant. Don\'t say name, ID or contact details: you type those yourself.';
+
+  @override
+  String get aiDictationCaseHint =>
+      'Describe the case out loud: age, sex, diagnosis and treatment. Don\'t say anything that identifies the patient.';
+
+  @override
+  String get aiDictationListening => 'Listening…';
+
+  @override
+  String get aiDictationPreparing => 'Getting the microphone ready…';
+
+  @override
+  String get aiDictationPlaceholder => 'What you say will appear here…';
+
+  @override
+  String get aiDictationStop => 'Done';
+
+  @override
+  String get aiDictationThinking1 => 'Organizing what you dictated…';
+
+  @override
+  String get aiDictationThinking2 => 'Separating age, sex and conditions…';
+
+  @override
+  String get aiDictationThinking3 => 'Preparing the notes…';
+
+  @override
+  String get aiDictationTranscript => 'What you dictated';
+
+  @override
+  String get aiDictationProposal => 'Review what the AI understood';
+
+  @override
+  String get aiDictationProposalHint =>
+      'Check what you want to use. You type name, ID and contact details yourself.';
+
+  @override
+  String get aiDictationAgeNote =>
+      'Used in the pre-screening; you fill in the date of birth.';
+
+  @override
+  String get aiDictationNothing =>
+      'The AI found no clinical data in the dictation.';
+
+  @override
+  String get aiDictationApply => 'Use selected';
+
+  @override
+  String get aiDictationApplied => 'Data added. Review it before continuing.';
+
+  @override
+  String get aiDictationUnavailable =>
+      'Couldn\'t use the microphone. Check the microphone and speech recognition permissions in Settings.';
+
+  @override
+  String get aiDictationEmpty =>
+      'Nothing was heard. Try again, close to the microphone.';
+
+  @override
+  String get aiDictationTryAgain => 'Dictate again';
+
+  @override
+  String get aiRejectionsTitle => 'Tips for your referrals';
+
+  @override
+  String get aiRejectionsThinking1 => 'Reviewing your rejections…';
+
+  @override
+  String get aiRejectionsThinking2 => 'Grouping the reasons…';
+
+  @override
+  String get aiRejectionsNoneTitle => 'You\'re doing great!';
+
+  @override
+  String get aiRejectionsNoneMessage =>
+      'You had no rejections in the last 12 months.';
+
+  @override
+  String aiRejectionsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rejections',
+      one: '1 rejection',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiRejectionsPeriod =>
+      'Based on your rejections in the last 12 months';
+
+  @override
+  String aiRejectionsProtocols(String names) {
+    return 'Protocols: $names';
+  }
+
+  @override
+  String aiRejectionsShowMore(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'See $count reasons',
+      one: 'See 1 reason',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiRejectionsShowLess => 'Show less';
+
+  @override
+  String get aiAssistantTitle => 'Protocol assistant';
+
+  @override
+  String get aiAssistantName => 'Clinexapp assistant';
+
+  @override
+  String get aiAssistantIntro =>
+      'Ask me about the criteria, specialties or conditions of the active protocols.';
+
+  @override
+  String aiAssistantIntroProtocol(String name) {
+    return 'Ask me anything about $name.';
+  }
+
+  @override
+  String aiAssistantAbout(String name) {
+    return 'About: $name';
+  }
+
+  @override
+  String get aiAssistantHint => 'Type your question';
+
+  @override
+  String get aiAssistantSend => 'Send';
+
+  @override
+  String get aiAssistantSources => 'Sources';
+
+  @override
+  String get aiAssistantSuggested => 'Suggested questions';
+
+  @override
+  String get aiAssistantStarter1 =>
+      'Which protocols accept patients with kidney failure?';
+
+  @override
+  String get aiAssistantStarter2 =>
+      'Which tests do the diabetes protocols require?';
+
+  @override
+  String get aiAssistantStarter3 => 'Are there protocols for patients over 75?';
+
+  @override
+  String get aiAssistantProtocolStarter1 => 'What are the exclusion criteria?';
+
+  @override
+  String get aiAssistantProtocolStarter2 => 'Which tests do I need to refer?';
+
+  @override
+  String get aiAssistantProtocolStarter3 => 'What age range does it accept?';
+
+  @override
+  String get aiAssistantThinking1 => 'Searching the protocols…';
+
+  @override
+  String get aiAssistantThinking2 => 'Reading the criteria…';
+
+  @override
+  String get aiAssistantThinking3 => 'Writing the answer…';
+
+  @override
+  String get aiAssistantPrivacy =>
+      'It answers only with data from active protocols. Don\'t type anything that identifies the patient.';
+
+  @override
+  String get aiAssistantClear => 'New conversation';
 }

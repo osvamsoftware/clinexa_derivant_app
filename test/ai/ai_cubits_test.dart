@@ -130,7 +130,7 @@ void main() {
     test('error con detail', () async {
       repo.error = const AiException(503, 'La IA está desactivada.');
       final c = ProtocolSuggestionCubit(repo);
-      await c.suggest('caso');
+      await c.suggest('caso clínico');
       expect(c.state.status, AiRequestStatus.failure);
       expect(c.state.error!.detail, 'La IA está desactivada.');
     });
@@ -207,6 +207,20 @@ void main() {
       await c.close();
     });
 
+    test('dictado demasiado corto: no llama a la IA', () async {
+      final c = DictationCubit(
+        repo,
+        FakeSpeechService(
+          script: 'sí',
+          wordInterval: const Duration(milliseconds: 1),
+        ),
+      );
+      await c.start();
+      await Future<void>.delayed(const Duration(milliseconds: 30));
+      expect(c.state.phase, DictationPhase.empty);
+      expect(repo.calls, isEmpty);
+    });
+
     test('sin micrófono: no disponible', () async {
       final c = DictationCubit(repo, FakeSpeechService(available: false));
       await c.start();
@@ -217,7 +231,7 @@ void main() {
       final c = DictationCubit(
         repo,
         FakeSpeechService(
-          script: 'caso',
+          script: 'caso clínico',
           wordInterval: const Duration(milliseconds: 1),
         ),
         parse: false,
@@ -225,7 +239,7 @@ void main() {
       await c.start();
       await Future<void>.delayed(const Duration(milliseconds: 30));
       expect(c.state.phase, DictationPhase.idle);
-      expect(c.state.transcript, 'caso');
+      expect(c.state.transcript, 'caso clínico');
       expect(repo.calls, isEmpty);
     });
 

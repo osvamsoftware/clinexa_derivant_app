@@ -68,6 +68,10 @@ class DictationCubit extends Cubit<DictationState> {
   DictationCubit(this._repository, this._speech, {this.parse = true})
     : super(const DictationState());
 
+  /// Largo admitido por `parse-dictation`.
+  static const minTranscript = 5;
+  static const maxTranscript = 4000;
+
   final AiRepository _repository;
   final SpeechService _speech;
   final bool parse;
@@ -118,7 +122,8 @@ class DictationCubit extends Cubit<DictationState> {
   void _onSpeechDone(String? error) {
     if (isClosed || state.phase != DictationPhase.listening) return;
     final text = state.transcript.trim();
-    if (text.isEmpty) {
+    // El backend pide al menos 5 caracteres.
+    if (text.length < minTranscript) {
       emit(
         DictationState(
           phase: error == null
@@ -132,7 +137,9 @@ class DictationCubit extends Cubit<DictationState> {
       emit(state.copyWith(phase: DictationPhase.idle, level: 0));
       return;
     }
-    parseTranscript(text);
+    parseTranscript(
+      text.length > maxTranscript ? text.substring(0, maxTranscript) : text,
+    );
   }
 
   /// Llama a `parse-dictation` con el texto transcrito.

@@ -12,7 +12,7 @@ class ProtocolSuggestionCubit
 
   Future<void> suggest(String description) async {
     final text = description.trim();
-    if (text.isEmpty || state.isLoading) return;
+    if (text.length < 5 || state.isLoading) return;
     emit(state.loading());
     try {
       final result = await _repository.suggestProtocols(text);

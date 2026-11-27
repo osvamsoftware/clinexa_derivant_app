@@ -18,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:clinexa_derivant_app/presentation/shared/widgets/debounced_search_textfield.dart';
+import 'package:clinexa_derivant_app/presentation/ai/widgets/ai_common.dart';
+import 'package:clinexa_derivant_app/presentation/ai/widgets/ai_home_entry.dart';
 
 enum SearchMode { category, name }
 
@@ -166,6 +168,13 @@ class _ProtocolSelectionViewState extends State<ProtocolSelectionView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    // IA-03: describe el caso y la IA sugiere protocolos.
+                    const AiGate(
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: ClxSpace.s5),
+                        child: AiHomeEntry(),
+                      ),
+                    ),
                     ClxSectionHeader(
                       title: s.homeProtocolsTitle,
                       subtitle: s.protocolSelectionSubtitle,

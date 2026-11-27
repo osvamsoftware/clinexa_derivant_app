@@ -11,6 +11,10 @@ import 'package:clinexa_derivant_app/presentation/specialty/specialty_repository
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:clinexa_derivant_app/domain/ai_repository.dart';
+import 'package:clinexa_derivant_app/presentation/ai/cubit/rejection_feedback_cubit.dart';
+import 'package:clinexa_derivant_app/presentation/ai/widgets/ai_common.dart';
+import 'package:clinexa_derivant_app/presentation/ai/widgets/rejection_feedback_card.dart';
 
 class PatientsScreen extends StatelessWidget {
   static const path = "/patients-list";
@@ -32,15 +36,24 @@ class PatientsScreen extends StatelessWidget {
       );
     }
 
-    return BlocProvider(
-      create: (context) =>
-          PatientsCubit(
-              patientRepository: context.read<PatientRepository>(),
-              specialtyRepository: context.read<SpecialtyRepository>(),
-              userId: user.id ?? "",
-            )
-            ..loadPatients()
-            ..loadSpecialties(allowedIds: user.specialties),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              PatientsCubit(
+                  patientRepository: context.read<PatientRepository>(),
+                  specialtyRepository: context.read<SpecialtyRepository>(),
+                  userId: user.id ?? "",
+                )
+                ..loadPatients()
+                ..loadSpecialties(allowedIds: user.specialties),
+        ),
+        // IA-07: se consulta solo si la IA está disponible (AiGate).
+        BlocProvider(
+          create: (context) =>
+              RejectionFeedbackCubit(context.read<AiRepository>()),
+        ),
+      ],
       child: const PatientsView(),
     );
   }
@@ -136,19 +149,25 @@ class PatientsView extends StatelessWidget {
                       }
                       if (state.patients.isEmpty) {
                         return SingleChildScrollView(
-                          child: hasFilters
-                              ? ClxEmptyState(
-                                  icon: LucideIcons.searchX,
-                                  title: s.noResults,
-                                  message: s.noPatientsResultsHint,
-                                )
-                              : ClxEmptyState(
-                                  icon: LucideIcons.userPlus,
-                                  title: s.noPatientsFound,
-                                  message: s.noPatientsPromotion,
-                                  actionLabel: s.referPatientAction,
-                                  onAction: () => context.go(HomeScreen.path),
-                                ),
+                          child: Column(
+                            children: [
+                              const _AiTips(),
+                              hasFilters
+                                  ? ClxEmptyState(
+                                      icon: LucideIcons.searchX,
+                                      title: s.noResults,
+                                      message: s.noPatientsResultsHint,
+                                    )
+                                  : ClxEmptyState(
+                                      icon: LucideIcons.userPlus,
+                                      title: s.noPatientsFound,
+                                      message: s.noPatientsPromotion,
+                                      actionLabel: s.referPatientAction,
+                                      onAction: () =>
+                                          context.go(HomeScreen.path),
+                                    ),
+                            ],
+                          ),
                         );
                       }
                       return RefreshIndicator(
@@ -161,10 +180,14 @@ class PatientsView extends StatelessWidget {
                             ClxSpace.s4,
                             ClxSpace.s6,
                           ),
-                          itemCount: state.patients.length,
-                          separatorBuilder: (_, __) =>
-                              const SizedBox(height: ClxSpace.s3),
-                          itemBuilder: (context, index) {
+                          // La primera fila es la tarjeta de consejos de IA.
+                          itemCount: state.patients.length + 1,
+                          separatorBuilder: (_, i) => i == 0
+                              ? const SizedBox.shrink()
+                              : const SizedBox(height: ClxSpace.s3),
+                          itemBuilder: (context, row) {
+                            if (row == 0) return const _AiTips(inList: true);
+                            final index = row - 1;
                             final patient = state.patients[index];
 
                             // Access address formatted string from AddressModel
@@ -209,6 +232,25 @@ class PatientsView extends StatelessWidget {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+/// IA-07: consejos a partir de los rechazos (oculto si la IA no está).
+class _AiTips extends StatelessWidget {
+  const _AiTips({this.inList = false});
+
+  final bool inList;
+
+  @override
+  Widget build(BuildContext context) {
+    return AiGate(
+      child: Padding(
+        padding: inList
+            ? const EdgeInsets.only(bottom: ClxSpace.s4)
+            : const EdgeInsets.fromLTRB(ClxSpace.s4, 0, ClxSpace.s4, 0),
+        child: const RejectionFeedbackCard(),
       ),
     );
   }

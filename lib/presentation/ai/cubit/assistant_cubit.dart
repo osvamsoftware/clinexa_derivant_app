@@ -59,8 +59,10 @@ class AssistantCubit extends Cubit<AssistantState> {
   int _nextId = 0;
 
   Future<void> ask(String question) async {
-    final q = question.trim();
-    if (q.isEmpty || state.loading) return;
+    // El backend admite preguntas de 3 a 500 caracteres.
+    final t = question.trim();
+    final q = t.length > 500 ? t.substring(0, 500) : t;
+    if (q.length < 3 || state.loading) return;
     final previous = state.messages;
     final user = AssistantMessage(id: _nextId++, role: 'user', content: q);
     await _send(q, previous, [...previous, user]);

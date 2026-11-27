@@ -23,6 +23,8 @@ import 'package:clinexa_derivant_app/presentation/password_recovery/reset_passwo
 import 'package:clinexa_derivant_app/presentation/profile/edit_profile_screen.dart';
 import 'package:clinexa_derivant_app/data/models/user_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:clinexa_derivant_app/presentation/ai/screens/protocol_assistant_screen.dart';
+import 'package:clinexa_derivant_app/presentation/ai/screens/protocol_suggestion_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:clinexa_derivant_app/presentation/contact/contact_protocol_screen.dart';
@@ -201,6 +203,23 @@ class AppRouter {
           // Better: import ProtocolModel at top.
           return ProtocolCriteriaScreen(protocol: protocol);
         },
+      ),
+      // IA-03: sugerencia de protocolos (extra: true = empezar dictando)
+      GoRoute(
+        path: ProtocolSuggestionScreen.path,
+        name: ProtocolSuggestionScreen.path,
+        builder: (context, state) =>
+            ProtocolSuggestionScreen(startWithDictation: state.extra == true),
+      ),
+      // IA-09: asistente de protocolos (extra: AssistantArgs opcional)
+      GoRoute(
+        path: ProtocolAssistantScreen.path,
+        name: ProtocolAssistantScreen.path,
+        builder: (context, state) => ProtocolAssistantScreen(
+          args: state.extra is AssistantArgs
+              ? state.extra as AssistantArgs
+              : null,
+        ),
       ),
       //patient details
       GoRoute(

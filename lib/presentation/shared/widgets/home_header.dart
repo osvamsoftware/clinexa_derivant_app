@@ -6,6 +6,8 @@ import 'package:clinexa_derivant_app/presentation/profile/edit_profile_screen.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:clinexa_derivant_app/presentation/ai/screens/protocol_assistant_screen.dart';
+import 'package:clinexa_derivant_app/presentation/ai/widgets/ai_common.dart';
 
 /// Cabecera de Inicio: saludo con avatar de iniciales y accesos a
 /// notificaciones y perfil. Fondo `surface`, sin degradado (el degradado
@@ -57,6 +59,18 @@ class HomeHeader extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: ClxSpace.s2),
+              // IA-09: asistente de protocolos.
+              AiGate(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: ClxSpace.s2),
+                  child: ClxAiIconButton(
+                    key: const Key('home_ai_assistant_button'),
+                    icon: LucideIcons.botMessageSquare,
+                    tooltip: s.aiAssistantTitle,
+                    onPressed: () => context.push(ProtocolAssistantScreen.path),
+                  ),
+                ),
+              ),
               ClxIconButton(
                 key: const Key('home_notifications_button'),
                 icon: LucideIcons.bell,

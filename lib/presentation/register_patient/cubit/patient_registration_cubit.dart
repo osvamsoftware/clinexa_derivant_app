@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
@@ -13,8 +14,16 @@ class PatientRegistrationCubit extends Cubit<PatientRegistrationState> {
   final PatientRepository _repository;
   final String? protocolId;
 
-  PatientRegistrationCubit(this._repository, {this.protocolId})
-    : super(const PatientRegistrationState());
+  PatientRegistrationCubit(
+    this._repository, {
+    this.protocolId,
+    this.onPatientCreated,
+  }) : super(const PatientRegistrationState());
+
+  /// Se llama con el id del paciente recién creado (por ejemplo, para
+  /// vincularle la pre-evaluación de la IA). Sus errores no afectan el
+  /// registro.
+  final Future<void> Function(String patientId)? onPatientCreated;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -40,10 +49,25 @@ class PatientRegistrationCubit extends Cubit<PatientRegistrationState> {
   void setBirthDate(DateTime date) {
     birthDate = date;
     birthDateController.text = "${date.year}-${date.month}-${date.day}";
+    _touch();
   }
 
   void setGender(String? value) {
     gender = value;
+    _touch();
+  }
+
+  /// Avisa que cambiaron campos que no viven en el estado (fecha, sexo).
+  void _touch() => emit(state.copyWith(formRevision: state.formRevision + 1));
+
+  /// Agrega un bloque al final de las notas clínicas (dictado o lectura de
+  /// estudios con IA), separado por una línea en blanco.
+  void appendNotes(String text) {
+    final block = text.trim();
+    if (block.isEmpty) return;
+    final current = notesController.text.trimRight();
+    notesController.text = current.isEmpty ? block : '$current\n\n$block';
+    _touch();
   }
 
   void setAddress(AddressModel addressModel) {
@@ -133,7 +157,11 @@ class PatientRegistrationCubit extends Cubit<PatientRegistrationState> {
         createdBy: createdBy,
       );
 
-      await _repository.create(patient);
+      final created = await _repository.create(patient);
+      final id = created.id;
+      if (id != null && id.isNotEmpty && onPatientCreated != null) {
+        unawaited(onPatientCreated!(id).catchError((Object _) {}));
+      }
 
       emit(state.copyWith(status: PatientRegistrationStatus.success));
     } catch (e) {

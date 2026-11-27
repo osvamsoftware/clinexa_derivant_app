@@ -12,6 +12,11 @@ import 'package:clinexa_derivant_app/presentation/address/cubit/address_cubit.da
 import 'package:clinexa_derivant_app/presentation/shared/widgets/address_search_box.dart';
 import 'package:clinexa_derivant_app/presentation/patients/patients_screen.dart';
 import 'package:go_router/go_router.dart';
+import 'package:clinexa_derivant_app/domain/ai_repository.dart';
+import 'package:clinexa_derivant_app/presentation/ai/cubit/eligibility_cubit.dart';
+import 'package:clinexa_derivant_app/presentation/ai/widgets/ai_common.dart';
+import 'package:clinexa_derivant_app/presentation/ai/widgets/ai_clinical_tools.dart';
+import 'package:clinexa_derivant_app/presentation/ai/widgets/eligibility_panel.dart';
 
 class PatientRegistrationScreen extends StatelessWidget {
   static const path = "/register-patient";
@@ -24,11 +29,26 @@ class PatientRegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        // IA-02: pre-evaluación de elegibilidad del caso.
         BlocProvider(
-          create: (context) => PatientRegistrationCubit(
-            context.read<PatientRepository>(),
+          create: (context) => EligibilityCubit(
+            context.read<AiRepository>(),
             protocolId: protocolId,
           ),
+        ),
+        BlocProvider(
+          create: (context) {
+            final eligibility = context.read<EligibilityCubit>();
+            return PatientRegistrationCubit(
+              context.read<PatientRepository>(),
+              protocolId: protocolId,
+              // Vincula la evaluación (con las correcciones del médico)
+              // al paciente recién registrado.
+              onPatientCreated: (id) async {
+                await eligibility.attach(id);
+              },
+            );
+          },
         ),
         BlocProvider(
           create: (context) => AddressCubit(context.read<AddressRepository>()),
@@ -191,18 +211,23 @@ class PatientRegistrationView extends StatelessWidget {
                 ],
               ),
               gap,
-              ClxDropdown<String>(
-                label: s.gender,
-                hint: s.selectOption,
-                value: cubit.gender,
-                items: const ["Male", "Female", "Other"],
-                itemLabel: (v) => switch (v) {
-                  "Male" => s.male,
-                  "Female" => s.female,
-                  _ => s.other,
-                },
-                onChanged: cubit.setGender,
-                validator: (val) => val == null ? s.fieldRequired : null,
+              // Se redibuja si el sexo llega por dictado (IA-05).
+              BlocBuilder<PatientRegistrationCubit, PatientRegistrationState>(
+                buildWhen: (a, b) => a.formRevision != b.formRevision,
+                builder: (context, _) => ClxDropdown<String>(
+                  key: ValueKey('patient_gender_${cubit.gender}'),
+                  label: s.gender,
+                  hint: s.selectOption,
+                  value: cubit.gender,
+                  items: const ["Male", "Female", "Other"],
+                  itemLabel: (v) => switch (v) {
+                    "Male" => s.male,
+                    "Female" => s.female,
+                    _ => s.other,
+                  },
+                  onChanged: cubit.setGender,
+                  validator: (val) => val == null ? s.fieldRequired : null,
+                ),
               ),
 
               const SizedBox(height: ClxSpace.s8),
@@ -300,15 +325,26 @@ class PatientRegistrationView extends StatelessWidget {
                 title: s.medicalInfo,
                 icon: LucideIcons.stethoscope,
               ),
+              // IA-05 y IA-04: dictado y lectura de estudios.
+              const AiGate(child: AiClinicalTools()),
               ClxTextField(
+                key: const Key('patient_notes_field'),
                 label: s.notes,
                 hint: s.notesHint,
                 optional: true,
                 controller: cubit.notesController,
                 minLines: 3,
-                maxLines: 5,
+                maxLines: 8,
                 textCapitalization: TextCapitalization.sentences,
               ),
+              // IA-02: pre-evaluación antes de enviar (solo si hay protocolo).
+              if (cubit.protocolId != null && cubit.protocolId!.isNotEmpty)
+                const AiGate(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: ClxSpace.s6),
+                    child: EligibilityPanel(),
+                  ),
+                ),
             ],
           ),
         ),

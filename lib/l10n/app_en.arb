@@ -448,5 +448,181 @@
         "type": "int"
       }
     }
-  }
+  },
+  "aiGenericError": "The AI didn't respond. Please try again.",
+  "aiNoConnection": "Can't reach the AI. Check your connection and try again.",
+  "aiRetry": "Try again",
+  "aiDisclaimer": "AI suggestion. Review it: the decision is yours.",
+  "aiSuggestedTag": "AI suggestion",
+  "aiThinkingTitle": "The AI is working",
+  "aiFitLabel": "fit",
+  "aiNotProvided": "Not provided",
+  "aiAdd": "Add",
+  "aiRemove": "Remove",
+  "aiFieldAge": "Age",
+  "aiFieldSex": "Sex",
+  "aiFieldPathologies": "Conditions",
+  "aiFieldNotes": "Clinical notes",
+  "aiAgeYears": "{age} years",
+  "@aiAgeYears": {
+    "placeholders": {
+      "age": {
+        "type": "int"
+      }
+    }
+  },
+  "aiEligibilityTitle": "AI pre-screening",
+  "aiEligibilityIntro": "The AI compares the case (age, sex, conditions and clinical notes) with the protocol criteria. You can correct each result.",
+  "aiEligibilityCaseLabel": "Data being evaluated",
+  "aiEligibilityPathologies": "Case conditions (AI only)",
+  "aiEligibilityPathologyHint": "E.g. Type 2 diabetes",
+  "aiEligibilityNotesFromForm": "The clinical notes from the form are also used. Name, ID and contact details are never sent.",
+  "aiEligibilityEvaluate": "Evaluate with AI",
+  "aiEligibilityReevaluate": "Evaluate again",
+  "aiEligibilityEvaluating": "Evaluating…",
+  "aiEligibilityThinking1": "Reading the criteria…",
+  "aiEligibilityThinking2": "Comparing with the case…",
+  "aiEligibilityThinking3": "Looking for evidence…",
+  "aiEligibilityThinking4": "Calculating the fit…",
+  "aiEligibilityEmptyCase": "Fill in the date of birth, sex or clinical notes so the AI has something to evaluate.",
+  "aiStatusMeets": "Meets",
+  "aiStatusFails": "Doesn't meet",
+  "aiStatusMissing": "Missing data",
+  "aiCriterionInclusion": "Inclusion",
+  "aiCriterionExclusion": "Exclusion",
+  "aiCorrectedByYou": "Corrected by you",
+  "aiEligibilityFailsWarningTitle": "Some criteria are not met",
+  "aiEligibilityFailsWarning": "Review them before sending. You can still continue: the decision is yours and the investigator's.",
+  "aiEligibilityMissingCount": "{count, plural, =1{1 missing data point} other{{count} missing data points}}",
+  "@aiEligibilityMissingCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiEligibilityCorrectHint": "Review each criterion and tap another status if the AI got it wrong.",
+  "aiEligibilityAttachNote": "When you register the patient, the evaluation and your corrections are saved with the referral.",
+  "aiSuggestEntryTitle": "Describe your case and I'll suggest protocols",
+  "aiSuggestEntrySubtitle": "Type or dictate it: the AI searches the active protocols.",
+  "aiSuggestEntryAction": "Describe case",
+  "aiSuggestTitle": "Suggest protocols",
+  "aiSuggestFieldLabel": "Clinical case",
+  "aiSuggestFieldHint": "E.g. 58-year-old woman, T2D, HbA1c 8.2, on metformin",
+  "aiSuggestPrivacy": "Don't include the patient's name, ID or contact details.",
+  "aiSuggestAction": "Suggest protocols",
+  "aiSuggestLoading": "Searching…",
+  "aiSuggestThinking1": "Reading the case…",
+  "aiSuggestThinking2": "Reviewing active protocols…",
+  "aiSuggestThinking3": "Sorting by fit…",
+  "aiSuggestResultsTitle": "Suggested protocols",
+  "aiSuggestEmpty": "No active protocol fits this case. Try adding more detail.",
+  "aiSuggestOpen": "See criteria and refer",
+  "aiSuggestOpenError": "Couldn't open the protocol. Please try again.",
+  "aiReadStudy": "Read study with AI",
+  "aiReadStudyTitle": "Read a study",
+  "aiReadStudySubtitle": "Take a photo or choose an image or PDF of the study. The AI reads the values so you can review them before adding them.",
+  "aiReadStudyCamera": "Take photo",
+  "aiReadStudyGallery": "Gallery",
+  "aiReadStudyPdf": "PDF",
+  "aiReadStudyPrivacy": "The image isn't stored: it's only used to read the values. JPG, PNG or PDF up to 8 MB.",
+  "aiReadStudyThinking1": "Uploading the study…",
+  "aiReadStudyThinking2": "Reading the values…",
+  "aiReadStudyThinking3": "Organizing the results…",
+  "aiReadStudyFindings": "Values found",
+  "aiReadStudyNotesPreview": "Will be added to the notes",
+  "aiReadStudyAdd": "Add to notes",
+  "aiReadStudyAdded": "Added to the clinical notes. Review it before continuing.",
+  "aiReadStudyAnother": "Read another study",
+  "aiReadStudyNoFindings": "No values were found in the study. Try a sharper photo.",
+  "aiFileTooLarge": "The file is larger than 8 MB. Choose a smaller one.",
+  "aiFileUnsupported": "Unsupported format. Use JPG, PNG or PDF.",
+  "aiPickError": "Couldn't open the file. Check the permissions and try again.",
+  "aiDictate": "Dictate",
+  "aiDictationTitle": "Dictate clinical data",
+  "aiDictationCaseTitle": "Dictate the case",
+  "aiDictationHint": "Say the age, sex, conditions and anything relevant. Don't say name, ID or contact details: you type those yourself.",
+  "aiDictationCaseHint": "Describe the case out loud: age, sex, diagnosis and treatment. Don't say anything that identifies the patient.",
+  "aiDictationListening": "Listening…",
+  "aiDictationPreparing": "Getting the microphone ready…",
+  "aiDictationPlaceholder": "What you say will appear here…",
+  "aiDictationStop": "Done",
+  "aiDictationThinking1": "Organizing what you dictated…",
+  "aiDictationThinking2": "Separating age, sex and conditions…",
+  "aiDictationThinking3": "Preparing the notes…",
+  "aiDictationTranscript": "What you dictated",
+  "aiDictationProposal": "Review what the AI understood",
+  "aiDictationProposalHint": "Check what you want to use. You type name, ID and contact details yourself.",
+  "aiDictationAgeNote": "Used in the pre-screening; you fill in the date of birth.",
+  "aiDictationNothing": "The AI found no clinical data in the dictation.",
+  "aiDictationApply": "Use selected",
+  "aiDictationApplied": "Data added. Review it before continuing.",
+  "aiDictationUnavailable": "Couldn't use the microphone. Check the microphone and speech recognition permissions in Settings.",
+  "aiDictationEmpty": "Nothing was heard. Try again, close to the microphone.",
+  "aiDictationTryAgain": "Dictate again",
+  "aiRejectionsTitle": "Tips for your referrals",
+  "aiRejectionsThinking1": "Reviewing your rejections…",
+  "aiRejectionsThinking2": "Grouping the reasons…",
+  "aiRejectionsNoneTitle": "You're doing great!",
+  "aiRejectionsNoneMessage": "You had no rejections in the last 12 months.",
+  "aiRejectionsCount": "{count, plural, =1{1 rejection} other{{count} rejections}}",
+  "@aiRejectionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiRejectionsPeriod": "Based on your rejections in the last 12 months",
+  "aiRejectionsProtocols": "Protocols: {names}",
+  "@aiRejectionsProtocols": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "aiRejectionsShowMore": "{count, plural, =1{See 1 reason} other{See {count} reasons}}",
+  "@aiRejectionsShowMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiRejectionsShowLess": "Show less",
+  "aiAssistantTitle": "Protocol assistant",
+  "aiAssistantName": "Clinexapp assistant",
+  "aiAssistantIntro": "Ask me about the criteria, specialties or conditions of the active protocols.",
+  "aiAssistantIntroProtocol": "Ask me anything about {name}.",
+  "@aiAssistantIntroProtocol": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "aiAssistantAbout": "About: {name}",
+  "@aiAssistantAbout": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "aiAssistantHint": "Type your question",
+  "aiAssistantSend": "Send",
+  "aiAssistantSources": "Sources",
+  "aiAssistantSuggested": "Suggested questions",
+  "aiAssistantStarter1": "Which protocols accept patients with kidney failure?",
+  "aiAssistantStarter2": "Which tests do the diabetes protocols require?",
+  "aiAssistantStarter3": "Are there protocols for patients over 75?",
+  "aiAssistantProtocolStarter1": "What are the exclusion criteria?",
+  "aiAssistantProtocolStarter2": "Which tests do I need to refer?",
+  "aiAssistantProtocolStarter3": "What age range does it accept?",
+  "aiAssistantThinking1": "Searching the protocols…",
+  "aiAssistantThinking2": "Reading the criteria…",
+  "aiAssistantThinking3": "Writing the answer…",
+  "aiAssistantPrivacy": "It answers only with data from active protocols. Don't type anything that identifies the patient.",
+  "aiAssistantClear": "New conversation"
 }

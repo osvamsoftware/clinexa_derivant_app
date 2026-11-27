@@ -273,4 +273,15 @@ class AiRepositoryImpl implements AiRepository {
 List<AssistantTurn> trimAssistantHistory(
   List<AssistantTurn> all, {
   int max = 6,
-}) => all.length <= max ? List.of(all) : all.sublist(all.length - max);
+}) => [
+  for (final t in all.length <= max ? all : all.sublist(all.length - max))
+    t.content.length <= maxHistoryChars
+        ? t
+        : AssistantTurn(
+            role: t.role,
+            content: t.content.substring(0, maxHistoryChars),
+          ),
+];
+
+/// Cada mensaje de la historia admite hasta 1000 caracteres.
+const maxHistoryChars = 1000;

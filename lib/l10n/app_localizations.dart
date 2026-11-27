@@ -2112,6 +2112,768 @@ abstract class S {
   /// In en, this message translates to:
   /// **'{count, plural, =0{No results} =1{1 result} other{{count} results}}'**
   String resultsCount(int count);
+
+  /// No description provided for @aiGenericError.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI didn\'t respond. Please try again.'**
+  String get aiGenericError;
+
+  /// No description provided for @aiNoConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'Can\'t reach the AI. Check your connection and try again.'**
+  String get aiNoConnection;
+
+  /// No description provided for @aiRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get aiRetry;
+
+  /// No description provided for @aiDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'AI suggestion. Review it: the decision is yours.'**
+  String get aiDisclaimer;
+
+  /// No description provided for @aiSuggestedTag.
+  ///
+  /// In en, this message translates to:
+  /// **'AI suggestion'**
+  String get aiSuggestedTag;
+
+  /// No description provided for @aiThinkingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI is working'**
+  String get aiThinkingTitle;
+
+  /// No description provided for @aiFitLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'fit'**
+  String get aiFitLabel;
+
+  /// No description provided for @aiNotProvided.
+  ///
+  /// In en, this message translates to:
+  /// **'Not provided'**
+  String get aiNotProvided;
+
+  /// No description provided for @aiAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get aiAdd;
+
+  /// No description provided for @aiRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get aiRemove;
+
+  /// No description provided for @aiFieldAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get aiFieldAge;
+
+  /// No description provided for @aiFieldSex.
+  ///
+  /// In en, this message translates to:
+  /// **'Sex'**
+  String get aiFieldSex;
+
+  /// No description provided for @aiFieldPathologies.
+  ///
+  /// In en, this message translates to:
+  /// **'Conditions'**
+  String get aiFieldPathologies;
+
+  /// No description provided for @aiFieldNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinical notes'**
+  String get aiFieldNotes;
+
+  /// No description provided for @aiAgeYears.
+  ///
+  /// In en, this message translates to:
+  /// **'{age} years'**
+  String aiAgeYears(int age);
+
+  /// No description provided for @aiEligibilityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI pre-screening'**
+  String get aiEligibilityTitle;
+
+  /// No description provided for @aiEligibilityIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI compares the case (age, sex, conditions and clinical notes) with the protocol criteria. You can correct each result.'**
+  String get aiEligibilityIntro;
+
+  /// No description provided for @aiEligibilityCaseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Data being evaluated'**
+  String get aiEligibilityCaseLabel;
+
+  /// No description provided for @aiEligibilityPathologies.
+  ///
+  /// In en, this message translates to:
+  /// **'Case conditions (AI only)'**
+  String get aiEligibilityPathologies;
+
+  /// No description provided for @aiEligibilityPathologyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. Type 2 diabetes'**
+  String get aiEligibilityPathologyHint;
+
+  /// No description provided for @aiEligibilityNotesFromForm.
+  ///
+  /// In en, this message translates to:
+  /// **'The clinical notes from the form are also used. Name, ID and contact details are never sent.'**
+  String get aiEligibilityNotesFromForm;
+
+  /// No description provided for @aiEligibilityEvaluate.
+  ///
+  /// In en, this message translates to:
+  /// **'Evaluate with AI'**
+  String get aiEligibilityEvaluate;
+
+  /// No description provided for @aiEligibilityReevaluate.
+  ///
+  /// In en, this message translates to:
+  /// **'Evaluate again'**
+  String get aiEligibilityReevaluate;
+
+  /// No description provided for @aiEligibilityEvaluating.
+  ///
+  /// In en, this message translates to:
+  /// **'Evaluating…'**
+  String get aiEligibilityEvaluating;
+
+  /// No description provided for @aiEligibilityThinking1.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading the criteria…'**
+  String get aiEligibilityThinking1;
+
+  /// No description provided for @aiEligibilityThinking2.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparing with the case…'**
+  String get aiEligibilityThinking2;
+
+  /// No description provided for @aiEligibilityThinking3.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking for evidence…'**
+  String get aiEligibilityThinking3;
+
+  /// No description provided for @aiEligibilityThinking4.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculating the fit…'**
+  String get aiEligibilityThinking4;
+
+  /// No description provided for @aiEligibilityEmptyCase.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the date of birth, sex or clinical notes so the AI has something to evaluate.'**
+  String get aiEligibilityEmptyCase;
+
+  /// No description provided for @aiStatusMeets.
+  ///
+  /// In en, this message translates to:
+  /// **'Meets'**
+  String get aiStatusMeets;
+
+  /// No description provided for @aiStatusFails.
+  ///
+  /// In en, this message translates to:
+  /// **'Doesn\'t meet'**
+  String get aiStatusFails;
+
+  /// No description provided for @aiStatusMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing data'**
+  String get aiStatusMissing;
+
+  /// No description provided for @aiCriterionInclusion.
+  ///
+  /// In en, this message translates to:
+  /// **'Inclusion'**
+  String get aiCriterionInclusion;
+
+  /// No description provided for @aiCriterionExclusion.
+  ///
+  /// In en, this message translates to:
+  /// **'Exclusion'**
+  String get aiCriterionExclusion;
+
+  /// No description provided for @aiCorrectedByYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Corrected by you'**
+  String get aiCorrectedByYou;
+
+  /// No description provided for @aiEligibilityFailsWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Some criteria are not met'**
+  String get aiEligibilityFailsWarningTitle;
+
+  /// No description provided for @aiEligibilityFailsWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Review them before sending. You can still continue: the decision is yours and the investigator\'s.'**
+  String get aiEligibilityFailsWarning;
+
+  /// No description provided for @aiEligibilityMissingCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 missing data point} other{{count} missing data points}}'**
+  String aiEligibilityMissingCount(int count);
+
+  /// No description provided for @aiEligibilityCorrectHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Review each criterion and tap another status if the AI got it wrong.'**
+  String get aiEligibilityCorrectHint;
+
+  /// No description provided for @aiEligibilityAttachNote.
+  ///
+  /// In en, this message translates to:
+  /// **'When you register the patient, the evaluation and your corrections are saved with the referral.'**
+  String get aiEligibilityAttachNote;
+
+  /// No description provided for @aiSuggestEntryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your case and I\'ll suggest protocols'**
+  String get aiSuggestEntryTitle;
+
+  /// No description provided for @aiSuggestEntrySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Type or dictate it: the AI searches the active protocols.'**
+  String get aiSuggestEntrySubtitle;
+
+  /// No description provided for @aiSuggestEntryAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe case'**
+  String get aiSuggestEntryAction;
+
+  /// No description provided for @aiSuggestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggest protocols'**
+  String get aiSuggestTitle;
+
+  /// No description provided for @aiSuggestFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinical case'**
+  String get aiSuggestFieldLabel;
+
+  /// No description provided for @aiSuggestFieldHint.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. 58-year-old woman, T2D, HbA1c 8.2, on metformin'**
+  String get aiSuggestFieldHint;
+
+  /// No description provided for @aiSuggestPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t include the patient\'s name, ID or contact details.'**
+  String get aiSuggestPrivacy;
+
+  /// No description provided for @aiSuggestAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggest protocols'**
+  String get aiSuggestAction;
+
+  /// No description provided for @aiSuggestLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching…'**
+  String get aiSuggestLoading;
+
+  /// No description provided for @aiSuggestThinking1.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading the case…'**
+  String get aiSuggestThinking1;
+
+  /// No description provided for @aiSuggestThinking2.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewing active protocols…'**
+  String get aiSuggestThinking2;
+
+  /// No description provided for @aiSuggestThinking3.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorting by fit…'**
+  String get aiSuggestThinking3;
+
+  /// No description provided for @aiSuggestResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested protocols'**
+  String get aiSuggestResultsTitle;
+
+  /// No description provided for @aiSuggestEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No active protocol fits this case. Try adding more detail.'**
+  String get aiSuggestEmpty;
+
+  /// No description provided for @aiSuggestOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'See criteria and refer'**
+  String get aiSuggestOpen;
+
+  /// No description provided for @aiSuggestOpenError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open the protocol. Please try again.'**
+  String get aiSuggestOpenError;
+
+  /// No description provided for @aiReadStudy.
+  ///
+  /// In en, this message translates to:
+  /// **'Read study with AI'**
+  String get aiReadStudy;
+
+  /// No description provided for @aiReadStudyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Read a study'**
+  String get aiReadStudyTitle;
+
+  /// No description provided for @aiReadStudySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo or choose an image or PDF of the study. The AI reads the values so you can review them before adding them.'**
+  String get aiReadStudySubtitle;
+
+  /// No description provided for @aiReadStudyCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo'**
+  String get aiReadStudyCamera;
+
+  /// No description provided for @aiReadStudyGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get aiReadStudyGallery;
+
+  /// No description provided for @aiReadStudyPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF'**
+  String get aiReadStudyPdf;
+
+  /// No description provided for @aiReadStudyPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'The image isn\'t stored: it\'s only used to read the values. JPG, PNG or PDF up to 8 MB.'**
+  String get aiReadStudyPrivacy;
+
+  /// No description provided for @aiReadStudyThinking1.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading the study…'**
+  String get aiReadStudyThinking1;
+
+  /// No description provided for @aiReadStudyThinking2.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading the values…'**
+  String get aiReadStudyThinking2;
+
+  /// No description provided for @aiReadStudyThinking3.
+  ///
+  /// In en, this message translates to:
+  /// **'Organizing the results…'**
+  String get aiReadStudyThinking3;
+
+  /// No description provided for @aiReadStudyFindings.
+  ///
+  /// In en, this message translates to:
+  /// **'Values found'**
+  String get aiReadStudyFindings;
+
+  /// No description provided for @aiReadStudyNotesPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Will be added to the notes'**
+  String get aiReadStudyNotesPreview;
+
+  /// No description provided for @aiReadStudyAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to notes'**
+  String get aiReadStudyAdd;
+
+  /// No description provided for @aiReadStudyAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to the clinical notes. Review it before continuing.'**
+  String get aiReadStudyAdded;
+
+  /// No description provided for @aiReadStudyAnother.
+  ///
+  /// In en, this message translates to:
+  /// **'Read another study'**
+  String get aiReadStudyAnother;
+
+  /// No description provided for @aiReadStudyNoFindings.
+  ///
+  /// In en, this message translates to:
+  /// **'No values were found in the study. Try a sharper photo.'**
+  String get aiReadStudyNoFindings;
+
+  /// No description provided for @aiFileTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'The file is larger than 8 MB. Choose a smaller one.'**
+  String get aiFileTooLarge;
+
+  /// No description provided for @aiFileUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsupported format. Use JPG, PNG or PDF.'**
+  String get aiFileUnsupported;
+
+  /// No description provided for @aiPickError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open the file. Check the permissions and try again.'**
+  String get aiPickError;
+
+  /// No description provided for @aiDictate.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictate'**
+  String get aiDictate;
+
+  /// No description provided for @aiDictationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictate clinical data'**
+  String get aiDictationTitle;
+
+  /// No description provided for @aiDictationCaseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictate the case'**
+  String get aiDictationCaseTitle;
+
+  /// No description provided for @aiDictationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Say the age, sex, conditions and anything relevant. Don\'t say name, ID or contact details: you type those yourself.'**
+  String get aiDictationHint;
+
+  /// No description provided for @aiDictationCaseHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the case out loud: age, sex, diagnosis and treatment. Don\'t say anything that identifies the patient.'**
+  String get aiDictationCaseHint;
+
+  /// No description provided for @aiDictationListening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening…'**
+  String get aiDictationListening;
+
+  /// No description provided for @aiDictationPreparing.
+  ///
+  /// In en, this message translates to:
+  /// **'Getting the microphone ready…'**
+  String get aiDictationPreparing;
+
+  /// No description provided for @aiDictationPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'What you say will appear here…'**
+  String get aiDictationPlaceholder;
+
+  /// No description provided for @aiDictationStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get aiDictationStop;
+
+  /// No description provided for @aiDictationThinking1.
+  ///
+  /// In en, this message translates to:
+  /// **'Organizing what you dictated…'**
+  String get aiDictationThinking1;
+
+  /// No description provided for @aiDictationThinking2.
+  ///
+  /// In en, this message translates to:
+  /// **'Separating age, sex and conditions…'**
+  String get aiDictationThinking2;
+
+  /// No description provided for @aiDictationThinking3.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing the notes…'**
+  String get aiDictationThinking3;
+
+  /// No description provided for @aiDictationTranscript.
+  ///
+  /// In en, this message translates to:
+  /// **'What you dictated'**
+  String get aiDictationTranscript;
+
+  /// No description provided for @aiDictationProposal.
+  ///
+  /// In en, this message translates to:
+  /// **'Review what the AI understood'**
+  String get aiDictationProposal;
+
+  /// No description provided for @aiDictationProposalHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Check what you want to use. You type name, ID and contact details yourself.'**
+  String get aiDictationProposalHint;
+
+  /// No description provided for @aiDictationAgeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Used in the pre-screening; you fill in the date of birth.'**
+  String get aiDictationAgeNote;
+
+  /// No description provided for @aiDictationNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI found no clinical data in the dictation.'**
+  String get aiDictationNothing;
+
+  /// No description provided for @aiDictationApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Use selected'**
+  String get aiDictationApply;
+
+  /// No description provided for @aiDictationApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Data added. Review it before continuing.'**
+  String get aiDictationApplied;
+
+  /// No description provided for @aiDictationUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t use the microphone. Check the microphone and speech recognition permissions in Settings.'**
+  String get aiDictationUnavailable;
+
+  /// No description provided for @aiDictationEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing was heard. Try again, close to the microphone.'**
+  String get aiDictationEmpty;
+
+  /// No description provided for @aiDictationTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictate again'**
+  String get aiDictationTryAgain;
+
+  /// No description provided for @aiRejectionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tips for your referrals'**
+  String get aiRejectionsTitle;
+
+  /// No description provided for @aiRejectionsThinking1.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewing your rejections…'**
+  String get aiRejectionsThinking1;
+
+  /// No description provided for @aiRejectionsThinking2.
+  ///
+  /// In en, this message translates to:
+  /// **'Grouping the reasons…'**
+  String get aiRejectionsThinking2;
+
+  /// No description provided for @aiRejectionsNoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re doing great!'**
+  String get aiRejectionsNoneTitle;
+
+  /// No description provided for @aiRejectionsNoneMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You had no rejections in the last 12 months.'**
+  String get aiRejectionsNoneMessage;
+
+  /// No description provided for @aiRejectionsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 rejection} other{{count} rejections}}'**
+  String aiRejectionsCount(int count);
+
+  /// No description provided for @aiRejectionsPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on your rejections in the last 12 months'**
+  String get aiRejectionsPeriod;
+
+  /// No description provided for @aiRejectionsProtocols.
+  ///
+  /// In en, this message translates to:
+  /// **'Protocols: {names}'**
+  String aiRejectionsProtocols(String names);
+
+  /// No description provided for @aiRejectionsShowMore.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{See 1 reason} other{See {count} reasons}}'**
+  String aiRejectionsShowMore(int count);
+
+  /// No description provided for @aiRejectionsShowLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get aiRejectionsShowLess;
+
+  /// No description provided for @aiAssistantTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Protocol assistant'**
+  String get aiAssistantTitle;
+
+  /// No description provided for @aiAssistantName.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinexapp assistant'**
+  String get aiAssistantName;
+
+  /// No description provided for @aiAssistantIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask me about the criteria, specialties or conditions of the active protocols.'**
+  String get aiAssistantIntro;
+
+  /// No description provided for @aiAssistantIntroProtocol.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask me anything about {name}.'**
+  String aiAssistantIntroProtocol(String name);
+
+  /// No description provided for @aiAssistantAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About: {name}'**
+  String aiAssistantAbout(String name);
+
+  /// No description provided for @aiAssistantHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your question'**
+  String get aiAssistantHint;
+
+  /// No description provided for @aiAssistantSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get aiAssistantSend;
+
+  /// No description provided for @aiAssistantSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get aiAssistantSources;
+
+  /// No description provided for @aiAssistantSuggested.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested questions'**
+  String get aiAssistantSuggested;
+
+  /// No description provided for @aiAssistantStarter1.
+  ///
+  /// In en, this message translates to:
+  /// **'Which protocols accept patients with kidney failure?'**
+  String get aiAssistantStarter1;
+
+  /// No description provided for @aiAssistantStarter2.
+  ///
+  /// In en, this message translates to:
+  /// **'Which tests do the diabetes protocols require?'**
+  String get aiAssistantStarter2;
+
+  /// No description provided for @aiAssistantStarter3.
+  ///
+  /// In en, this message translates to:
+  /// **'Are there protocols for patients over 75?'**
+  String get aiAssistantStarter3;
+
+  /// No description provided for @aiAssistantProtocolStarter1.
+  ///
+  /// In en, this message translates to:
+  /// **'What are the exclusion criteria?'**
+  String get aiAssistantProtocolStarter1;
+
+  /// No description provided for @aiAssistantProtocolStarter2.
+  ///
+  /// In en, this message translates to:
+  /// **'Which tests do I need to refer?'**
+  String get aiAssistantProtocolStarter2;
+
+  /// No description provided for @aiAssistantProtocolStarter3.
+  ///
+  /// In en, this message translates to:
+  /// **'What age range does it accept?'**
+  String get aiAssistantProtocolStarter3;
+
+  /// No description provided for @aiAssistantThinking1.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching the protocols…'**
+  String get aiAssistantThinking1;
+
+  /// No description provided for @aiAssistantThinking2.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading the criteria…'**
+  String get aiAssistantThinking2;
+
+  /// No description provided for @aiAssistantThinking3.
+  ///
+  /// In en, this message translates to:
+  /// **'Writing the answer…'**
+  String get aiAssistantThinking3;
+
+  /// No description provided for @aiAssistantPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'It answers only with data from active protocols. Don\'t type anything that identifies the patient.'**
+  String get aiAssistantPrivacy;
+
+  /// No description provided for @aiAssistantClear.
+  ///
+  /// In en, this message translates to:
+  /// **'New conversation'**
+  String get aiAssistantClear;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
