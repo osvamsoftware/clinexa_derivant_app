@@ -148,7 +148,10 @@ class _ProtocolAssistantViewState extends State<ProtocolAssistantView> {
                           key: ValueKey('ai_answer_${state.messages[i].id}'),
                           message: state.messages[i],
                           animate: !_typed.contains(state.messages[i].id),
-                          isLast: i == lastAssistant && !state.loading,
+                          isLast:
+                              i == lastAssistant &&
+                              i == state.messages.length - 1 &&
+                              !state.loading,
                           onTyped: () => _typed.add(state.messages[i].id),
                           onAsk: _send,
                         ),

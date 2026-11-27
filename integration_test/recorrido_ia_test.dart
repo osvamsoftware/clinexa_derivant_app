@@ -82,7 +82,20 @@ void main() {
       await binding.takeScreenshot('$nombre-$sufijo');
     }
 
+    // Las listas perezosas no construyen lo que está fuera de pantalla:
+    // si no aparece, se desplaza hacia arriba y luego hacia abajo.
+    Future<void> buscar(Finder f) async {
+      for (final dy in [3000.0, -500.0, -500.0, -500.0, -500.0, -500.0]) {
+        if (f.evaluate().isNotEmpty) return;
+        final sc = find.byType(Scrollable);
+        if (sc.evaluate().isEmpty) return;
+        await t.drag(sc.first, Offset(0, dy), warnIfMissed: false);
+        await asentar(300);
+      }
+    }
+
     Future<void> tocar(Finder f, {int ms = 600}) async {
+      await buscar(f);
       await t.ensureVisible(f.first);
       await t.pump();
       await t.tap(f.first, warnIfMissed: false);
@@ -90,6 +103,7 @@ void main() {
     }
 
     Future<void> verArriba(Finder f, {double alignment = 0.1}) async {
+      await buscar(f);
       await Scrollable.ensureVisible(t.element(f.first), alignment: alignment);
       await asentar(400);
     }
@@ -320,7 +334,9 @@ void main() {
     );
     await foto('ia-04-estudio-agregado');
 
-    // IA-02 · Pre-evaluación
+    // IA-02 · Pre-evaluación (sin el aviso flotante encima del botón)
+    ScaffoldMessenger.of(ctx()).hideCurrentSnackBar();
+    await asentar(500);
     fake.delay = const Duration(milliseconds: 3000);
     await verArriba(find.byKey(const Key('ai_eligibility_panel')));
     await foto('ia-02-elegibilidad-inicio');
@@ -331,6 +347,7 @@ void main() {
     );
     await foto('ia-02-elegibilidad-pensando', ms: 600);
     await esperar(find.byKey(const Key('ai_eligibility_result')));
+    await asentar(900);
     await verArriba(find.byKey(const Key('ai_eligibility_result')));
     await foto('ia-02-elegibilidad-resultado', ms: 1400);
     await verArriba(find.byKey(const ValueKey('ai_eligibility_item_3')));
