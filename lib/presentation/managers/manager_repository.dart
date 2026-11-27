@@ -14,8 +14,19 @@ import 'package:clinexa_derivant_app/presentation/specialty/specialty_repository
 import 'package:clinexa_derivant_app/presentation/pathology/pathology_repository.dart';
 import 'package:clinexa_derivant_app/domain/repositories/notification_repository.dart';
 import 'package:clinexa_derivant_app/data/repositories/notification_repository_impl.dart';
+import 'package:clinexa_derivant_app/core/services/speech_service.dart';
+import 'package:clinexa_derivant_app/data/repositories/fake_ai_repository.dart';
+import 'package:clinexa_derivant_app/domain/ai_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+/// Repositorio de IA falso (solo en debug): `--dart-define=CLX_AI_FAKE=on`.
+/// Responde como el contrato sin llamar al backend y simula el dictado.
+/// Sirve mientras el backend no tenga las rutas `/ai/app/*` y para las
+/// capturas. En release se ignora.
+const _aiFake = String.fromEnvironment('CLX_AI_FAKE');
+bool get useFakeAi => kDebugMode && _aiFake == 'on';
 
 class ManagerRepository extends StatelessWidget {
   final Widget child;
@@ -78,6 +89,17 @@ class ManagerRepository extends StatelessWidget {
         //order repository
         RepositoryProvider<OrderRepository>(
           create: (context) => OrderRepositoryImpl(api),
+        ),
+        // IA (rutas /ai/app/*)
+        RepositoryProvider<AiRepository>(
+          create: (context) => useFakeAi
+              ? FakeAiRepository()
+              : AiRepositoryImpl(baseUrl: api.aiApp),
+        ),
+        // Reconocimiento de voz del teléfono (dictado con IA)
+        RepositoryProvider<SpeechService>(
+          create: (context) =>
+              useFakeAi ? FakeSpeechService() : SystemSpeechService(),
         ),
         //payment movement repository
         RepositoryProvider<PaymentMovementRepository>(

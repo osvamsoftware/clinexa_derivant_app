@@ -135,12 +135,8 @@ class Api {
 
   String getPaymentMovementsByOrder(String orderId) =>
       _constructApiUrl('/payment-movements/by-order/$orderId');
-}
 
-// final apiBase = Api(
-//   //
-//   // baseUrl: 'http://18.118.15.245:8000/api',
-//   baseUrl: 'http://192.168.0.196:8000/api',
-//   // baseUrl: 'http://10.0.2.2:80000.2.2:8000/api',
-//   googleMapsBaseUrl: 'https://maps.googleapis.com/maps/api',
-// );
+  //! -- IA (rutas de las apps: /ai/app/*)
+  static const String _aiApp = '/ai/app';
+  String get aiApp => _constructApiUrl(_aiApp);
+}

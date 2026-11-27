@@ -42,8 +42,14 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Clinexapp usa la cámara para fotografiar estudios y que la IA lea sus valores. La foto no se guarda.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Clinexapp usa el micrófono para que dictes los datos clínicos de la derivación.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>La aplicación necesita acceso a la galería para permitir al usuario seleccionar imágenes cuando sea necesario.</string>
+	<string>Clinexapp necesita acceso a tus fotos para elegir la imagen de un estudio y que la IA lea sus valores. La imagen no se guarda.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Clinexapp convierte tu dictado en texto en el teléfono para completar los datos clínicos de la derivación.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

@@ -55,6 +55,20 @@ class ApiService {
     );
   }
 
+  /// Token de acceso actual (para clientes que arman su propia petición,
+  /// como la subida de archivos de la IA).
+  Future<String?> currentAccessToken() async {
+    await _loadTokensFromPrefs();
+    return _accessToken;
+  }
+
+  /// Renueva la sesión con el refresh token. Devuelve false si no se pudo.
+  Future<bool> refreshSession() async {
+    await _loadTokensFromPrefs();
+    if (_refreshToken == null) return false;
+    return _tryRefreshToken();
+  }
+
   Future<void> clearTokens() async {
     _accessToken = null;
     _refreshToken = null;
