@@ -305,6 +305,7 @@ class ClxAiLine extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: FractionallySizedBox(
           widthFactor: value?.clamp(0.0, 1.0) ?? 1,
+          heightFactor: 1,
           child: _NeonTicker(
             period: const Duration(seconds: 3),
             builder: (context, t) => DecoratedBox(decoration: BoxDecoration(gradient: ClxNeon.gradient(t))),
